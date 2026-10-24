@@ -1,0 +1,30 @@
+# 데이터셋 (CC BY-NC-SA 4.0, 재배포하지 않음) 과 외부 코드 복제본
+MVTec-LOCO/
+external/
+
+# 생성 데이터: 인덱스는 MMAD QA 텍스트를 포함하므로 제외.
+# 분할·근접 중복·마스크 통계는 재현성을 위해 저장소에 남긴다 (이미지 ID와 통계만 포함).
+data/*
+!data/splits.csv
+!data/near_dups.csv
+!data/defect_mask_stats.csv
+
+# 학습·추론 산출물
+outputs/
+checkpoints/
+runs/
+mlruns/
+ops/runtime/
+
+# 재생성 가능한 확인용 시트 (데이터셋 이미지 포함)
+reports/phase0/mask_sheets/
+
+# 지원 공고 원문 (개인 자료)
+task.txt
+
+# 로컬 환경
+.claude/settings.local.json
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

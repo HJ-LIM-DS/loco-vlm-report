@@ -1,0 +1,420 @@
+# 결함 그룹 및 조치 지식베이스 v2 (가상 SOP - 실제 현장 절차가 아님, README에 명시)
+#
+# 구조
+#   <category>:
+#     ko_name: 제품 한국어 이름
+#     spec:    정상 규격 (VLM 프롬프트에 그대로 들어감, 정상 이미지로 확인)
+#     unknown: 미등록 결함일 때 쓰는 그룹 (ko_label/action/disposition/severity)
+#     groups:
+#       <group_id>:
+#         ko_label:    1줄 출력의 결함 그룹 이름
+#         action:      2줄 출력의 조치 문장 (즉시 조치 + 원인 점검)
+#         disposition: 폐기 | 재작업 | 격리
+#         severity:    라인정지 | 일반 (라인정지 = 즉시 라인을 세우고 원인을 제거해야 하는 결함)
+#         root_cause:  설비 | 자재 | 방법 (우선 점검 대상)
+#         exclusive:   true면 세부 결함이 같은 속성의 서로 배타적인 상태라 한 이미지에 1종만 나옴
+#                      (예: 과일 구성 수량). 2종 이상 출력은 형식 위반으로 보고 Guard가 세부를 삭제
+#         defects:     { <defects_config.json의 defect_name>: {ko, type, loc_mode} }
+#
+# 세부 결함 필드
+#   ko:       1줄 출력의 세부 결함 한국어 (그룹에 세부 결함이 1종뿐이면 출력에서 생략)
+#   type:     논리 | 구조 (LOCO 폴더 기준, 세부 결함마다 정확히 한 폴더에 속함)
+#   loc_mode: GT 마스크로 위치를 정의하는 방식 (src/data/mask_stats.py 통계 + 마스크 시트 확인으로 확정)
+#     point     한 부품·한 지점을 칠함 -> 3x3 칸 이름 (긴 변 2% closing 후 마스크 면적 최대 칸)
+#     global    제품 전체, 구획 전체, 부품 사이의 관계(배선·매칭)를 칠함 -> "전체"
+#     instances 같은 종류 부품을 모두 칠해 어느 개체가 결함인지 GT로 알 수 없음 -> 위치 생략
+
+breakfast_box:
+  ko_name: 아침식사 박스
+  spec: "좌측 구획에 귤 2개와 천도복숭아 1개, 우측 상단 구획에 시리얼, 우측 하단 구획에 바나나 칩과 아몬드가 정해진 양과 비율로 담김"
+  unknown:
+    ko_label: 미분류 이상
+    action: 해당 제품을 격리하고, 품질 담당자 확인을 요청
+    disposition: 격리
+    severity: 일반
+  groups:
+    fruit_count:
+      ko_label: 과일 구성 수량 불일치
+      action: 과일 수량을 규격(귤 2개, 천도복숭아 1개)으로 보정해 재포장하고, 과일 투입부 계수 센서를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      exclusive: true
+      defects:
+        2_nectarines_1_tangerine: {ko: "천도복숭아 2개, 귤 1개", type: 논리, loc_mode: instances}
+        1_nectarine_1_tangerine: {ko: "천도복숭아 1개, 귤 1개", type: 논리, loc_mode: point}
+        0_nectarines_2_tangerines: {ko: "천도복숭아 없음, 귤 2개", type: 논리, loc_mode: point}
+        0_nectarines_3_tangerines: {ko: "천도복숭아 없음, 귤 3개", type: 논리, loc_mode: instances}
+        3_nectarines_0_tangerines: {ko: "천도복숭아 3개, 귤 없음", type: 논리, loc_mode: instances}
+        0_nectarines_1_tangerine: {ko: "천도복숭아 없음, 귤 1개", type: 논리, loc_mode: point}
+        0_nectarines_0_tangerines: {ko: "과일 전부 없음", type: 논리, loc_mode: global}
+        0_nectarines_4_tangerines: {ko: "천도복숭아 없음, 귤 4개", type: 논리, loc_mode: instances}
+    component_missing:
+      ko_label: 시리얼·토핑 구성품 누락
+      action: 누락 구성품을 보충 투입한 뒤 재검사하고, 해당 디스펜서의 공급 막힘과 잔량을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        missing_almonds: {ko: "아몬드 누락", type: 논리, loc_mode: point}
+        missing_bananas: {ko: "바나나 칩 누락", type: 논리, loc_mode: point}
+        missing_toppings: {ko: "토핑 전체 누락", type: 논리, loc_mode: point}
+        missing_cereals: {ko: "시리얼 누락", type: 논리, loc_mode: point}
+        missing_cereals_and_toppings: {ko: "시리얼과 토핑 모두 누락", type: 논리, loc_mode: global}
+    compartments_swapped:
+      ko_label: 시리얼·토핑 구획 위치 뒤바뀜
+      action: 재포장 라인으로 회송하고, 충전 스테이션 투입 순서와 트레이 방향 설정을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 방법
+      defects:
+        compartments_swapped: {ko: "시리얼과 토핑 구획이 서로 바뀜", type: 논리, loc_mode: global}
+    fill_amount:
+      ko_label: 내용물 양·비율 이상
+      action: 정량으로 재충전하고, 디스펜서 투입량 캘리브레이션을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        overflow: {ko: "내용물 넘침", type: 논리, loc_mode: point}
+        underflow: {ko: "내용물 부족", type: 논리, loc_mode: global}
+        wrong_ratio: {ko: "시리얼과 토핑 비율 불균형", type: 논리, loc_mode: global}
+    mixed_cereals:
+      ko_label: 시리얼 이종 혼입
+      action: 해당 박스를 폐기하고, 시리얼 호퍼의 원료 혼입과 품목 전환 세척 여부를 점검
+      disposition: 폐기
+      severity: 라인정지
+      root_cause: 자재
+      defects:
+        mixed_cereals: {ko: "다른 종류 시리얼 혼입", type: 구조, loc_mode: global}
+    food_damaged:
+      ko_label: 과일·토핑 손상
+      action: 손상 품목을 교체하고, 투입·이송 구간 낙하 충격과 원료 입고 품질을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        fruit_damaged: {ko: "과일 손상", type: 구조, loc_mode: point}
+        toppings_crushed: {ko: "토핑 부서짐", type: 구조, loc_mode: point}
+    box_damaged:
+      ko_label: 트레이 파손
+      action: 트레이를 교체해 재포장하고, 트레이 성형 및 이송 가이드 간섭을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        box_damaged: {ko: "트레이 파손", type: 구조, loc_mode: point}
+    contamination:
+      ko_label: 이물 혼입
+      action: 해당 제품을 격리 폐기하고, 라인 정지 후 이물 유입 경로와 설비 청결 상태를 점검
+      disposition: 폐기
+      severity: 라인정지
+      root_cause: 설비
+      defects:
+        contamination: {ko: "이물 혼입", type: 구조, loc_mode: point}
+
+juice_bottle:
+  ko_name: 주스 병
+  spec: "중앙에 과일 아이콘 라벨 1장, 그 아래에 '100% Juice' 라벨 1장. 아이콘 과일과 주스 종류가 일치(오렌지-노란색, 바나나-우윳빛, 체리-적갈색). 주스는 병목 아래 정해진 높이까지 충전"
+  unknown:
+    ko_label: 미분류 이상
+    action: 해당 제품을 격리하고, 품질 담당자 확인을 요청
+    disposition: 격리
+    severity: 일반
+  groups:
+    label_missing:
+      ko_label: 라벨 누락
+      action: 라벨 재부착 라인으로 회송하고, 라벨러의 라벨 공급과 흡착 상태를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        missing_top_label: {ko: "상단 라벨 누락", type: 논리, loc_mode: point}
+        missing_bottom_label: {ko: "하단 라벨 누락", type: 논리, loc_mode: point}
+    label_swapped:
+      ko_label: 상·하단 라벨 위치 뒤바뀜
+      action: 라벨을 제거 후 재부착하고, 라벨 롤 장착 순서를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 방법
+      defects:
+        swapped_labels: {ko: "상단과 하단 라벨이 서로 바뀜", type: 논리, loc_mode: global}
+    label_misplaced:
+      ko_label: 라벨 부착 위치·각도 불량
+      action: 라벨을 재부착하고, 라벨러 위치 센서와 병 정렬 가이드를 조정
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        rotated_label: {ko: "라벨 회전", type: 구조, loc_mode: point}
+        misplaced_label_top: {ko: "상단 라벨 위치 이탈", type: 논리, loc_mode: point}
+        misplaced_label_bottom: {ko: "하단 라벨 위치 이탈", type: 논리, loc_mode: point}
+    label_damaged:
+      ko_label: 라벨 손상·인쇄 불량
+      action: 라벨을 교체하고, 라벨 인쇄 품질과 부착 롤러 마찰을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        damaged_label: {ko: "라벨 찢어짐·손상", type: 구조, loc_mode: point}
+        label_text_incomplete: {ko: "라벨 문구 인쇄 누락", type: 구조, loc_mode: point}
+    fill_level:
+      ko_label: 충전량 이상
+      action: 해당 병을 배출하고, 충전 노즐 유량과 충전 시간 설정을 점검
+      disposition: 폐기
+      severity: 일반
+      root_cause: 설비
+      exclusive: true
+      defects:
+        empty_bottle: {ko: "빈 병", type: 논리, loc_mode: global}
+        wrong_fill_level_too_much: {ko: "과충전", type: 논리, loc_mode: point}
+        wrong_fill_level_not_enough: {ko: "충전 부족", type: 논리, loc_mode: point}
+    fruit_icon:
+      ko_label: 과일 아이콘 누락·불일치
+      action: 라벨을 교체하고, 라벨 품목 마스터와 인쇄 데이터를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        misplaced_fruit_icon: {ko: "과일 아이콘 위치 이탈", type: 논리, loc_mode: point}
+        missing_fruit_icon: {ko: "과일 아이콘 누락", type: 논리, loc_mode: point}
+        unknown_fruit_icon: {ko: "규격 외 과일 아이콘", type: 구조, loc_mode: point}
+        incomplete_fruit_icon: {ko: "과일 아이콘 일부 누락", type: 구조, loc_mode: point}
+    juice_mismatch:
+      ko_label: 주스 종류·색상 불일치
+      action: 해당 로트를 격리하고, 충전 탱크 원료와 라벨 품목의 매칭을 점검
+      disposition: 격리
+      severity: 라인정지
+      root_cause: 방법
+      defects:
+        wrong_juice_type: {ko: "라벨과 다른 주스 충전", type: 논리, loc_mode: global}
+        juice_color: {ko: "주스 색상 이상", type: 구조, loc_mode: global}
+    contamination:
+      ko_label: 이물 혼입
+      action: 해당 병을 격리 폐기하고, 충전 구간 이물 유입 경로와 병 세척 상태를 점검
+      disposition: 폐기
+      severity: 라인정지
+      root_cause: 설비
+      defects:
+        contamination: {ko: "이물 혼입", type: 구조, loc_mode: point}
+
+pushpins:
+  ko_name: 푸시핀 케이스
+  spec: "5x3 칸 케이스에 칸막이가 모두 있고, 칸마다 노란색 푸시핀이 정확히 1개"
+  unknown:
+    ko_label: 미분류 이상
+    action: 해당 제품을 격리하고, 품질 담당자 확인을 요청
+    disposition: 격리
+    severity: 일반
+  groups:
+    pin_count:
+      ko_label: 칸별 푸시핀 수량 불일치
+      action: 칸당 1개로 수량을 보정해 재포장하고, 투입 피더의 계수 센서를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        1_additional_pushpin: {ko: "푸시핀 1개 초과", type: 논리, loc_mode: point}
+        2_additional_pushpins: {ko: "푸시핀 2개 초과", type: 논리, loc_mode: point}
+        missing_pushpin: {ko: "푸시핀 누락", type: 논리, loc_mode: point}
+    missing_separator:
+      ko_label: 칸막이 누락
+      action: 칸막이를 삽입해 재포장하고, 칸막이 공급 장치를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        missing_separator: {ko: "칸막이 누락", type: 논리, loc_mode: point}
+    pin_damaged:
+      ko_label: 푸시핀 휨·파손
+      action: 불량 핀을 교체하고, 핀 성형 공정과 이송 시 충격을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        front_bent: {ko: "핀 끝 휨", type: 구조, loc_mode: point}
+        broken: {ko: "핀 파손", type: 구조, loc_mode: point}
+    color:
+      ko_label: 푸시핀 색상 이상
+      action: 이색 핀을 교체하고, 사출 원료 색상 로트 혼입을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        color: {ko: "색상 이상", type: 구조, loc_mode: point}
+    contamination:
+      ko_label: 이물 혼입
+      action: 해당 케이스를 격리하고, 포장 구간 이물 유입 경로와 설비 청결 상태를 점검
+      disposition: 격리
+      severity: 라인정지
+      root_cause: 설비
+      defects:
+        contamination: {ko: "이물 혼입", type: 구조, loc_mode: point}
+
+screw_bag:
+  ko_name: 나사 부품 봉투
+  spec: "봉투 안에 와셔 2개, 너트 2개, 긴 나사 1개, 짧은 나사 1개"
+  unknown:
+    ko_label: 미분류 이상
+    action: 해당 제품을 격리하고, 품질 담당자 확인을 요청
+    disposition: 격리
+    severity: 일반
+  groups:
+    screw_length:
+      ko_label: 나사 길이 규격 불일치
+      action: 규격 나사로 교체해 재포장하고, 나사 공급 호퍼의 규격 혼입을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        screw_too_long: {ko: "나사가 규격보다 긺", type: 논리, loc_mode: instances}
+        screw_too_short: {ko: "나사가 규격보다 짧음", type: 논리, loc_mode: instances}
+        1_very_short_screw: {ko: "매우 짧은 나사 1개", type: 논리, loc_mode: point}
+        2_very_short_screws: {ko: "매우 짧은 나사 2개", type: 논리, loc_mode: instances}
+    part_count:
+      ko_label: 부품 구성 수량 불일치
+      action: 구성표대로 부품 수량을 보정해 재포장하고, 부품별 투입 피더와 계량 센서를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        1_additional_long_screw: {ko: "긴 나사 1개 초과", type: 논리, loc_mode: instances}
+        1_additional_short_screw: {ko: "짧은 나사 1개 초과", type: 논리, loc_mode: instances}
+        1_additional_nut: {ko: "너트 1개 초과", type: 논리, loc_mode: instances}
+        2_additional_nuts: {ko: "너트 2개 초과", type: 논리, loc_mode: instances}
+        1_additional_washer: {ko: "와셔 1개 초과", type: 논리, loc_mode: instances}
+        2_additional_washers: {ko: "와셔 2개 초과", type: 논리, loc_mode: instances}
+        1_missing_long_screw: {ko: "긴 나사 1개 누락", type: 논리, loc_mode: global}
+        1_missing_short_screw: {ko: "짧은 나사 1개 누락", type: 논리, loc_mode: global}
+        1_missing_nut: {ko: "너트 1개 누락", type: 논리, loc_mode: global}
+        2_missing_nuts: {ko: "너트 2개 누락", type: 논리, loc_mode: global}
+        1_missing_washer: {ko: "와셔 1개 누락", type: 논리, loc_mode: global}
+        2_missing_washers: {ko: "와셔 2개 누락", type: 논리, loc_mode: global}
+    bag_broken:
+      ko_label: 포장 봉투 파손
+      action: 새 봉투로 재포장하고, 실링기 온도와 봉투 이송 경로의 날카로운 부위를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        bag_broken: {ko: "봉투 찢어짐", type: 구조, loc_mode: point}
+    color:
+      ko_label: 부품 색상·표면 처리 이상
+      action: 해당 부품을 교체하고, 도금·표면 처리 로트를 확인
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        color: {ko: "부품 색상 이상", type: 구조, loc_mode: point}
+    part_broken:
+      ko_label: 부품 파손
+      action: 파손 부품을 교체하고, 부품 입고 검사 기준과 이송 시 충격을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        part_broken: {ko: "부품 파손", type: 구조, loc_mode: point}
+    contamination:
+      ko_label: 이물 혼입
+      action: 해당 봉투를 격리하고, 포장 구간 이물 유입 경로와 설비 청결 상태를 점검
+      disposition: 격리
+      severity: 라인정지
+      root_cause: 설비
+      defects:
+        contamination: {ko: "이물 혼입", type: 구조, loc_mode: point}
+
+splicing_connectors:
+  ko_name: 스플라이싱 커넥터
+  spec: "극수가 같은 커넥터 2개를 규격 길이 케이블 1개로 연결. 케이블 색은 극수에 대응(2극 노랑, 3극 파랑, 5극 빨강)하고, 양 끝은 두 커넥터의 같은 위치에 꽂힘"
+  unknown:
+    ko_label: 미분류 이상
+    action: 해당 제품을 격리하고, 품질 담당자 확인을 요청
+    disposition: 격리
+    severity: 일반
+  groups:
+    connector_type:
+      ko_label: 좌우 커넥터 종류 불일치
+      action: 동일 극수 커넥터로 교체해 재조립하고, 커넥터 공급 피더의 품목 혼입을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      exclusive: true
+      defects:
+        wrong_connector_type_5_2: {ko: "5극과 2극 커넥터 혼용", type: 논리, loc_mode: global}
+        wrong_connector_type_5_3: {ko: "5극과 3극 커넥터 혼용", type: 논리, loc_mode: global}
+        wrong_connector_type_3_2: {ko: "3극과 2극 커넥터 혼용", type: 논리, loc_mode: global}
+    cable_length:
+      ko_label: 케이블 길이 미달
+      action: 규격 길이 케이블로 재조립하고, 케이블 절단기 길이 설정을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      exclusive: true
+      defects:
+        cable_too_short_T2: {ko: "2극용 케이블 길이 미달", type: 논리, loc_mode: global}
+        cable_too_short_T3: {ko: "3극용 케이블 길이 미달", type: 논리, loc_mode: global}
+        cable_too_short_T5: {ko: "5극용 케이블 길이 미달", type: 논리, loc_mode: global}
+    part_missing:
+      ko_label: 커넥터·케이블 누락
+      action: 누락 부품을 보충해 재조립하고, 조립 스테이션의 부품 공급 상태를 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        missing_connector: {ko: "커넥터 누락", type: 논리, loc_mode: point}
+        missing_connector_and_cable: {ko: "커넥터와 케이블 누락", type: 논리, loc_mode: global}
+        missing_cable: {ko: "케이블 누락", type: 논리, loc_mode: global}
+    wiring:
+      ko_label: 케이블 배선 불량
+      action: 배선을 규격대로 재작업하고, 케이블 삽입 지그와 작업 표준을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 방법
+      defects:
+        extra_cable: {ko: "케이블 초과 연결", type: 논리, loc_mode: global}
+        wrong_cable_location: {ko: "케이블 삽입 위치 오류", type: 논리, loc_mode: global}
+        cable_not_plugged: {ko: "케이블 미삽입", type: 구조, loc_mode: point}
+    cable_color:
+      ko_label: 케이블 색상 불일치
+      action: 규격 색상 케이블로 교체하고, 케이블 릴 장착 품목을 확인
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        cable_color: {ko: "커넥터 종류와 맞지 않는 케이블 색상", type: 논리, loc_mode: global}
+        unknown_cable_color: {ko: "정의되지 않은 케이블 색상", type: 구조, loc_mode: global}
+    cable_damaged:
+      ko_label: 케이블 손상·절단
+      action: 케이블을 교체해 재조립하고, 케이블 이송·절단 구간의 간섭을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        broken_cable: {ko: "케이블 피복 손상", type: 구조, loc_mode: point}
+        cable_cut: {ko: "케이블 절단", type: 논리, loc_mode: point}
+    connector_damaged:
+      ko_label: 커넥터 파손·조립 불량
+      action: 커넥터를 교체하거나 레버를 체결하고, 조립 지그의 체결 압력과 방향 설정을 점검
+      disposition: 재작업
+      severity: 일반
+      root_cause: 설비
+      defects:
+        flipped_connector: {ko: "커넥터 뒤집힘", type: 구조, loc_mode: point}
+        broken_connector: {ko: "커넥터 파손", type: 구조, loc_mode: point}
+        open_lever: {ko: "커넥터 레버 열림", type: 구조, loc_mode: point}
+    color:
+      ko_label: 커넥터 색상 이상
+      action: 해당 커넥터를 교체하고, 사출 원료 색상 로트를 확인
+      disposition: 재작업
+      severity: 일반
+      root_cause: 자재
+      defects:
+        color: {ko: "커넥터 색상 이상", type: 구조, loc_mode: point}
+    contamination:
+      ko_label: 이물 혼입
+      action: 해당 제품을 격리하고, 조립 구간 이물 유입 경로와 설비 청결 상태를 점검
+      disposition: 격리
+      severity: 라인정지
+      root_cause: 설비
+      defects:
+        contamination: {ko: "이물 혼입", type: 구조, loc_mode: point}

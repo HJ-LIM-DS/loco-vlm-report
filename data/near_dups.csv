@@ -1,0 +1,7 @@
+category,image_a,image_b,patch_cos
+pushpins,pushpins/test/logical_anomalies/057,pushpins/test/logical_anomalies/058,0.897
+pushpins,pushpins/test/logical_anomalies/057,pushpins/test/logical_anomalies/061,0.87881
+pushpins,pushpins/test/logical_anomalies/058,pushpins/test/logical_anomalies/061,0.85849
+pushpins,pushpins/test/logical_anomalies/059,pushpins/test/logical_anomalies/060,0.93456
+pushpins,pushpins/test/logical_anomalies/059,pushpins/test/logical_anomalies/061,0.82618
+pushpins,pushpins/test/logical_anomalies/060,pushpins/test/logical_anomalies/061,0.83691
