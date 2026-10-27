@@ -1,0 +1,994 @@
+image_id,ours,ours_s0,b1,kind,category,group,comp_tokens,n_components,mask_tokens,crop_cover,crop_area_frac,ref_sim
+breakfast_box/test/logical_anomalies/000,0.0,False,True,기타 논리,breakfast_box,compartments_swapped,73.209,2,146.418,1.0,1.0,0.9433184862136841
+breakfast_box/test/logical_anomalies/001,0.0,False,False,기타 논리,breakfast_box,compartments_swapped,72.984,2,145.968,1.0,1.0,0.9593668580055237
+breakfast_box/test/logical_anomalies/002,1.0,True,True,기타 논리,breakfast_box,compartments_swapped,72.933,2,145.866,1.0,1.0,0.9415777325630188
+breakfast_box/test/logical_anomalies/003,0.3333333333333333,True,True,기타 논리,breakfast_box,component_missing,32.822,1,32.822,-0.5,1.0,0.9683427810668945
+breakfast_box/test/logical_anomalies/004,0.3333333333333333,True,True,기타 논리,breakfast_box,component_missing,36.688,1,36.688,-0.5,1.0,0.9685527086257935
+breakfast_box/test/logical_anomalies/005,0.3333333333333333,True,False,기타 논리,breakfast_box,component_missing,36.132,1,36.132,-0.5,1.0,0.9700774550437927
+breakfast_box/test/logical_anomalies/006,0.3333333333333333,True,True,기타 논리,breakfast_box,component_missing,31.464,1,31.464,-0.5,1.0,0.9724776148796082
+breakfast_box/test/logical_anomalies/007,0.0,False,True,기타 논리,breakfast_box,component_missing,33.89,1,33.89,-0.5,1.0,0.9696327447891235
+breakfast_box/test/logical_anomalies/008,1.0,True,True,기타 논리,breakfast_box,component_missing,31.658,1,31.658,0.0,0.0109375,0.9618115425109863
+breakfast_box/test/logical_anomalies/009,0.0,False,True,기타 논리,breakfast_box,component_missing,15.401,2,30.802,0.0,0.01953125,0.9723387956619263
+breakfast_box/test/logical_anomalies/010,0.3333333333333333,False,False,기타 논리,breakfast_box,component_missing,32.73,1,32.73,-0.5,1.0,0.9749079346656799
+breakfast_box/test/logical_anomalies/011,0.0,False,True,기타 논리,breakfast_box,component_missing,29.298,1,29.298,0.0,0.01953125,0.9672058820724487
+breakfast_box/test/logical_anomalies/012,0.3333333333333333,True,True,기타 논리,breakfast_box,component_missing,31.334,1,31.334,-0.5,1.0,0.9716812372207642
+breakfast_box/test/logical_anomalies/013,0.3333333333333333,True,False,기타 논리,breakfast_box,component_missing,29.116,1,29.116,-0.5,1.0,0.9624150395393372
+breakfast_box/test/logical_anomalies/014,0.3333333333333333,False,True,기타 논리,breakfast_box,component_missing,29.062,1,29.062,-0.5,1.0,0.9164816737174988
+breakfast_box/test/logical_anomalies/015,1.0,True,True,기타 논리,breakfast_box,component_missing,29.61,1,29.61,-0.5,1.0,0.9337608814239502
+breakfast_box/test/logical_anomalies/016,1.0,True,True,기타 논리,breakfast_box,component_missing,29.748,1,29.748,-0.5,1.0,0.9160709381103516
+breakfast_box/test/logical_anomalies/017,1.0,True,True,기타 논리,breakfast_box,component_missing,28.978,1,28.978,-0.5,1.0,0.9573711156845093
+breakfast_box/test/logical_anomalies/018,1.0,True,True,기타 논리,breakfast_box,component_missing,30.69,1,30.69,0.0,0.0271875,0.9466404914855957
+breakfast_box/test/logical_anomalies/019,1.0,True,True,기타 논리,breakfast_box,component_missing,30.342,1,30.342,-0.5,1.0,0.9499133825302124
+breakfast_box/test/logical_anomalies/020,1.0,True,True,기타 논리,breakfast_box,component_missing,31.14,1,31.14,-0.5,1.0,0.9372128844261169
+breakfast_box/test/logical_anomalies/021,1.0,True,True,기타 논리,breakfast_box,component_missing,30.982,1,30.982,0.16138402943644697,0.01953125,0.9295346736907959
+breakfast_box/test/logical_anomalies/022,0.3333333333333333,True,True,기타 논리,breakfast_box,component_missing,30.986,1,30.986,0.16136319628219195,0.01953125,0.9277836084365845
+breakfast_box/test/logical_anomalies/023,1.0,True,True,기타 논리,breakfast_box,component_missing,30.576,1,30.576,0.38402668759811615,0.050625,0.9322699308395386
+breakfast_box/test/logical_anomalies/024,0.3333333333333333,True,True,기타 논리,breakfast_box,component_missing,32.088,1,32.088,0.05272999252056844,0.01953125,0.9489951133728027
+breakfast_box/test/logical_anomalies/025,1.0,True,True,기타 논리,breakfast_box,component_missing,55.974,1,55.974,1.0,1.0,0.8182340264320374
+breakfast_box/test/logical_anomalies/026,1.0,True,True,기타 논리,breakfast_box,component_missing,50.916,1,50.916,1.0,1.0,0.8687880039215088
+breakfast_box/test/logical_anomalies/027,1.0,True,True,기타 논리,breakfast_box,component_missing,50.854,1,50.854,1.0,1.0,0.8565716743469238
+breakfast_box/test/logical_anomalies/028,1.0,True,True,기타 논리,breakfast_box,component_missing,49.922,1,49.922,1.0,1.0,0.8121893405914307
+breakfast_box/test/logical_anomalies/029,1.0,True,True,기타 논리,breakfast_box,component_missing,54.024,1,54.024,1.0,1.0,0.8064834475517273
+breakfast_box/test/logical_anomalies/030,1.0,True,True,기타 논리,breakfast_box,component_missing,52.792,1,52.792,1.0,1.0,0.8477951288223267
+breakfast_box/test/logical_anomalies/031,1.0,True,True,기타 논리,breakfast_box,component_missing,54.004,1,54.004,1.0,1.0,0.8393810391426086
+breakfast_box/test/logical_anomalies/032,1.0,True,True,기타 논리,breakfast_box,component_missing,54.752,1,54.752,1.0,1.0,0.8484935164451599
+breakfast_box/test/logical_anomalies/033,1.0,True,True,기타 논리,breakfast_box,component_missing,89.044,1,89.044,1.0,1.0,0.40851664543151855
+breakfast_box/test/logical_anomalies/034,1.0,True,True,기타 논리,breakfast_box,component_missing,89.252,1,89.252,1.0,1.0,0.4261630177497864
+breakfast_box/test/logical_anomalies/035,1.0,True,True,기타 논리,breakfast_box,component_missing,89.012,1,89.012,1.0,1.0,0.40483558177948
+breakfast_box/test/logical_anomalies/036,1.0,True,True,기타 논리,breakfast_box,component_missing,89.05,1,89.05,1.0,1.0,0.4172891676425934
+breakfast_box/test/logical_anomalies/037,1.0,True,True,기타 논리,breakfast_box,component_missing,39.05,1,39.05,1.0,0.456046875,0.9161607623100281
+breakfast_box/test/logical_anomalies/038,1.0,True,True,기타 논리,breakfast_box,component_missing,40.172,1,40.172,1.0,1.0,0.8985854983329773
+breakfast_box/test/logical_anomalies/039,1.0,True,True,기타 논리,breakfast_box,component_missing,40.758,1,40.758,1.0,1.0,0.9072413444519043
+breakfast_box/test/logical_anomalies/040,1.0,True,True,기타 논리,breakfast_box,component_missing,42.962,1,42.962,1.0,1.0,0.8906040787696838
+breakfast_box/test/logical_anomalies/041,1.0,True,True,기타 논리,breakfast_box,component_missing,42.97,1,42.97,1.0,1.0,0.9023815393447876
+breakfast_box/test/logical_anomalies/042,1.0,True,True,기타 논리,breakfast_box,component_missing,46.296,1,46.296,1.0,1.0,0.9108415246009827
+breakfast_box/test/logical_anomalies/043,1.0,True,True,기타 논리,breakfast_box,component_missing,43.452,1,43.452,1.0,1.0,0.901731550693512
+breakfast_box/test/logical_anomalies/044,0.0,False,False,기타 논리,breakfast_box,fill_amount,1.412,2,2.824,0.9964589235127479,0.06428125,0.9838946461677551
+breakfast_box/test/logical_anomalies/045,0.0,False,False,기타 논리,breakfast_box,fill_amount,1.222,4,8.352,0.8680555555555556,0.25753125,0.9774259924888611
+breakfast_box/test/logical_anomalies/046,0.0,False,False,기타 논리,breakfast_box,fill_amount,0.364,4,5.818,0.8748710897215538,0.1045,0.97758948802948
+breakfast_box/test/logical_anomalies/047,0.3333333333333333,True,False,기타 논리,breakfast_box,fill_amount,1.061,4,8.126,1.0,0.3714375,0.976423442363739
+breakfast_box/test/logical_anomalies/048,0.0,False,False,기타 논리,breakfast_box,fill_amount,9.56,2,19.12,0.24748953974895396,0.09625,0.9680740833282471
+breakfast_box/test/logical_anomalies/049,0.3333333333333333,False,False,기타 논리,breakfast_box,fill_amount,21.466,1,21.466,0.27280350321438557,0.1504375,0.9765812158584595
+breakfast_box/test/logical_anomalies/050,0.3333333333333333,True,True,기타 논리,breakfast_box,fill_amount,25.784,1,25.784,0.6020788085634502,0.4043671875,0.972724199295044
+breakfast_box/test/logical_anomalies/051,0.6666666666666666,True,True,기타 논리,breakfast_box,fill_amount,22.942,1,22.942,0.6442332839333973,0.425859375,0.9652706384658813
+breakfast_box/test/logical_anomalies/052,1.0,True,True,개수 계열,breakfast_box,fruit_count,66.626,1,66.626,0.1448983880166902,0.050671875,0.9760769605636597
+breakfast_box/test/logical_anomalies/053,1.0,True,False,개수 계열,breakfast_box,fruit_count,67.008,1,67.008,0.07461795606494746,0.01953125,0.9682250022888184
+breakfast_box/test/logical_anomalies/054,0.0,False,False,개수 계열,breakfast_box,fruit_count,19.227,2,38.454,-0.5,1.0,0.9799506068229675
+breakfast_box/test/logical_anomalies/055,0.0,False,True,개수 계열,breakfast_box,fruit_count,66.612,1,66.612,0.07506155047138653,0.01953125,0.972773551940918
+breakfast_box/test/logical_anomalies/056,0.0,False,False,개수 계열,breakfast_box,fruit_count,48.142,1,48.142,0.10385941589464501,0.01953125,0.9757176637649536
+breakfast_box/test/logical_anomalies/057,0.0,False,False,개수 계열,breakfast_box,fruit_count,43.93,1,43.93,0.03523787844297747,0.02734375,0.9740051627159119
+breakfast_box/test/logical_anomalies/058,1.0,True,True,개수 계열,breakfast_box,fruit_count,38.728,1,38.728,1.0,0.5525,0.9676111936569214
+breakfast_box/test/logical_anomalies/059,1.0,True,True,개수 계열,breakfast_box,fruit_count,14.358,1,14.358,1.0,0.2281640625,0.9785405993461609
+breakfast_box/test/logical_anomalies/060,1.0,True,False,개수 계열,breakfast_box,fruit_count,17.436,1,17.436,1.0,0.25234375,0.9717828631401062
+breakfast_box/test/logical_anomalies/061,1.0,True,True,개수 계열,breakfast_box,fruit_count,16.214,3,44.406,0.6348691618249787,0.349609375,0.9759920239448547
+breakfast_box/test/logical_anomalies/062,1.0,True,True,개수 계열,breakfast_box,fruit_count,13.7,1,13.7,1.0,0.2418046875,0.9810904860496521
+breakfast_box/test/logical_anomalies/063,0.0,False,False,개수 계열,breakfast_box,fruit_count,67.14,1,67.14,0.07447125409591898,0.01953125,0.9712842106819153
+breakfast_box/test/logical_anomalies/064,0.6666666666666666,True,False,개수 계열,breakfast_box,fruit_count,66.306,1,66.306,-0.5,1.0,0.9814633727073669
+breakfast_box/test/logical_anomalies/065,0.6666666666666666,True,True,개수 계열,breakfast_box,fruit_count,66.274,1,66.274,1.0,1.0,0.9370437264442444
+breakfast_box/test/logical_anomalies/066,1.0,True,True,개수 계열,breakfast_box,fruit_count,66.246,1,66.246,0.08622407390634906,0.0223125,0.980103075504303
+breakfast_box/test/logical_anomalies/067,1.0,True,True,개수 계열,breakfast_box,fruit_count,66.278,1,66.278,1.0,1.0,0.9251483678817749
+breakfast_box/test/logical_anomalies/068,1.0,True,True,개수 계열,breakfast_box,fruit_count,67.504,1,67.504,0.6751896183929841,0.29640625,0.9733511209487915
+breakfast_box/test/logical_anomalies/069,0.3333333333333333,False,True,개수 계열,breakfast_box,fruit_count,30.04,1,30.04,1.0,0.32203125,0.9753344058990479
+breakfast_box/test/logical_anomalies/070,1.0,True,True,개수 계열,breakfast_box,fruit_count,67.34,1,67.34,0.4555984555984556,0.14109375,0.9795353412628174
+breakfast_box/test/logical_anomalies/071,1.0,True,False,기타 논리,breakfast_box,fill_amount,16.072,1,16.072,1.0,0.363,0.9524567127227783
+breakfast_box/test/logical_anomalies/072,0.0,False,True,기타 논리,breakfast_box,fill_amount,28.26,1,28.26,1.0,0.7025,0.9100377559661865
+breakfast_box/test/logical_anomalies/073,0.3333333333333333,False,False,기타 논리,breakfast_box,fill_amount,11.464,1,11.464,1.0,0.1693828125,0.9624379873275757
+breakfast_box/test/logical_anomalies/074,1.0,True,True,기타 논리,breakfast_box,fill_amount,12.004,1,12.004,1.0,0.444,0.9668057560920715
+breakfast_box/test/logical_anomalies/075,0.0,False,True,기타 논리,breakfast_box,fill_amount,28.064,1,28.064,1.0,0.7125,0.9057080745697021
+breakfast_box/test/logical_anomalies/076,0.0,False,False,기타 논리,breakfast_box,fill_amount,9.12,1,9.12,0.9916666666666667,0.131625,0.9643946886062622
+breakfast_box/test/logical_anomalies/077,0.0,False,False,기타 논리,breakfast_box,fill_amount,8.574,1,8.574,0.9941684161418242,0.0954140625,0.9727686047554016
+breakfast_box/test/logical_anomalies/078,0.0,False,True,기타 논리,breakfast_box,fill_amount,46.534,1,46.534,1.0,0.7325,0.8278964757919312
+breakfast_box/test/logical_anomalies/079,0.0,False,True,기타 논리,breakfast_box,fill_amount,22.746,2,45.492,1.0,0.7225,0.837306797504425
+breakfast_box/test/logical_anomalies/080,1.0,True,False,기타 논리,breakfast_box,fill_amount,13.878,1,13.878,1.0,0.3031875,0.9669418931007385
+breakfast_box/test/logical_anomalies/081,0.0,False,True,기타 논리,breakfast_box,fill_amount,27.496,1,27.496,1.0,0.7325,0.904543936252594
+breakfast_box/test/logical_anomalies/082,0.0,False,True,기타 논리,breakfast_box,fill_amount,46.068,1,46.068,1.0,0.7325,0.8366969227790833
+breakfast_box/test/structural_anomalies/000,0.0,False,False,구조,breakfast_box,box_damaged,0.284,1,0.284,1.0,0.01953125,0.984490156173706
+breakfast_box/test/structural_anomalies/001,0.0,False,False,구조,breakfast_box,box_damaged,0.302,1,0.302,1.0,0.0142734375,0.9773386120796204
+breakfast_box/test/structural_anomalies/002,0.0,False,False,구조,breakfast_box,box_damaged,0.948,1,0.948,1.0,0.026640625,0.9744774699211121
+breakfast_box/test/structural_anomalies/003,1.0,True,False,구조,breakfast_box,box_damaged,0.284,1,0.284,1.0,0.01953125,0.9754073619842529
+breakfast_box/test/structural_anomalies/004,0.3333333333333333,True,True,구조,breakfast_box,contamination,10.858,1,10.858,1.0,0.14953125,0.965031623840332
+breakfast_box/test/structural_anomalies/005,0.0,False,False,구조,breakfast_box,contamination,0.226,1,0.226,0.0,0.01953125,0.974147617816925
+breakfast_box/test/structural_anomalies/006,1.0,True,False,구조,breakfast_box,contamination,3.97,3,11.392,0.06548455056179775,0.01953125,0.9805030822753906
+breakfast_box/test/structural_anomalies/007,0.3333333333333333,False,True,구조,breakfast_box,contamination,6.146,1,6.146,1.0,0.120765625,0.9727656841278076
+breakfast_box/test/structural_anomalies/008,0.0,False,True,구조,breakfast_box,contamination,3.128,1,3.128,1.0,0.0890625,0.9779083728790283
+breakfast_box/test/structural_anomalies/009,0.0,False,False,구조,breakfast_box,contamination,0.62,1,0.62,-0.5,1.0,0.9729446768760681
+breakfast_box/test/structural_anomalies/010,1.0,True,True,구조,breakfast_box,contamination,5.482,1,5.482,1.0,0.0754453125,0.9757257103919983
+breakfast_box/test/structural_anomalies/011,1.0,True,False,구조,breakfast_box,contamination,1.376,1,1.376,1.0,0.027125,0.975065290927887
+breakfast_box/test/structural_anomalies/012,1.0,True,False,구조,breakfast_box,contamination,1.246,1,1.246,0.8667736757624398,0.0346875,0.9674680829048157
+breakfast_box/test/structural_anomalies/013,0.0,False,False,구조,breakfast_box,contamination,5.014,1,5.014,0.0,0.016171875,0.9780715107917786
+breakfast_box/test/structural_anomalies/014,1.0,True,True,구조,breakfast_box,contamination,3.254,1,3.254,1.0,0.197125,0.9692444205284119
+breakfast_box/test/structural_anomalies/015,0.0,False,True,구조,breakfast_box,contamination,4.988,1,4.988,0.3372093023255814,0.01953125,0.970007598400116
+breakfast_box/test/structural_anomalies/016,0.0,False,True,구조,breakfast_box,contamination,6.366,1,6.366,1.0,0.118125,0.9588518142700195
+breakfast_box/test/structural_anomalies/017,0.0,False,True,구조,breakfast_box,contamination,4.364,1,4.364,1.0,0.0966796875,0.9800512194633484
+breakfast_box/test/structural_anomalies/018,1.0,True,True,구조,breakfast_box,contamination,7.972,1,7.972,0.9989964877069744,0.1215,0.9652029275894165
+breakfast_box/test/structural_anomalies/019,0.6666666666666666,True,True,구조,breakfast_box,contamination,1.146,1,1.146,1.0,0.044,0.9699856638908386
+breakfast_box/test/structural_anomalies/020,1.0,True,True,구조,breakfast_box,contamination,1.614,1,1.614,1.0,0.1205859375,0.9719467163085938
+breakfast_box/test/structural_anomalies/021,1.0,True,True,구조,breakfast_box,contamination,0.396,1,0.396,1.0,0.0550546875,0.9782420992851257
+breakfast_box/test/structural_anomalies/022,0.6666666666666666,True,True,구조,breakfast_box,contamination,1.133,4,6.934,0.6697432939140467,0.0961875,0.9774406552314758
+breakfast_box/test/structural_anomalies/023,1.0,True,True,구조,breakfast_box,contamination,0.808,1,0.808,1.0,0.207421875,0.9642013907432556
+breakfast_box/test/structural_anomalies/024,0.0,False,False,구조,breakfast_box,contamination,22.1,1,22.1,1.0,0.33984375,0.9728040099143982
+breakfast_box/test/structural_anomalies/025,1.0,True,True,구조,breakfast_box,contamination,0.816,1,0.816,1.0,0.034453125,0.9721328616142273
+breakfast_box/test/structural_anomalies/026,1.0,True,True,구조,breakfast_box,contamination,1.79,1,1.79,0.9653631284916201,0.01953125,0.9728695154190063
+breakfast_box/test/structural_anomalies/027,0.3333333333333333,False,False,구조,breakfast_box,contamination,2.938,1,2.938,0.95643294758339,0.057234375,0.9699963927268982
+breakfast_box/test/structural_anomalies/028,0.0,False,False,구조,breakfast_box,contamination,0.388,4,1.618,0.0,0.006125,0.9703359603881836
+breakfast_box/test/structural_anomalies/029,0.6666666666666666,True,True,구조,breakfast_box,contamination,3.366,1,3.366,1.0,0.041765625,0.972075879573822
+breakfast_box/test/structural_anomalies/030,0.3333333333333333,False,True,구조,breakfast_box,contamination,3.781,4,14.85,0.49414141414141416,0.145,0.9504431486129761
+breakfast_box/test/structural_anomalies/031,1.0,True,True,구조,breakfast_box,contamination,0.528,1,0.528,1.0,0.0663046875,0.9603245854377747
+breakfast_box/test/structural_anomalies/032,1.0,True,True,구조,breakfast_box,contamination,0.455,4,1.754,0.31356898517673887,0.01953125,0.9748467206954956
+breakfast_box/test/structural_anomalies/033,1.0,True,True,구조,breakfast_box,contamination,0.608,1,0.608,1.0,0.10209375,0.9694627523422241
+breakfast_box/test/structural_anomalies/034,0.0,False,False,구조,breakfast_box,contamination,0.08,2,0.16,0.0,0.01540625,0.9780842065811157
+breakfast_box/test/structural_anomalies/035,0.3333333333333333,True,True,구조,breakfast_box,contamination,1.768,1,1.768,1.0,0.1056875,0.9690147638320923
+breakfast_box/test/structural_anomalies/036,0.6666666666666666,False,False,구조,breakfast_box,contamination,5.106,1,5.106,0.2710536623580102,0.030515625,0.9724873304367065
+breakfast_box/test/structural_anomalies/037,1.0,True,False,구조,breakfast_box,contamination,3.138,1,3.138,0.7807520713830465,0.03534375,0.9729636311531067
+breakfast_box/test/structural_anomalies/038,0.6666666666666666,True,True,구조,breakfast_box,contamination,2.592,1,2.592,0.9652777777777778,0.021875,0.9736127257347107
+breakfast_box/test/structural_anomalies/039,1.0,True,True,구조,breakfast_box,contamination,0.842,1,0.842,1.0,0.053765625,0.9742584228515625
+breakfast_box/test/structural_anomalies/040,0.3333333333333333,False,True,구조,breakfast_box,contamination,3.472,1,3.472,1.0,0.074953125,0.9670418500900269
+breakfast_box/test/structural_anomalies/041,0.6666666666666666,True,True,구조,breakfast_box,contamination,2.89,1,2.89,0.9543252595155709,0.0234375,0.9720052480697632
+breakfast_box/test/structural_anomalies/042,1.0,True,True,구조,breakfast_box,contamination,0.616,1,0.616,1.0,0.083671875,0.9736226797103882
+breakfast_box/test/structural_anomalies/043,1.0,True,True,구조,breakfast_box,contamination,0.35,1,0.35,1.0,0.0525,0.9701274037361145
+breakfast_box/test/structural_anomalies/044,0.0,False,False,구조,breakfast_box,food_damaged,1.118,1,1.118,0.0,0.01015625,0.9698874354362488
+breakfast_box/test/structural_anomalies/045,0.0,False,False,구조,breakfast_box,food_damaged,0.464,1,0.464,-0.5,1.0,0.9726417064666748
+breakfast_box/test/structural_anomalies/046,1.0,True,True,구조,breakfast_box,food_damaged,1.572,1,1.572,0.9389312977099237,0.032375,0.9806222915649414
+breakfast_box/test/structural_anomalies/047,1.0,True,True,구조,breakfast_box,food_damaged,1.864,1,1.864,0.9946351931330472,0.02734375,0.9785808324813843
+breakfast_box/test/structural_anomalies/048,1.0,True,True,구조,breakfast_box,food_damaged,5.622,1,5.622,1.0,0.111515625,0.9675851464271545
+breakfast_box/test/structural_anomalies/049,0.0,False,True,구조,breakfast_box,food_damaged,0.828,1,0.828,-0.5,1.0,0.9780589938163757
+breakfast_box/test/structural_anomalies/050,0.0,False,True,구조,breakfast_box,food_damaged,0.542,1,0.542,0.9372693726937269,0.025,0.9695838093757629
+breakfast_box/test/structural_anomalies/051,1.0,True,False,구조,breakfast_box,food_damaged,2.524,1,2.524,0.9492868462757528,0.0333984375,0.9817092418670654
+breakfast_box/test/structural_anomalies/052,0.0,False,True,구조,breakfast_box,food_damaged,0.461,2,0.922,-0.5,1.0,0.9760685563087463
+breakfast_box/test/structural_anomalies/053,1.0,True,True,구조,breakfast_box,food_damaged,2.402,1,2.402,0.4995836802664446,0.01953125,0.9788661599159241
+breakfast_box/test/structural_anomalies/054,0.0,False,False,구조,breakfast_box,food_damaged,0.606,1,0.606,-0.5,1.0,0.9689133763313293
+breakfast_box/test/structural_anomalies/055,0.0,False,False,구조,breakfast_box,food_damaged,0.536,1,0.536,-0.5,1.0,0.9800859689712524
+breakfast_box/test/structural_anomalies/056,1.0,True,True,구조,breakfast_box,food_damaged,0.492,2,0.984,0.5670731707317073,0.061765625,0.9774022102355957
+breakfast_box/test/structural_anomalies/057,0.0,False,False,구조,breakfast_box,food_damaged,1.56,1,1.56,0.0,0.01953125,0.9770798087120056
+breakfast_box/test/structural_anomalies/058,0.3333333333333333,False,True,구조,breakfast_box,food_damaged,0.852,1,0.852,0.8028169014084507,0.01953125,0.9814875721931458
+breakfast_box/test/structural_anomalies/059,1.0,True,True,구조,breakfast_box,food_damaged,0.327,2,0.654,1.0,0.029109375,0.9776473045349121
+breakfast_box/test/structural_anomalies/060,0.0,False,False,구조,breakfast_box,food_damaged,0.398,1,0.398,0.0,0.01171875,0.9765157103538513
+breakfast_box/test/structural_anomalies/061,0.0,False,False,구조,breakfast_box,food_damaged,0.176,1,0.176,-0.5,1.0,0.9804790019989014
+breakfast_box/test/structural_anomalies/062,0.3333333333333333,False,False,구조,breakfast_box,food_damaged,2.886,1,2.886,-0.5,1.0,0.9691563248634338
+breakfast_box/test/structural_anomalies/063,0.0,False,False,구조,breakfast_box,food_damaged,0.344,1,0.344,-0.5,1.0,0.9743857383728027
+breakfast_box/test/structural_anomalies/064,0.3333333333333333,False,False,구조,breakfast_box,food_damaged,0.878,1,0.878,-0.5,1.0,0.9756032228469849
+breakfast_box/test/structural_anomalies/065,0.3333333333333333,False,True,구조,breakfast_box,food_damaged,0.584,1,0.584,1.0,0.01953125,0.972457766532898
+breakfast_box/test/structural_anomalies/066,0.0,False,False,구조,breakfast_box,food_damaged,1.026,1,1.026,-0.5,1.0,0.9790440797805786
+breakfast_box/test/structural_anomalies/067,0.0,False,True,구조,breakfast_box,food_damaged,1.59,1,1.59,0.46163522012578617,0.01953125,0.9761061668395996
+breakfast_box/test/structural_anomalies/068,0.0,False,False,구조,breakfast_box,food_damaged,1.136,1,1.136,0.0,0.02734375,0.9704737663269043
+breakfast_box/test/structural_anomalies/069,0.0,False,False,구조,breakfast_box,food_damaged,0.926,1,0.926,0.0,0.01953125,0.9739124178886414
+breakfast_box/test/structural_anomalies/070,1.0,True,True,구조,breakfast_box,food_damaged,7.986,1,7.986,0.6210869020786376,0.0697265625,0.975249707698822
+breakfast_box/test/structural_anomalies/071,0.0,False,False,구조,breakfast_box,food_damaged,0.214,2,0.428,-0.5,1.0,0.9818891882896423
+breakfast_box/test/structural_anomalies/072,1.0,True,True,구조,breakfast_box,food_damaged,0.824,1,0.824,1.0,0.0234375,0.9821909070014954
+breakfast_box/test/structural_anomalies/073,1.0,True,True,구조,breakfast_box,food_damaged,0.824,1,0.824,0.9781553398058253,0.01953125,0.9749614000320435
+breakfast_box/test/structural_anomalies/074,0.3333333333333333,False,False,구조,breakfast_box,food_damaged,0.41,1,0.41,0.4292682926829268,0.01953125,0.982094943523407
+breakfast_box/test/structural_anomalies/075,0.3333333333333333,True,True,구조,breakfast_box,mixed_cereals,84.55,1,84.55,1.0,0.7325,0.951483964920044
+breakfast_box/test/structural_anomalies/076,0.3333333333333333,False,True,구조,breakfast_box,mixed_cereals,85.396,1,85.396,0.8609770949458991,0.5036484375,0.9098368883132935
+breakfast_box/test/structural_anomalies/077,0.0,False,True,구조,breakfast_box,mixed_cereals,84.726,1,84.726,1.0,0.7375,0.9255774021148682
+breakfast_box/test/structural_anomalies/078,0.0,False,True,구조,breakfast_box,mixed_cereals,82.548,1,82.548,0.6821485681058294,0.4355859375,0.9443587064743042
+breakfast_box/test/structural_anomalies/079,0.3333333333333333,True,True,구조,breakfast_box,mixed_cereals,82.818,1,82.818,0.7166557994638847,0.443953125,0.9404132962226868
+breakfast_box/test/structural_anomalies/080,0.0,False,True,구조,breakfast_box,mixed_cereals,83.726,1,83.726,1.0,0.7325,0.9295467138290405
+breakfast_box/test/structural_anomalies/081,0.3333333333333333,True,True,구조,breakfast_box,mixed_cereals,82.49,1,82.49,0.8437143896229846,0.513,0.9131659269332886
+breakfast_box/test/structural_anomalies/082,0.0,False,True,구조,breakfast_box,mixed_cereals,83.834,1,83.834,1.0,0.725,0.9465263485908508
+breakfast_box/test/structural_anomalies/083,0.0,False,True,구조,breakfast_box,food_damaged,33.694,1,33.694,0.172137472547041,0.02265625,0.9347221255302429
+breakfast_box/test/structural_anomalies/084,0.0,False,True,구조,breakfast_box,food_damaged,39.184,1,39.184,1.0,0.29315625,0.9057016968727112
+breakfast_box/test/structural_anomalies/085,0.0,False,True,구조,breakfast_box,food_damaged,42.456,1,42.456,1.0,0.3580078125,0.9301251173019409
+breakfast_box/test/structural_anomalies/086,0.0,False,True,구조,breakfast_box,food_damaged,31.026,1,31.026,0.7602655837039902,0.207,0.9428326487541199
+breakfast_box/test/structural_anomalies/087,0.0,False,True,구조,breakfast_box,food_damaged,39.514,1,39.514,0.5746317760793643,0.1130625,0.9278944730758667
+breakfast_box/test/structural_anomalies/088,0.0,False,True,구조,breakfast_box,food_damaged,33.676,1,33.676,0.6121867205131251,0.09609375,0.933955192565918
+breakfast_box/test/structural_anomalies/089,0.0,False,True,구조,breakfast_box,food_damaged,41.506,1,41.506,0.6292584204693298,0.128765625,0.9295156598091125
+juice_bottle/test/logical_anomalies/000,1.0,True,True,기타 논리,juice_bottle,label_missing,18.5264,2,37.0528,1.0,0.765,0.8865520358085632
+juice_bottle/test/logical_anomalies/001,1.0,True,True,기타 논리,juice_bottle,label_missing,18.8208,2,37.6416,1.0,0.77,0.885877251625061
+juice_bottle/test/logical_anomalies/002,1.0,True,True,기타 논리,juice_bottle,label_missing,18.6624,2,37.3248,1.0,0.76,0.9012991189956665
+juice_bottle/test/logical_anomalies/003,1.0,True,True,기타 논리,juice_bottle,label_missing,18.8544,2,37.7088,1.0,0.75,0.8824270963668823
+juice_bottle/test/logical_anomalies/004,1.0,True,True,기타 논리,juice_bottle,label_missing,18.832,2,37.664,1.0,0.75,0.876700222492218
+juice_bottle/test/logical_anomalies/005,1.0,True,True,기타 논리,juice_bottle,label_missing,18.592,2,37.184,1.0,0.76,0.9059459567070007
+juice_bottle/test/logical_anomalies/006,1.0,True,True,기타 논리,juice_bottle,label_missing,18.824,2,37.648,1.0,0.78,0.8835475444793701
+juice_bottle/test/logical_anomalies/007,1.0,True,True,기타 논리,juice_bottle,label_missing,18.6864,2,37.3728,1.0,0.8,0.8983473777770996
+juice_bottle/test/logical_anomalies/008,1.0,True,True,기타 논리,juice_bottle,label_missing,18.616,2,37.232,1.0,0.76,0.8896390795707703
+juice_bottle/test/logical_anomalies/009,1.0,True,True,기타 논리,juice_bottle,label_missing,18.8272,2,37.6544,1.0,0.75,0.8724660277366638
+juice_bottle/test/logical_anomalies/010,1.0,True,True,기타 논리,juice_bottle,label_missing,18.8544,2,37.7088,1.0,0.75,0.8858516216278076
+juice_bottle/test/logical_anomalies/011,1.0,True,True,기타 논리,juice_bottle,label_missing,18.744,2,37.488,1.0,0.76,0.8843076825141907
+juice_bottle/test/logical_anomalies/012,1.0,True,True,기타 논리,juice_bottle,label_missing,16.9984,1,16.9984,1.0,0.69375,0.9683155417442322
+juice_bottle/test/logical_anomalies/013,1.0,True,True,기타 논리,juice_bottle,label_missing,16.7936,1,16.7936,1.0,0.6927375,0.9736788272857666
+juice_bottle/test/logical_anomalies/014,1.0,True,True,기타 논리,juice_bottle,label_missing,16.7328,1,16.7328,1.0,0.69375,0.975606381893158
+juice_bottle/test/logical_anomalies/015,1.0,True,True,기타 논리,juice_bottle,label_missing,16.5312,1,16.5312,1.0,0.68255,0.9689992666244507
+juice_bottle/test/logical_anomalies/016,1.0,True,True,기타 논리,juice_bottle,label_missing,16.9984,1,16.9984,1.0,0.69375,0.9769542217254639
+juice_bottle/test/logical_anomalies/017,1.0,True,True,기타 논리,juice_bottle,label_missing,16.9984,1,16.9984,1.0,0.69375,0.9732256531715393
+juice_bottle/test/logical_anomalies/018,1.0,True,True,기타 논리,juice_bottle,label_missing,16.7328,1,16.7328,1.0,0.68255,0.974461555480957
+juice_bottle/test/logical_anomalies/019,1.0,True,True,기타 논리,juice_bottle,label_missing,16.9984,1,16.9984,1.0,0.684375,0.9750350713729858
+juice_bottle/test/logical_anomalies/020,1.0,True,True,기타 논리,juice_bottle,label_missing,16.9984,1,16.9984,1.0,0.6890625,0.9694605469703674
+juice_bottle/test/logical_anomalies/021,1.0,True,True,기타 논리,juice_bottle,label_missing,16.7936,1,16.7936,1.0,0.6862,0.9786651134490967
+juice_bottle/test/logical_anomalies/022,1.0,True,True,기타 논리,juice_bottle,label_missing,16.9984,1,16.9984,1.0,0.680725,0.9750567078590393
+juice_bottle/test/logical_anomalies/023,1.0,True,True,기타 논리,juice_bottle,label_missing,16.9984,1,16.9984,1.0,0.6909,0.9744160175323486
+juice_bottle/test/logical_anomalies/024,1.0,True,True,기타 논리,juice_bottle,fill_level,58.7584,1,58.7584,1.0,0.95,0.8275373578071594
+juice_bottle/test/logical_anomalies/025,1.0,True,True,기타 논리,juice_bottle,fill_level,58.288,1,58.288,1.0,0.89,0.8456459641456604
+juice_bottle/test/logical_anomalies/026,1.0,True,True,기타 논리,juice_bottle,fill_level,58.6464,1,58.6464,1.0,0.905,0.8077911138534546
+juice_bottle/test/logical_anomalies/027,0.6666666666666666,True,True,기타 논리,juice_bottle,fill_level,57.1424,1,57.1424,1.0,0.88,0.8248385190963745
+juice_bottle/test/logical_anomalies/028,1.0,True,True,기타 논리,juice_bottle,fill_level,58.672,1,58.672,1.0,0.955,0.8351247310638428
+juice_bottle/test/logical_anomalies/029,0.6666666666666666,True,True,기타 논리,juice_bottle,fill_level,57.8944,1,57.8944,1.0,0.885,0.8038269877433777
+juice_bottle/test/logical_anomalies/030,1.0,True,True,기타 논리,juice_bottle,fill_level,58.1664,1,58.1664,1.0,0.885,0.8416686654090881
+juice_bottle/test/logical_anomalies/031,0.6666666666666666,True,True,기타 논리,juice_bottle,fill_level,57.7472,1,57.7472,1.0,0.87,0.8446972370147705
+juice_bottle/test/logical_anomalies/032,1.0,True,True,기타 논리,juice_bottle,fill_level,58.192,1,58.192,1.0,0.89,0.8555831909179688
+juice_bottle/test/logical_anomalies/033,0.3333333333333333,False,True,기타 논리,juice_bottle,fill_level,58.6816,1,58.6816,1.0,0.92,0.8401562571525574
+juice_bottle/test/logical_anomalies/034,1.0,True,True,기타 논리,juice_bottle,fill_level,58.4224,1,58.4224,1.0,0.86,0.8573170304298401
+juice_bottle/test/logical_anomalies/035,1.0,True,True,기타 논리,juice_bottle,fill_level,58.8032,1,58.8032,1.0,0.87,0.8471827507019043
+juice_bottle/test/logical_anomalies/036,1.0,True,True,기타 논리,juice_bottle,fruit_icon,2.4544,1,2.4544,1.0,0.072,0.9891631603240967
+juice_bottle/test/logical_anomalies/037,1.0,True,True,기타 논리,juice_bottle,fruit_icon,2.384,1,2.384,1.0,0.080625,0.9862342476844788
+juice_bottle/test/logical_anomalies/038,0.0,False,False,기타 논리,juice_bottle,fruit_icon,1.5072,1,1.5072,0.8067940552016986,0.0325,0.9885169863700867
+juice_bottle/test/logical_anomalies/039,0.6666666666666666,True,True,기타 논리,juice_bottle,fruit_icon,2.3104,1,2.3104,1.0,0.0836,0.9869813323020935
+juice_bottle/test/logical_anomalies/040,0.0,False,True,기타 논리,juice_bottle,fruit_icon,1.6512,1,1.6512,1.0,0.0672,0.9903748035430908
+juice_bottle/test/logical_anomalies/041,1.0,True,True,기타 논리,juice_bottle,fruit_icon,2.4352,1,2.4352,1.0,0.074,0.984869122505188
+juice_bottle/test/logical_anomalies/042,0.0,False,False,기타 논리,juice_bottle,fruit_icon,2.4768,1,2.4768,1.0,0.12925,0.9871005415916443
+juice_bottle/test/logical_anomalies/043,0.0,False,True,기타 논리,juice_bottle,fruit_icon,1.52,1,1.52,0.7221052631578947,0.03625,0.9870960116386414
+juice_bottle/test/logical_anomalies/044,0.3333333333333333,False,True,기타 논리,juice_bottle,fruit_icon,2.3872,1,2.3872,1.0,0.084825,0.9892218708992004
+juice_bottle/test/logical_anomalies/045,0.0,False,False,기타 논리,juice_bottle,fruit_icon,1.6,1,1.6,1.0,0.0884,0.9871652722358704
+juice_bottle/test/logical_anomalies/046,1.0,True,True,기타 논리,juice_bottle,fruit_icon,1.5168,1,1.5168,1.0,0.04275,0.9684334993362427
+juice_bottle/test/logical_anomalies/047,1.0,True,True,기타 논리,juice_bottle,fruit_icon,1.2704,1,1.2704,1.0,0.041325,0.9693580865859985
+juice_bottle/test/logical_anomalies/048,1.0,True,True,기타 논리,juice_bottle,fruit_icon,1.5168,1,1.5168,1.0,0.04495,0.9652368426322937
+juice_bottle/test/logical_anomalies/049,1.0,True,True,기타 논리,juice_bottle,fruit_icon,1.312,1,1.312,1.0,0.048,0.9702168107032776
+juice_bottle/test/logical_anomalies/050,0.6666666666666666,True,True,기타 논리,juice_bottle,fruit_icon,1.5104,1,1.5104,1.0,0.045,0.9709811806678772
+juice_bottle/test/logical_anomalies/051,0.6666666666666666,True,True,기타 논리,juice_bottle,label_misplaced,28.4864,1,28.4864,1.0,0.74,0.9741331934928894
+juice_bottle/test/logical_anomalies/052,0.0,False,False,기타 논리,juice_bottle,label_misplaced,23.4336,1,23.4336,1.0,0.765,0.9755589962005615
+juice_bottle/test/logical_anomalies/053,1.0,True,True,기타 논리,juice_bottle,label_misplaced,23.1904,1,23.1904,1.0,0.3536,0.9836817383766174
+juice_bottle/test/logical_anomalies/054,0.3333333333333333,False,True,기타 논리,juice_bottle,label_misplaced,21.648,1,21.648,1.0,0.25125,0.9778338074684143
+juice_bottle/test/logical_anomalies/055,1.0,True,True,기타 논리,juice_bottle,label_misplaced,27.4112,1,27.4112,1.0,0.885,0.9689229726791382
+juice_bottle/test/logical_anomalies/056,0.6666666666666666,True,True,기타 논리,juice_bottle,label_misplaced,24.9248,1,24.9248,1.0,0.6897,0.9765912890434265
+juice_bottle/test/logical_anomalies/057,1.0,True,True,기타 논리,juice_bottle,label_misplaced,23.0944,1,23.0944,1.0,0.82,0.9751155376434326
+juice_bottle/test/logical_anomalies/058,0.3333333333333333,False,True,기타 논리,juice_bottle,label_misplaced,21.056,1,21.056,1.0,0.55275,0.9727088212966919
+juice_bottle/test/logical_anomalies/059,0.3333333333333333,False,False,기타 논리,juice_bottle,label_misplaced,17.632,1,17.632,1.0,0.82,0.9845665097236633
+juice_bottle/test/logical_anomalies/060,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.696,2,41.392,1.0,0.57375,0.9814133048057556
+juice_bottle/test/logical_anomalies/061,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.1568,2,40.3136,1.0,0.74,0.9779696464538574
+juice_bottle/test/logical_anomalies/062,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.6608,2,41.3216,0.6292108727638813,0.2343,0.9751028418540955
+juice_bottle/test/logical_anomalies/063,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.1536,2,40.3072,1.0,0.556875,0.9799819588661194
+juice_bottle/test/logical_anomalies/064,1.0,True,True,기타 논리,juice_bottle,label_swapped,21.1328,2,42.2656,1.0,0.469,0.9862244129180908
+juice_bottle/test/logical_anomalies/065,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.536,2,41.072,1.0,0.735,0.982103168964386
+juice_bottle/test/logical_anomalies/066,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.6464,2,41.2928,1.0,0.7068,0.985282301902771
+juice_bottle/test/logical_anomalies/067,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.76,2,41.52,0.5958381502890173,0.2273625,0.9841814637184143
+juice_bottle/test/logical_anomalies/068,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.4864,2,40.9728,1.0,0.576975,0.975206732749939
+juice_bottle/test/logical_anomalies/069,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.5904,2,41.1808,1.0,0.5833,0.9819726943969727
+juice_bottle/test/logical_anomalies/070,0.3333333333333333,True,True,기타 논리,juice_bottle,label_swapped,20.6304,2,41.2608,0.63936714751047,0.2412,0.9804496765136719
+juice_bottle/test/logical_anomalies/071,1.0,True,True,기타 논리,juice_bottle,label_swapped,20.4912,2,40.9824,1.0,0.460625,0.9876061677932739
+juice_bottle/test/logical_anomalies/072,0.6666666666666666,False,True,기타 논리,juice_bottle,label_missing,20.7616,1,20.7616,1.0,0.75,0.9363413453102112
+juice_bottle/test/logical_anomalies/073,1.0,True,True,기타 논리,juice_bottle,label_missing,20.7904,1,20.7904,1.0,0.77,0.9527549147605896
+juice_bottle/test/logical_anomalies/074,1.0,True,True,기타 논리,juice_bottle,label_missing,20.9152,1,20.9152,1.0,0.75,0.9502092599868774
+juice_bottle/test/logical_anomalies/075,1.0,True,True,기타 논리,juice_bottle,label_missing,20.9152,1,20.9152,1.0,0.75,0.9390737414360046
+juice_bottle/test/logical_anomalies/076,1.0,True,True,기타 논리,juice_bottle,label_missing,20.64,1,20.64,1.0,0.77,0.9517120122909546
+juice_bottle/test/logical_anomalies/077,1.0,True,True,기타 논리,juice_bottle,label_missing,20.9152,1,20.9152,1.0,0.735,0.9344647526741028
+juice_bottle/test/logical_anomalies/078,1.0,True,True,기타 논리,juice_bottle,label_missing,20.64,1,20.64,1.0,0.76,0.9423099756240845
+juice_bottle/test/logical_anomalies/079,1.0,True,True,기타 논리,juice_bottle,label_missing,20.7936,1,20.7936,1.0,0.76,0.9450640082359314
+juice_bottle/test/logical_anomalies/080,1.0,True,True,기타 논리,juice_bottle,label_missing,20.9152,1,20.9152,1.0,0.75,0.9465591311454773
+juice_bottle/test/logical_anomalies/081,1.0,True,True,기타 논리,juice_bottle,label_missing,20.7072,1,20.7072,1.0,0.76,0.9533766508102417
+juice_bottle/test/logical_anomalies/082,1.0,True,True,기타 논리,juice_bottle,label_missing,20.9152,1,20.9152,1.0,0.76,0.9575669169425964
+juice_bottle/test/logical_anomalies/083,1.0,True,True,기타 논리,juice_bottle,label_missing,20.8128,1,20.8128,1.0,0.75,0.9546887874603271
+juice_bottle/test/logical_anomalies/084,1.0,True,True,기타 논리,juice_bottle,fill_level,8.4896,1,8.4896,1.0,0.19665,0.9748101830482483
+juice_bottle/test/logical_anomalies/085,0.0,False,True,기타 논리,juice_bottle,fill_level,2.976,1,2.976,1.0,0.084825,0.9890224933624268
+juice_bottle/test/logical_anomalies/086,1.0,True,True,기타 논리,juice_bottle,fill_level,24.4128,1,24.4128,1.0,0.63945,0.9293755292892456
+juice_bottle/test/logical_anomalies/087,0.3333333333333333,True,True,기타 논리,juice_bottle,fill_level,3.1072,1,3.1072,1.0,0.09225,0.9866533875465393
+juice_bottle/test/logical_anomalies/088,1.0,True,True,기타 논리,juice_bottle,fill_level,27.3536,1,27.3536,1.0,0.88,0.9374918937683105
+juice_bottle/test/logical_anomalies/089,1.0,True,True,기타 논리,juice_bottle,fill_level,24.8736,1,24.8736,1.0,0.6837,0.9285228252410889
+juice_bottle/test/logical_anomalies/090,1.0,True,True,기타 논리,juice_bottle,fill_level,31.9968,1,31.9968,1.0,0.782325,0.9089835286140442
+juice_bottle/test/logical_anomalies/091,0.0,False,True,기타 논리,juice_bottle,fill_level,0.3504,4,7.6096,1.0,0.1836,0.9835999608039856
+juice_bottle/test/logical_anomalies/092,0.0,False,True,기타 논리,juice_bottle,fill_level,4.0288,1,4.0288,1.0,0.127875,0.9840030074119568
+juice_bottle/test/logical_anomalies/093,0.0,False,True,기타 논리,juice_bottle,fill_level,9.7632,1,9.7632,1.0,0.1974375,0.9653628468513489
+juice_bottle/test/logical_anomalies/094,1.0,True,True,기타 논리,juice_bottle,fill_level,13.648,2,27.296,1.0,0.7630875,0.9167640209197998
+juice_bottle/test/logical_anomalies/095,0.0,False,True,기타 논리,juice_bottle,fill_level,10.1408,1,10.1408,1.0,0.261375,0.9745104312896729
+juice_bottle/test/logical_anomalies/096,0.6666666666666666,True,True,기타 논리,juice_bottle,fill_level,23.2224,1,23.2224,1.0,0.73515,0.9288616180419922
+juice_bottle/test/logical_anomalies/097,1.0,True,True,기타 논리,juice_bottle,fill_level,24.7168,1,24.7168,1.0,0.7912,0.9356709718704224
+juice_bottle/test/logical_anomalies/098,0.6666666666666666,True,False,기타 논리,juice_bottle,fill_level,12.9536,1,12.9536,1.0,1.0,0.9742945432662964
+juice_bottle/test/logical_anomalies/099,0.6666666666666666,True,True,기타 논리,juice_bottle,fill_level,2.8672,1,2.8672,1.0,0.0966,0.9865509867668152
+juice_bottle/test/logical_anomalies/100,1.0,True,True,기타 논리,juice_bottle,fill_level,5.1488,1,5.1488,1.0,0.1508,0.982527494430542
+juice_bottle/test/logical_anomalies/101,0.0,False,True,기타 논리,juice_bottle,fill_level,2.4544,1,2.4544,1.0,0.1188,0.9890050888061523
+juice_bottle/test/logical_anomalies/102,1.0,True,True,기타 논리,juice_bottle,fill_level,13.072,1,13.072,1.0,0.75,0.9793095588684082
+juice_bottle/test/logical_anomalies/103,0.6666666666666666,True,True,기타 논리,juice_bottle,fill_level,2.6432,1,2.6432,1.0,0.0989,0.9905310869216919
+juice_bottle/test/logical_anomalies/104,1.0,True,True,기타 논리,juice_bottle,fill_level,2.2944,1,2.2944,1.0,0.10575,0.9876952767372131
+juice_bottle/test/logical_anomalies/105,1.0,True,True,기타 논리,juice_bottle,fill_level,32.3456,1,32.3456,1.0,0.7374375,0.9163928627967834
+juice_bottle/test/logical_anomalies/106,1.0,True,True,기타 논리,juice_bottle,fill_level,25.648,1,25.648,1.0,0.6220125,0.9118478894233704
+juice_bottle/test/logical_anomalies/107,1.0,True,True,기타 논리,juice_bottle,fill_level,0.5344,3,7.7248,1.0,0.765,0.9783326983451843
+juice_bottle/test/logical_anomalies/108,1.0,True,True,기타 논리,juice_bottle,fill_level,27.9488,1,27.9488,1.0,0.7854,0.9256135821342468
+juice_bottle/test/logical_anomalies/109,1.0,True,True,기타 논리,juice_bottle,fill_level,0.3824,4,8.1696,1.0,0.75,0.981910228729248
+juice_bottle/test/logical_anomalies/110,1.0,True,True,기타 논리,juice_bottle,fill_level,26.208,1,26.208,1.0,0.87,0.9185128808021545
+juice_bottle/test/logical_anomalies/111,0.3333333333333333,False,True,기타 논리,juice_bottle,fill_level,4.64,1,4.64,1.0,0.149625,0.9836958050727844
+juice_bottle/test/logical_anomalies/112,0.0,False,True,기타 논리,juice_bottle,fill_level,3.3472,1,3.3472,1.0,0.109275,0.9864418506622314
+juice_bottle/test/logical_anomalies/113,1.0,True,True,기타 논리,juice_bottle,fill_level,26.8864,1,26.8864,1.0,0.88,0.9186006784439087
+juice_bottle/test/logical_anomalies/114,0.3333333333333333,True,True,기타 논리,juice_bottle,fill_level,7.9392,1,7.9392,1.0,0.2268,0.9713172316551208
+juice_bottle/test/logical_anomalies/115,0.0,False,True,기타 논리,juice_bottle,fill_level,3.1264,1,3.1264,1.0,0.1081,0.9850785136222839
+juice_bottle/test/logical_anomalies/116,0.3333333333333333,True,True,기타 논리,juice_bottle,fill_level,4.3712,1,4.3712,1.0,0.11985,0.983488917350769
+juice_bottle/test/logical_anomalies/117,0.3333333333333333,True,True,기타 논리,juice_bottle,fill_level,3.7152,1,3.7152,1.0,0.11025,0.9792101979255676
+juice_bottle/test/logical_anomalies/118,1.0,True,True,기타 논리,juice_bottle,fill_level,12.496,1,12.496,1.0,1.0,0.9715688228607178
+juice_bottle/test/logical_anomalies/119,0.0,False,True,기타 논리,juice_bottle,fill_level,2.3744,1,2.3744,1.0,0.081375,0.9845808744430542
+juice_bottle/test/logical_anomalies/120,0.6666666666666666,True,False,기타 논리,juice_bottle,juice_mismatch,29.6304,2,59.2608,1.0,0.5809,0.9736627340316772
+juice_bottle/test/logical_anomalies/121,0.3333333333333333,False,True,기타 논리,juice_bottle,juice_mismatch,29.4544,2,58.9088,0.024661850181976207,0.03125,0.9759401679039001
+juice_bottle/test/logical_anomalies/122,0.0,False,False,기타 논리,juice_bottle,juice_mismatch,30.0528,2,60.1056,0.027152212106692223,0.03125,0.9798816442489624
+juice_bottle/test/logical_anomalies/123,0.3333333333333333,False,False,기타 논리,juice_bottle,juice_mismatch,29.8288,2,59.6576,0.027624309392265192,0.03125,0.9803341031074524
+juice_bottle/test/logical_anomalies/124,0.0,False,False,기타 논리,juice_bottle,juice_mismatch,29.9024,2,59.8048,0.055005618278131524,0.03125,0.9785128235816956
+juice_bottle/test/logical_anomalies/125,0.0,False,False,기타 논리,juice_bottle,juice_mismatch,29.888,2,59.776,0.06589935760171306,0.03125,0.9675434827804565
+juice_bottle/test/logical_anomalies/126,1.0,True,True,기타 논리,juice_bottle,juice_mismatch,29.9824,2,59.9648,-0.5,1.0,0.9776262044906616
+juice_bottle/test/logical_anomalies/127,1.0,True,False,기타 논리,juice_bottle,juice_mismatch,30.0976,2,60.1952,-0.5,1.0,0.9746505618095398
+juice_bottle/test/logical_anomalies/128,0.0,False,True,기타 논리,juice_bottle,juice_mismatch,29.4592,2,58.9184,0.024386269824027806,0.03125,0.9756307601928711
+juice_bottle/test/logical_anomalies/129,0.0,False,True,기타 논리,juice_bottle,juice_mismatch,29.6368,2,59.2736,0.027695297737947416,0.03125,0.9788962602615356
+juice_bottle/test/logical_anomalies/130,1.0,True,False,기타 논리,juice_bottle,juice_mismatch,29.92,2,59.84,-0.5,1.0,0.9798547625541687
+juice_bottle/test/logical_anomalies/131,0.0,False,False,기타 논리,juice_bottle,juice_mismatch,29.9472,2,59.8944,0.06299086392050009,0.03125,0.9785656929016113
+juice_bottle/test/logical_anomalies/132,1.0,True,False,기타 논리,juice_bottle,juice_mismatch,30.0768,2,60.1536,-0.5,1.0,0.9789332151412964
+juice_bottle/test/logical_anomalies/133,1.0,True,False,기타 논리,juice_bottle,juice_mismatch,29.7056,2,59.4112,-0.5,1.0,0.9711489677429199
+juice_bottle/test/logical_anomalies/134,1.0,True,False,기타 논리,juice_bottle,juice_mismatch,29.7568,2,59.5136,-0.5,1.0,0.9775420427322388
+juice_bottle/test/logical_anomalies/135,1.0,True,False,기타 논리,juice_bottle,juice_mismatch,30.3152,2,60.6304,-0.5,1.0,0.979293704032898
+juice_bottle/test/logical_anomalies/136,1.0,True,True,기타 논리,juice_bottle,juice_mismatch,29.6256,2,59.2512,0.030730179304385395,0.03125,0.9746315479278564
+juice_bottle/test/logical_anomalies/137,1.0,True,True,기타 논리,juice_bottle,juice_mismatch,29.904,2,59.808,0.02375601926163724,0.03125,0.9771750569343567
+juice_bottle/test/logical_anomalies/138,0.0,False,True,기타 논리,juice_bottle,juice_mismatch,30.1088,2,60.2176,0.02752683600807737,0.03125,0.9811989068984985
+juice_bottle/test/logical_anomalies/139,0.0,False,False,기타 논리,juice_bottle,juice_mismatch,29.6432,2,59.2864,0.05246397150105252,0.03125,0.9705875515937805
+juice_bottle/test/logical_anomalies/140,0.3333333333333333,False,False,기타 논리,juice_bottle,juice_mismatch,29.6768,2,59.3536,1.0,0.77,0.9747023582458496
+juice_bottle/test/logical_anomalies/141,0.3333333333333333,False,True,기타 논리,juice_bottle,juice_mismatch,29.8032,2,59.6064,0.02797015085628389,0.03125,0.9795639514923096
+juice_bottle/test/structural_anomalies/000,1.0,True,True,구조,juice_bottle,contamination,1.4896,2,2.9792,0.0,0.1623375,0.985605001449585
+juice_bottle/test/structural_anomalies/001,0.3333333333333333,False,False,구조,juice_bottle,contamination,10.0512,1,10.0512,1.0,0.2256,0.9585257768630981
+juice_bottle/test/structural_anomalies/002,0.0,False,False,구조,juice_bottle,contamination,0.8896,1,0.8896,1.0,0.0513,0.985842764377594
+juice_bottle/test/structural_anomalies/003,1.0,True,True,구조,juice_bottle,contamination,0.1376,4,1.0208,1.0,0.07,0.9699181318283081
+juice_bottle/test/structural_anomalies/004,0.6666666666666666,False,True,구조,juice_bottle,contamination,3.2096,2,6.4192,1.0,0.76,0.9539105296134949
+juice_bottle/test/structural_anomalies/005,0.0,False,True,구조,juice_bottle,contamination,1.9824,2,3.9648,0.0,0.13515,0.979301929473877
+juice_bottle/test/structural_anomalies/006,1.0,True,False,구조,juice_bottle,contamination,3.5744,1,3.5744,1.0,0.1751625,0.9853546023368835
+juice_bottle/test/structural_anomalies/007,1.0,True,True,구조,juice_bottle,contamination,1.0432,1,1.0432,1.0,0.0525,0.9841806888580322
+juice_bottle/test/structural_anomalies/008,1.0,True,True,구조,juice_bottle,contamination,1.288,2,2.576,1.0,0.113925,0.9358949065208435
+juice_bottle/test/structural_anomalies/009,0.6666666666666666,False,False,구조,juice_bottle,contamination,0.4768,1,0.4768,0.0,0.133875,0.9852439761161804
+juice_bottle/test/structural_anomalies/010,1.0,True,True,구조,juice_bottle,contamination,0.32,3,7.5552,1.0,0.184875,0.9295382499694824
+juice_bottle/test/structural_anomalies/011,1.0,True,True,구조,juice_bottle,contamination,0.1568,5,5.3216,1.0,0.1705,0.9632747173309326
+juice_bottle/test/structural_anomalies/012,1.0,True,True,구조,juice_bottle,contamination,5.3696,1,5.3696,1.0,0.1729125,0.9544054269790649
+juice_bottle/test/structural_anomalies/013,1.0,True,True,구조,juice_bottle,contamination,12.7744,1,12.7744,1.0,0.8,0.9595592617988586
+juice_bottle/test/structural_anomalies/014,1.0,True,False,구조,juice_bottle,contamination,2.32,1,2.32,1.0,0.093525,0.9750734567642212
+juice_bottle/test/structural_anomalies/015,0.0,False,True,구조,juice_bottle,contamination,2.1856,1,2.1856,0.0,0.14575,0.9684526920318604
+juice_bottle/test/structural_anomalies/016,0.6666666666666666,False,True,구조,juice_bottle,contamination,4.1024,1,4.1024,1.0,0.75,0.9800246357917786
+juice_bottle/test/structural_anomalies/017,0.0,False,True,구조,juice_bottle,contamination,1.9376,2,3.8752,0.0,0.13515,0.970752477645874
+juice_bottle/test/structural_anomalies/018,0.0,False,False,구조,juice_bottle,contamination,0.88,3,2.4384,0.5564304461942258,0.1092,0.9830135703086853
+juice_bottle/test/structural_anomalies/019,1.0,True,True,구조,juice_bottle,contamination,7.2736,2,14.5472,1.0,0.75,0.9624348878860474
+juice_bottle/test/structural_anomalies/020,0.0,False,True,구조,juice_bottle,contamination,3.232,1,3.232,1.0,0.1275,0.9853211641311646
+juice_bottle/test/structural_anomalies/021,0.6666666666666666,False,True,구조,juice_bottle,contamination,3.7312,2,7.4624,1.0,0.78,0.977505087852478
+juice_bottle/test/structural_anomalies/022,0.0,False,False,구조,juice_bottle,contamination,0.2944,1,0.2944,1.0,0.04375,0.9875566959381104
+juice_bottle/test/structural_anomalies/023,0.3333333333333333,False,True,구조,juice_bottle,contamination,10.256,1,10.256,1.0,0.75,0.9438449144363403
+juice_bottle/test/structural_anomalies/024,1.0,True,False,구조,juice_bottle,contamination,0.8704,1,0.8704,1.0,0.0645,0.9855673909187317
+juice_bottle/test/structural_anomalies/025,1.0,True,True,구조,juice_bottle,contamination,3.8336,1,3.8336,1.0,0.77,0.9749329686164856
+juice_bottle/test/structural_anomalies/026,1.0,True,False,구조,juice_bottle,contamination,3.7216,1,3.7216,1.0,0.1344,0.9829860925674438
+juice_bottle/test/structural_anomalies/027,0.6666666666666666,True,False,구조,juice_bottle,fruit_icon,0.3648,1,0.3648,1.0,0.36,0.978049099445343
+juice_bottle/test/structural_anomalies/028,1.0,True,True,구조,juice_bottle,fruit_icon,0.3776,1,0.3776,1.0,0.04375,0.9767149686813354
+juice_bottle/test/structural_anomalies/029,1.0,True,True,구조,juice_bottle,fruit_icon,0.3712,1,0.3712,1.0,0.045,0.9755997061729431
+juice_bottle/test/structural_anomalies/030,1.0,True,True,구조,juice_bottle,fruit_icon,0.3872,1,0.3872,1.0,0.043125,0.9806674122810364
+juice_bottle/test/structural_anomalies/031,1.0,True,True,구조,juice_bottle,fruit_icon,0.3808,1,0.3808,1.0,0.03375,0.9868780374526978
+juice_bottle/test/structural_anomalies/032,1.0,True,True,구조,juice_bottle,fruit_icon,0.3424,1,0.3424,1.0,0.03125,0.9868276119232178
+juice_bottle/test/structural_anomalies/033,1.0,True,True,구조,juice_bottle,fruit_icon,0.3744,1,0.3744,1.0,0.04375,0.9795210361480713
+juice_bottle/test/structural_anomalies/034,1.0,True,True,구조,juice_bottle,fruit_icon,0.3616,1,0.3616,1.0,0.031875,0.9876221418380737
+juice_bottle/test/structural_anomalies/035,1.0,True,True,구조,juice_bottle,fruit_icon,0.3872,1,0.3872,1.0,0.03375,0.9863971471786499
+juice_bottle/test/structural_anomalies/036,1.0,True,True,구조,juice_bottle,fruit_icon,0.3328,1,0.3328,1.0,0.03125,0.9830390214920044
+juice_bottle/test/structural_anomalies/037,1.0,True,True,구조,juice_bottle,fruit_icon,0.3744,1,0.3744,1.0,0.031875,0.9866387844085693
+juice_bottle/test/structural_anomalies/038,1.0,True,True,구조,juice_bottle,fruit_icon,1.6192,1,1.6192,1.0,0.0609,0.9653887152671814
+juice_bottle/test/structural_anomalies/039,0.0,False,True,구조,juice_bottle,fruit_icon,1.7408,1,1.7408,1.0,0.06525,0.9710498452186584
+juice_bottle/test/structural_anomalies/040,0.3333333333333333,False,True,구조,juice_bottle,fruit_icon,1.6288,1,1.6288,1.0,0.06525,0.9626854658126831
+juice_bottle/test/structural_anomalies/041,0.0,False,True,구조,juice_bottle,fruit_icon,1.5936,1,1.5936,1.0,0.063,0.9668855667114258
+juice_bottle/test/structural_anomalies/042,1.0,True,True,구조,juice_bottle,fruit_icon,1.7184,1,1.7184,1.0,0.06235,0.9585146903991699
+juice_bottle/test/structural_anomalies/043,1.0,True,True,구조,juice_bottle,fruit_icon,1.5488,1,1.5488,1.0,0.058425,0.9692631363868713
+juice_bottle/test/structural_anomalies/044,0.6666666666666666,False,True,구조,juice_bottle,juice_mismatch,20.6464,1,20.6464,1.0,0.528,0.9635249972343445
+juice_bottle/test/structural_anomalies/045,0.0,False,True,구조,juice_bottle,juice_mismatch,46.336,1,46.336,1.0,0.825,0.9697273969650269
+juice_bottle/test/structural_anomalies/046,0.3333333333333333,True,True,구조,juice_bottle,juice_mismatch,8.9664,1,8.9664,1.0,0.75,0.9692797064781189
+juice_bottle/test/structural_anomalies/047,0.0,False,False,구조,juice_bottle,juice_mismatch,1.9184,2,3.8368,0.32610508757297746,0.031875,0.9797196984291077
+juice_bottle/test/structural_anomalies/048,1.0,True,True,구조,juice_bottle,juice_mismatch,29.2288,1,29.2288,0.8483687322093277,0.3034,0.9561085104942322
+juice_bottle/test/structural_anomalies/049,0.0,False,False,구조,juice_bottle,juice_mismatch,1.936,1,1.936,1.0,0.0836,0.9772040843963623
+juice_bottle/test/structural_anomalies/050,0.0,False,True,구조,juice_bottle,juice_mismatch,26.8416,1,26.8416,1.0,0.87,0.9552311897277832
+juice_bottle/test/structural_anomalies/051,0.0,False,True,구조,juice_bottle,juice_mismatch,6.8896,1,6.8896,1.0,0.194775,0.9814378023147583
+juice_bottle/test/structural_anomalies/052,0.6666666666666666,False,True,구조,juice_bottle,juice_mismatch,46.528,1,46.528,1.0,0.835125,0.9758776426315308
+juice_bottle/test/structural_anomalies/053,0.3333333333333333,True,True,구조,juice_bottle,juice_mismatch,10.064,1,10.064,1.0,0.79,0.9695523381233215
+juice_bottle/test/structural_anomalies/054,0.3333333333333333,False,True,구조,juice_bottle,juice_mismatch,13.5232,1,13.5232,1.0,0.81,0.969819962978363
+juice_bottle/test/structural_anomalies/055,1.0,True,True,구조,juice_bottle,juice_mismatch,46.1536,1,46.1536,1.0,0.84,0.970069408416748
+juice_bottle/test/structural_anomalies/056,0.0,False,True,구조,juice_bottle,juice_mismatch,49.3792,1,49.3792,0.6214762491089365,0.4851,0.9810832142829895
+juice_bottle/test/structural_anomalies/057,0.0,False,True,구조,juice_bottle,juice_mismatch,21.3536,1,21.3536,1.0,0.816,0.9749544262886047
+juice_bottle/test/structural_anomalies/058,0.6666666666666666,False,True,구조,juice_bottle,label_damaged,0.1728,1,0.1728,1.0,0.03625,0.9831076264381409
+juice_bottle/test/structural_anomalies/059,0.0,False,True,구조,juice_bottle,label_damaged,0.128,1,0.128,1.0,0.0325,0.9901843070983887
+juice_bottle/test/structural_anomalies/060,0.0,False,False,구조,juice_bottle,label_damaged,0.2208,1,0.2208,1.0,0.04,0.9883001446723938
+juice_bottle/test/structural_anomalies/061,0.0,False,True,구조,juice_bottle,label_damaged,0.1728,2,0.3456,1.0,0.0429,0.9889566898345947
+juice_bottle/test/structural_anomalies/062,0.0,False,False,구조,juice_bottle,label_damaged,0.1248,1,0.1248,1.0,0.0522,0.9901382327079773
+juice_bottle/test/structural_anomalies/063,0.0,False,True,구조,juice_bottle,label_damaged,0.1184,1,0.1184,1.0,0.0325,0.98380047082901
+juice_bottle/test/structural_anomalies/064,1.0,True,True,구조,juice_bottle,label_damaged,2.4,1,2.4,1.0,0.155925,0.9840801954269409
+juice_bottle/test/structural_anomalies/065,1.0,True,True,구조,juice_bottle,label_damaged,0.416,1,0.416,1.0,0.0325,0.9848793148994446
+juice_bottle/test/structural_anomalies/066,0.0,False,True,구조,juice_bottle,label_damaged,0.4128,1,0.4128,1.0,0.04625,0.9845288991928101
+juice_bottle/test/structural_anomalies/067,0.6666666666666666,True,False,구조,juice_bottle,label_damaged,2.1568,1,2.1568,1.0,0.20355,0.9878965616226196
+juice_bottle/test/structural_anomalies/068,1.0,True,False,구조,juice_bottle,label_damaged,1.2256,1,1.2256,1.0,0.054,0.981261134147644
+juice_bottle/test/structural_anomalies/069,0.0,False,True,구조,juice_bottle,label_damaged,0.4832,1,0.4832,1.0,0.03125,0.9871178269386292
+juice_bottle/test/structural_anomalies/070,0.0,False,False,구조,juice_bottle,label_damaged,0.1792,1,0.1792,1.0,0.03125,0.9877437949180603
+juice_bottle/test/structural_anomalies/071,0.6666666666666666,True,False,구조,juice_bottle,label_damaged,5.52,1,5.52,1.0,0.76,0.9807600975036621
+juice_bottle/test/structural_anomalies/072,0.0,False,False,구조,juice_bottle,label_damaged,0.4,1,0.4,1.0,0.046875,0.9874998331069946
+juice_bottle/test/structural_anomalies/073,1.0,True,True,구조,juice_bottle,label_damaged,0.704,1,0.704,1.0,0.058125,0.9891723990440369
+juice_bottle/test/structural_anomalies/074,1.0,True,False,구조,juice_bottle,label_damaged,0.5792,1,0.5792,1.0,0.03625,0.9854503870010376
+juice_bottle/test/structural_anomalies/075,1.0,True,False,구조,juice_bottle,label_damaged,0.2208,1,0.2208,1.0,0.03125,0.9921801686286926
+juice_bottle/test/structural_anomalies/076,0.0,False,False,구조,juice_bottle,label_damaged,0.5328,2,1.0656,0.8408408408408409,0.045,0.9842402935028076
+juice_bottle/test/structural_anomalies/077,1.0,True,True,구조,juice_bottle,label_damaged,1.0976,1,1.0976,1.0,0.049725,0.9910940527915955
+juice_bottle/test/structural_anomalies/078,0.6666666666666666,True,False,구조,juice_bottle,label_damaged,2.032,2,4.064,1.0,0.6853875,0.9819186329841614
+juice_bottle/test/structural_anomalies/079,1.0,True,True,구조,juice_bottle,label_damaged,0.4608,1,0.4608,1.0,0.043125,0.988454282283783
+juice_bottle/test/structural_anomalies/080,0.0,False,False,구조,juice_bottle,label_damaged,0.4064,1,0.4064,1.0,0.031875,0.9877099394798279
+juice_bottle/test/structural_anomalies/081,1.0,True,True,구조,juice_bottle,label_damaged,1.6768,1,1.6768,1.0,0.062775,0.976786196231842
+juice_bottle/test/structural_anomalies/082,1.0,True,True,구조,juice_bottle,label_damaged,1.9424,1,1.9424,1.0,0.0594,0.985235333442688
+juice_bottle/test/structural_anomalies/083,1.0,True,True,구조,juice_bottle,label_damaged,1.5072,1,1.5072,1.0,0.0572,0.9851246476173401
+juice_bottle/test/structural_anomalies/084,0.6666666666666666,True,False,구조,juice_bottle,label_damaged,0.2432,1,0.2432,1.0,0.03125,0.9859380722045898
+juice_bottle/test/structural_anomalies/085,0.3333333333333333,False,True,구조,juice_bottle,label_misplaced,14.4928,1,14.4928,1.0,0.2142,0.9861994385719299
+juice_bottle/test/structural_anomalies/086,0.3333333333333333,False,True,구조,juice_bottle,label_misplaced,14.9568,1,14.9568,1.0,0.2272,0.9825894236564636
+juice_bottle/test/structural_anomalies/087,0.6666666666666666,True,True,구조,juice_bottle,label_misplaced,14.2944,1,14.2944,1.0,0.236775,0.9835795760154724
+juice_bottle/test/structural_anomalies/088,0.6666666666666666,True,True,구조,juice_bottle,label_misplaced,21.4272,1,21.4272,1.0,0.88,0.9416264891624451
+juice_bottle/test/structural_anomalies/089,1.0,True,True,구조,juice_bottle,label_misplaced,21.5424,1,21.5424,1.0,0.855,0.9437212347984314
+juice_bottle/test/structural_anomalies/090,0.0,False,False,구조,juice_bottle,label_misplaced,1.5648,1,1.5648,1.0,0.0602,0.9835183024406433
+juice_bottle/test/structural_anomalies/091,0.0,False,True,구조,juice_bottle,label_misplaced,14.7968,1,14.7968,1.0,0.2479,0.9808472394943237
+juice_bottle/test/structural_anomalies/092,0.6666666666666666,False,True,구조,juice_bottle,label_misplaced,14.3904,1,14.3904,1.0,0.2077,0.9857743382453918
+juice_bottle/test/structural_anomalies/093,0.0,False,False,구조,juice_bottle,label_misplaced,1.6416,1,1.6416,1.0,0.07245,0.9834648966789246
+pushpins/test/logical_anomalies/000,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,0.9914729411764706,2,1.9829458823529411,0.4933171324422843,0.10917647058823529,0.9940006136894226
+pushpins/test/logical_anomalies/001,1.0,True,True,개수 계열,pushpins,pin_count,1.1420611764705881,2,2.2841223529411763,0.5031645569620253,0.04698352941176471,0.9927585124969482
+pushpins/test/logical_anomalies/002,0.3333333333333333,False,True,개수 계열,pushpins,pin_count,1.0095435294117647,3,2.156423529411765,1.0,0.05251764705882353,0.9940416812896729
+pushpins/test/logical_anomalies/003,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,2.043181176470588,1,2.043181176470588,1.0,0.0632470588235294,0.992995023727417
+pushpins/test/logical_anomalies/004,0.3333333333333333,True,True,개수 계열,pushpins,pin_count,1.0613458823529411,2,2.1226917647058823,0.492622020431328,0.04339764705882353,0.9919055700302124
+pushpins/test/logical_anomalies/005,1.0,True,True,개수 계열,pushpins,pin_count,1.0468894117647058,2,2.0937788235294117,0.5063291139240507,0.04090352941176471,0.9942713975906372
+pushpins/test/logical_anomalies/006,0.0,False,False,개수 계열,pushpins,pin_count,2.045590588235294,1,2.045590588235294,1.0,0.12502588235294118,0.9932535886764526
+pushpins/test/logical_anomalies/007,1.0,True,False,개수 계열,pushpins,pin_count,1.04448,2,2.08896,0.49019607843137253,0.037665882352941174,0.9919670820236206
+pushpins/test/logical_anomalies/008,0.3333333333333333,True,True,개수 계열,pushpins,pin_count,1.0577317647058824,2,2.1154635294117647,0.44533029612756264,0.04608,0.9943334460258484
+pushpins/test/logical_anomalies/009,0.6666666666666666,False,True,개수 계열,pushpins,pin_count,1.0167717647058823,3,2.156423529411765,0.5262569832402234,0.048385882352941174,0.9941893219947815
+pushpins/test/logical_anomalies/010,0.6666666666666666,True,False,개수 계열,pushpins,pin_count,1.1348329411764706,2,2.269665882352941,0.6889596602972399,0.054211764705882355,0.9935858845710754
+pushpins/test/logical_anomalies/011,0.0,False,False,개수 계열,pushpins,pin_count,1.1324235294117646,2,2.264847058823529,0.0,0.042578823529411766,0.9929197430610657
+pushpins/test/logical_anomalies/012,1.0,True,True,개수 계열,pushpins,pin_count,1.2806023529411765,4,4.980254117647059,0.2544750846637639,0.04879058823529412,0.9929783940315247
+pushpins/test/logical_anomalies/013,0.3333333333333333,False,True,개수 계열,pushpins,pin_count,1.0264094117647058,5,4.348988235294118,0.24321329639889197,0.038174117647058824,0.9925855994224548
+pushpins/test/logical_anomalies/014,0.6666666666666666,False,True,개수 계열,pushpins,pin_count,1.1011011764705882,4,4.474277647058823,0.24663435648896068,0.052856470588235296,0.9931387305259705
+pushpins/test/logical_anomalies/015,0.0,False,True,개수 계열,pushpins,pin_count,0.9999058823529412,5,4.173101176470588,0.23960739030023095,0.04726588235294118,0.992983341217041
+pushpins/test/logical_anomalies/016,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,1.0131576470588235,4,4.047811764705882,0.2523809523809524,0.09227294117647059,0.9917792677879333
+pushpins/test/logical_anomalies/017,0.0,False,True,개수 계열,pushpins,pin_count,1.10592,5,4.674258823529412,0.25051546391752577,0.06200470588235294,0.9929999709129333
+pushpins/test/logical_anomalies/018,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,1.0589364705882354,26,31.80182588235294,0.14084400333358588,0.15648,0.9827289581298828
+pushpins/test/logical_anomalies/019,0.3333333333333333,True,True,개수 계열,pushpins,pin_count,1.122785882352941,23,32.175284705882355,0.13082222555039688,0.11885176470588235,0.9830564856529236
+pushpins/test/logical_anomalies/020,0.0,False,True,개수 계열,pushpins,pin_count,1.6829741176470587,22,32.58729411764706,0.09907578558225508,0.09170823529411765,0.9779660701751709
+pushpins/test/logical_anomalies/021,0.0,False,True,개수 계열,pushpins,pin_count,1.0384564705882353,28,31.35126588235294,0.1058253919458961,0.06987294117647058,0.9821346998214722
+pushpins/test/logical_anomalies/022,0.3333333333333333,True,True,개수 계열,pushpins,pin_count,2.1106447058823528,19,32.681261176470585,0.13506340312592155,0.17603764705882352,0.9785032272338867
+pushpins/test/logical_anomalies/023,0.3333333333333333,True,True,개수 계열,pushpins,pin_count,1.5010635294117647,22,30.751322352941177,0.12935830133981038,0.14332235294117648,0.9789727926254272
+pushpins/test/logical_anomalies/024,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,1.5516611764705883,22,31.206701176470588,0.13148548486720196,0.11966117647058823,0.9762036800384521
+pushpins/test/logical_anomalies/025,1.0,True,True,개수 계열,pushpins,pin_count,1.1155576470588235,3,14.608263529411765,0.884380669635494,0.11265882352941177,0.9915391802787781
+pushpins/test/logical_anomalies/026,1.0,True,True,개수 계열,pushpins,pin_count,0.9734023529411765,5,15.31422117647059,0.8642227816236627,0.12672,0.9937054514884949
+pushpins/test/logical_anomalies/027,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,7.498089411764706,2,14.996178823529412,0.8533097686375322,0.10669176470588235,0.993340253829956
+pushpins/test/logical_anomalies/028,1.0,True,True,개수 계열,pushpins,pin_count,1.1179670588235293,3,14.882936470588236,0.8508984944147644,0.10836705882352941,0.9908472895622253
+pushpins/test/logical_anomalies/029,1.0,True,True,개수 계열,pushpins,pin_count,1.186635294117647,4,16.169562352941178,0.8439874832364774,0.10969411764705882,0.9932481646537781
+pushpins/test/logical_anomalies/030,1.0,True,True,개수 계열,pushpins,pin_count,1.0745976470588234,3,15.109421176470589,0.9256896826662414,0.11158588235294117,0.9873208999633789
+pushpins/test/logical_anomalies/031,1.0,True,True,개수 계열,pushpins,pin_count,1.204705882352941,3,15.23712,0.8513598987982289,0.10571294117647059,0.9920256733894348
+pushpins/test/logical_anomalies/032,1.0,True,False,개수 계열,pushpins,pin_count,1.1215811764705883,4,15.446738823529412,0.8749025113086882,0.11182117647058823,0.9905202388763428
+pushpins/test/logical_anomalies/033,1.0,True,True,개수 계열,pushpins,pin_count,1.021590588235294,3,14.928715294117646,0.8658812136862492,0.1046964705882353,0.9903287291526794
+pushpins/test/logical_anomalies/034,1.0,True,False,개수 계열,pushpins,pin_count,1.2288,3,15.167247058823529,0.8500397140587768,0.10447058823529412,0.9919546246528625
+pushpins/test/logical_anomalies/035,1.0,True,True,개수 계열,pushpins,pin_count,1.2263905882352941,3,15.993675294117647,0.8724013257005122,0.10974117647058823,0.9933137893676758
+pushpins/test/logical_anomalies/036,1.0,True,True,개수 계열,pushpins,pin_count,12.916856470588236,1,12.916856470588236,1.0,0.11273411764705882,0.9925321340560913
+pushpins/test/logical_anomalies/037,1.0,True,True,개수 계열,pushpins,pin_count,12.6976,1,12.6976,1.0,0.10541176470588236,0.9937203526496887
+pushpins/test/logical_anomalies/038,1.0,True,True,개수 계열,pushpins,pin_count,13.299952941176471,1,13.299952941176471,1.0,0.10962823529411765,0.9910299777984619
+pushpins/test/logical_anomalies/039,1.0,True,True,개수 계열,pushpins,pin_count,12.912037647058824,1,12.912037647058824,1.0,0.11256470588235294,0.9944267868995667
+pushpins/test/logical_anomalies/040,1.0,True,True,개수 계열,pushpins,pin_count,12.591585882352941,1,12.591585882352941,1.0,0.10376470588235294,0.9937058091163635
+pushpins/test/logical_anomalies/041,1.0,True,True,개수 계열,pushpins,pin_count,12.904809411764706,1,12.904809411764706,1.0,0.10541176470588236,0.9892470836639404
+pushpins/test/logical_anomalies/042,1.0,True,True,개수 계열,pushpins,pin_count,13.022870588235294,1,13.022870588235294,1.0,0.11265882352941177,0.991299033164978
+pushpins/test/logical_anomalies/043,1.0,True,True,개수 계열,pushpins,pin_count,12.79156705882353,1,12.79156705882353,1.0,0.10473411764705882,0.9911336302757263
+pushpins/test/logical_anomalies/044,1.0,True,True,개수 계열,pushpins,pin_count,12.926494117647058,1,12.926494117647058,1.0,0.10238117647058824,0.992756187915802
+pushpins/test/logical_anomalies/045,1.0,True,True,개수 계열,pushpins,pin_count,12.919265882352942,1,12.919265882352942,1.0,0.10864941176470588,0.9947076439857483
+pushpins/test/logical_anomalies/046,1.0,True,True,개수 계열,pushpins,pin_count,13.128884705882353,1,13.128884705882353,1.0,0.11158588235294117,0.9907405972480774
+pushpins/test/logical_anomalies/047,1.0,True,True,개수 계열,pushpins,pin_count,13.584263529411764,1,13.584263529411764,1.0,0.11892705882352941,0.9928658604621887
+pushpins/test/logical_anomalies/048,1.0,True,True,개수 계열,pushpins,pin_count,12.952997647058824,1,12.952997647058824,1.0,0.11158588235294117,0.9931922554969788
+pushpins/test/logical_anomalies/049,1.0,True,True,개수 계열,pushpins,pin_count,12.998776470588234,1,12.998776470588234,1.0,0.10574117647058824,0.9920758605003357
+pushpins/test/logical_anomalies/050,1.0,True,True,개수 계열,pushpins,pin_count,13.102381176470589,1,13.102381176470589,1.0,0.11181176470588235,0.9931842684745789
+pushpins/test/logical_anomalies/051,1.0,True,True,개수 계열,pushpins,pin_count,13.163821176470588,2,26.327642352941176,0.5221927335956804,0.10944,0.9924688935279846
+pushpins/test/logical_anomalies/052,1.0,True,True,개수 계열,pushpins,pin_count,13.108404705882354,2,26.216809411764707,0.5310173697270472,0.11158588235294117,0.9926645159721375
+pushpins/test/logical_anomalies/053,1.0,True,True,개수 계열,pushpins,pin_count,13.29513411764706,2,26.59026823529412,0.519300471185212,0.11911529411764706,0.9923768043518066
+pushpins/test/logical_anomalies/054,1.0,True,True,개수 계열,pushpins,pin_count,13.031303529411765,2,26.06260705882353,0.605158546731996,0.10551529411764705,0.9926542043685913
+pushpins/test/logical_anomalies/055,1.0,True,False,개수 계열,pushpins,pin_count,13.208395294117647,2,26.416790588235294,0.48896388179496536,0.11158588235294117,0.9884369969367981
+pushpins/test/logical_anomalies/056,1.0,True,True,개수 계열,pushpins,pin_count,13.167435294117647,2,26.334870588235294,0.4968892955169259,0.10342588235294117,0.9914191961288452
+pushpins/test/logical_anomalies/057,1.0,True,True,개수 계열,pushpins,pin_count,12.981910588235294,15,197.26336,0.06565126050420168,0.05404235294117647,0.5679997205734253
+pushpins/test/logical_anomalies/058,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,12.979501176470588,15,195.86108235294117,0.05415180218969123,0.04269176470588235,0.5447050333023071
+pushpins/test/logical_anomalies/059,1.0,True,True,개수 계열,pushpins,pin_count,13.184301176470589,15,198.43674352941176,1.0,1.0,0.6021496057510376
+pushpins/test/logical_anomalies/060,1.0,True,True,개수 계열,pushpins,pin_count,13.12406588235294,15,198.00786823529413,1.0,1.0,0.6009911894798279
+pushpins/test/logical_anomalies/061,1.0,True,True,개수 계열,pushpins,pin_count,13.037327058823529,15,196.45620705882354,0.04245925162809522,0.03392,0.6004078984260559
+pushpins/test/logical_anomalies/062,0.0,False,True,기타 논리,pushpins,missing_separator,1.0143623529411765,1,1.0143623529411765,1.0,0.22512941176470588,0.9905693531036377
+pushpins/test/logical_anomalies/063,0.0,False,True,기타 논리,pushpins,missing_separator,0.6625882352941177,1,0.6625882352941177,1.0,0.5435294117647059,0.9908857345581055
+pushpins/test/logical_anomalies/064,0.0,False,True,기타 논리,pushpins,missing_separator,0.9685835294117647,1,0.9685835294117647,1.0,0.21741176470588236,0.9937822222709656
+pushpins/test/logical_anomalies/065,0.0,False,True,기타 논리,pushpins,missing_separator,0.9324423529411765,1,0.9324423529411765,1.0,0.48470588235294115,0.9930779933929443
+pushpins/test/logical_anomalies/066,0.0,False,True,기타 논리,pushpins,missing_separator,1.1203764705882353,1,1.1203764705882353,1.0,0.22440470588235295,0.9924958348274231
+pushpins/test/logical_anomalies/067,0.0,False,True,기타 논리,pushpins,missing_separator,0.77824,1,0.77824,1.0,0.5458823529411765,0.9913398027420044
+pushpins/test/logical_anomalies/068,0.0,False,True,기타 논리,pushpins,missing_separator,1.0384564705882353,1,1.0384564705882353,1.0,0.48470588235294115,0.990693211555481
+pushpins/test/logical_anomalies/069,0.0,False,True,기타 논리,pushpins,missing_separator,0.7420988235294118,1,0.7420988235294118,1.0,0.2316235294117647,0.9935147762298584
+pushpins/test/logical_anomalies/070,0.6666666666666666,True,True,개수 계열,pushpins,pin_count,1.0770070588235294,3,3.2045176470588235,0.9917293233082707,0.10804705882352941,0.9923725128173828
+pushpins/test/logical_anomalies/071,1.0,True,True,개수 계열,pushpins,pin_count,0.9107576470588236,5,2.828649411764706,1.0,0.11284705882352941,0.9932932257652283
+pushpins/test/logical_anomalies/072,1.0,True,True,개수 계열,pushpins,pin_count,0.9312376470588235,4,2.9997176470588234,1.0,0.15702588235294118,0.9901914000511169
+pushpins/test/logical_anomalies/073,1.0,True,True,개수 계열,pushpins,pin_count,1.0119529411764705,3,3.105731764705882,0.752521334367727,0.07792941176470589,0.9916924238204956
+pushpins/test/logical_anomalies/074,1.0,True,True,개수 계열,pushpins,pin_count,1.5094964705882352,2,3.0189929411764704,1.0,0.14464,0.9941673278808594
+pushpins/test/logical_anomalies/075,1.0,True,True,개수 계열,pushpins,pin_count,0.9806305882352941,3,3.296075294117647,0.5380116959064327,0.04743529411764706,0.9928299188613892
+pushpins/test/logical_anomalies/076,0.0,False,True,기타 논리,pushpins,missing_separator,0.9300329411764706,2,1.8600658823529412,0.43911917098445596,0.5411764705882353,0.9895361065864563
+pushpins/test/logical_anomalies/077,0.0,False,True,기타 논리,pushpins,missing_separator,0.88064,2,1.76128,0.4363885088919289,0.6870588235294117,0.993230938911438
+pushpins/test/logical_anomalies/078,0.3333333333333333,True,True,기타 논리,pushpins,missing_separator,1.067369411764706,2,2.134738823529412,0.48419864559819414,0.4964705882352941,0.9885028004646301
+pushpins/test/logical_anomalies/079,0.0,False,True,기타 논리,pushpins,missing_separator,1.0709835294117647,2,2.1419670588235293,0.4983127109111361,0.2035764705882353,0.9923919439315796
+pushpins/test/logical_anomalies/080,0.0,False,True,기타 논리,pushpins,missing_separator,0.6722258823529412,2,1.3444517647058825,1.0,0.35373176470588236,0.991960883140564
+pushpins/test/logical_anomalies/081,1.0,True,True,개수 계열,pushpins,pin_count,13.114428235294117,3,39.22281411764706,0.4647705633024142,0.10767058823529412,0.9928015470504761
+pushpins/test/logical_anomalies/082,1.0,True,True,개수 계열,pushpins,pin_count,13.389101176470588,3,40.52630588235294,0.4025564803804994,0.11858823529411765,0.9911710023880005
+pushpins/test/logical_anomalies/083,1.0,True,True,개수 계열,pushpins,pin_count,12.936131764705882,3,39.02524235294118,0.3993332098536766,0.10974117647058823,0.9910019040107727
+pushpins/test/logical_anomalies/084,1.0,True,True,개수 계열,pushpins,pin_count,12.9024,3,38.745750588235296,0.40314657048691,0.11073882352941176,0.9910959601402283
+pushpins/test/logical_anomalies/085,1.0,True,True,개수 계열,pushpins,pin_count,13.28308705882353,3,40.22994823529412,0.40120979816733543,0.11073882352941176,0.9865607023239136
+pushpins/test/logical_anomalies/086,1.0,True,True,개수 계열,pushpins,pin_count,12.945769411764706,3,38.88790588235294,0.4021065675340768,0.10352941176470588,0.987788200378418
+pushpins/test/logical_anomalies/087,1.0,True,True,개수 계열,pushpins,pin_count,12.909628235294118,3,38.80598588235294,0.46796225009313297,0.10864941176470588,0.989113986492157
+pushpins/test/logical_anomalies/088,1.0,True,True,개수 계열,pushpins,pin_count,12.818070588235294,3,38.33856,0.39718451483157363,0.10864941176470588,0.9902576208114624
+pushpins/test/logical_anomalies/089,1.0,True,True,개수 계열,pushpins,pin_count,13.338503529411765,3,40.21549176470588,0.40494877478880836,0.11587764705882353,0.9916216135025024
+pushpins/test/logical_anomalies/090,1.0,True,True,개수 계열,pushpins,pin_count,13.35296,3,40.40101647058823,0.40141937022900764,0.11373176470588235,0.9925999045372009
+pushpins/test/structural_anomalies/000,0.3333333333333333,False,True,구조,pushpins,pin_damaged,0.5662117647058823,1,0.5662117647058823,1.0,0.026936470588235294,0.9922322034835815
+pushpins/test/structural_anomalies/001,1.0,True,False,구조,pushpins,pin_damaged,0.09396705882352942,1,0.09396705882352942,0.0,0.01795764705882353,0.9919122457504272
+pushpins/test/structural_anomalies/002,1.0,True,True,구조,pushpins,pin_damaged,0.5493458823529411,1,0.5493458823529411,1.0,0.10179764705882353,0.9897094368934631
+pushpins/test/structural_anomalies/003,1.0,True,False,구조,pushpins,pin_damaged,0.10842352941176471,1,0.10842352941176471,0.0,0.026936470588235294,0.9869687557220459
+pushpins/test/structural_anomalies/004,0.3333333333333333,False,False,구조,pushpins,pin_damaged,0.4963388235294118,1,0.4963388235294118,1.0,0.08928,0.9938873648643494
+pushpins/test/structural_anomalies/005,1.0,True,False,구조,pushpins,pin_damaged,0.05059764705882353,3,0.14215529411764705,0.0,0.02744470588235294,0.9928408861160278
+pushpins/test/structural_anomalies/006,0.0,False,False,구조,pushpins,pin_damaged,0.10119529411764706,1,0.10119529411764706,0.0,0.026936470588235294,0.9903615117073059
+pushpins/test/structural_anomalies/007,0.0,False,True,구조,pushpins,pin_damaged,0.48911058823529413,1,0.48911058823529413,1.0,0.10571294117647059,0.9908065795898438
+pushpins/test/structural_anomalies/008,1.0,True,True,구조,pushpins,pin_damaged,0.16865882352941178,1,0.16865882352941178,1.0,0.03493647058823529,0.9923846125602722
+pushpins/test/structural_anomalies/009,0.6666666666666666,False,False,구조,pushpins,pin_damaged,0.19516235294117648,1,0.19516235294117648,0.0,0.011858823529411765,0.9914493560791016
+pushpins/test/structural_anomalies/010,1.0,True,False,구조,pushpins,pin_damaged,0.3108141176470588,1,0.3108141176470588,0.5426356589147286,0.02744470588235294,0.9874017238616943
+pushpins/test/structural_anomalies/011,0.3333333333333333,False,False,구조,pushpins,pin_damaged,0.23853176470588236,1,0.23853176470588236,0.0,0.012188235294117647,0.9934983253479004
+pushpins/test/structural_anomalies/012,0.0,False,True,구조,pushpins,pin_damaged,0.2192564705882353,1,0.2192564705882353,1.0,0.026936470588235294,0.9930898547172546
+pushpins/test/structural_anomalies/013,1.0,True,True,구조,pushpins,pin_damaged,0.2192564705882353,1,0.2192564705882353,0.0,0.03862588235294118,0.9919453859329224
+pushpins/test/structural_anomalies/014,1.0,True,True,구조,pushpins,pin_damaged,0.2939482352941176,1,0.2939482352941176,1.0,0.032018823529411766,0.9928309917449951
+pushpins/test/structural_anomalies/015,0.6666666666666666,False,False,구조,pushpins,pin_damaged,0.4963388235294118,1,0.4963388235294118,1.0,0.10176,0.992365837097168
+pushpins/test/structural_anomalies/016,0.0,False,False,구조,pushpins,pin_damaged,0.10842352941176471,1,0.10842352941176471,0.0,0.02643764705882353,0.992017388343811
+pushpins/test/structural_anomalies/017,1.0,True,True,구조,pushpins,pin_damaged,0.5252517647058823,1,0.5252517647058823,0.05963302752293578,0.02744470588235294,0.9896951913833618
+pushpins/test/structural_anomalies/018,0.0,False,False,구조,pushpins,pin_damaged,0.24335058823529412,1,0.24335058823529412,1.0,0.14032941176470587,0.9914866089820862
+pushpins/test/structural_anomalies/019,0.0,False,True,구조,pushpins,pin_damaged,0.3300894117647059,1,0.3300894117647059,1.0,0.10656,0.992084801197052
+pushpins/test/structural_anomalies/020,0.3333333333333333,False,False,구조,pushpins,pin_damaged,0.11565176470588236,1,0.11565176470588236,0.0,0.02744470588235294,0.9938855767250061
+pushpins/test/structural_anomalies/021,0.0,False,False,구조,pushpins,pin_damaged,0.4939294117647059,1,0.4939294117647059,1.0,0.10774588235294118,0.9923739433288574
+pushpins/test/structural_anomalies/022,0.3333333333333333,False,True,구조,pushpins,pin_damaged,0.6698164705882353,1,0.6698164705882353,1.0,0.05731764705882353,0.9903908371925354
+pushpins/test/structural_anomalies/023,0.6666666666666666,True,True,구조,pushpins,pin_damaged,0.15179294117647057,1,0.15179294117647057,0.0,0.05325176470588235,0.991990327835083
+pushpins/test/structural_anomalies/024,1.0,True,True,구조,pushpins,pin_damaged,0.17588705882352942,1,0.17588705882352942,0.0,0.03392,0.9887014627456665
+pushpins/test/structural_anomalies/025,1.0,True,False,구조,pushpins,pin_damaged,0.09396705882352942,1,0.09396705882352942,0.0,0.028461176470588236,0.9924332499504089
+pushpins/test/structural_anomalies/026,0.0,False,False,구조,pushpins,pin_damaged,0.06505411764705882,1,0.06505411764705882,0.0,0.02744470588235294,0.9888315796852112
+pushpins/test/structural_anomalies/027,1.0,True,True,구조,pushpins,pin_damaged,0.19636705882352942,2,0.39273411764705884,0.0,0.02893176470588235,0.9896184206008911
+pushpins/test/structural_anomalies/028,1.0,True,True,구조,pushpins,pin_damaged,0.48670117647058825,1,0.48670117647058825,1.0,0.051585882352941176,0.9918150901794434
+pushpins/test/structural_anomalies/029,1.0,True,False,구조,pushpins,color,0.15420235294117646,1,0.15420235294117646,1.0,0.03456,0.992608904838562
+pushpins/test/structural_anomalies/030,0.6666666666666666,True,True,구조,pushpins,color,0.2722635294117647,1,0.2722635294117647,1.0,0.04269176470588235,0.9925060272216797
+pushpins/test/structural_anomalies/031,1.0,True,True,구조,pushpins,color,0.28912941176470586,1,0.28912941176470586,1.0,0.042032941176470585,0.991637110710144
+pushpins/test/structural_anomalies/032,1.0,True,True,구조,pushpins,color,0.1927529411764706,1,0.1927529411764706,1.0,0.04116705882352941,0.9934462308883667
+pushpins/test/structural_anomalies/033,0.0,False,False,구조,pushpins,color,0.04818823529411765,1,0.04818823529411765,0.0,0.016771764705882354,0.991879403591156
+pushpins/test/structural_anomalies/034,0.3333333333333333,False,True,구조,pushpins,color,0.4650164705882353,1,0.4650164705882353,1.0,0.060592941176470586,0.9919829964637756
+pushpins/test/structural_anomalies/035,1.0,True,True,구조,pushpins,color,0.1349270588235294,1,0.1349270588235294,1.0,0.03791058823529412,0.9914243817329407
+pushpins/test/structural_anomalies/036,1.0,True,True,구조,pushpins,color,0.1469741176470588,1,0.1469741176470588,1.0,0.032423529411764705,0.9921612739562988
+pushpins/test/structural_anomalies/037,0.3333333333333333,False,False,구조,pushpins,color,0.04577882352941177,1,0.04577882352941177,1.0,0.02643764705882353,0.9881418347358704
+pushpins/test/structural_anomalies/038,0.6666666666666666,False,False,구조,pushpins,color,0.10842352941176471,1,0.10842352941176471,1.0,0.03557647058823529,0.9919531941413879
+pushpins/test/structural_anomalies/039,0.6666666666666666,False,True,구조,pushpins,color,0.39273411764705884,1,0.39273411764705884,1.0,0.06211764705882353,0.9922271370887756
+pushpins/test/structural_anomalies/040,1.0,True,True,구조,pushpins,color,0.28912941176470586,1,0.28912941176470586,1.0,0.03627294117647059,0.9925823211669922
+pushpins/test/structural_anomalies/041,1.0,True,False,구조,pushpins,color,0.12528941176470587,1,0.12528941176470587,1.0,0.03506823529411765,0.9907705783843994
+pushpins/test/structural_anomalies/042,1.0,True,True,구조,pushpins,color,0.13010823529411764,1,0.13010823529411764,1.0,0.036912941176470586,0.9915228486061096
+pushpins/test/structural_anomalies/043,0.0,False,False,구조,pushpins,color,0.06505411764705882,1,0.06505411764705882,0.0,0.02744470588235294,0.993684709072113
+pushpins/test/structural_anomalies/044,0.3333333333333333,False,False,구조,pushpins,color,0.18552470588235295,1,0.18552470588235295,1.0,0.034503529411764704,0.990795910358429
+pushpins/test/structural_anomalies/045,0.6666666666666666,True,True,구조,pushpins,contamination,1.004724705882353,1,1.004724705882353,1.0,0.05364705882352941,0.9895204305648804
+pushpins/test/structural_anomalies/046,0.0,False,False,구조,pushpins,contamination,0.840884705882353,1,0.840884705882353,1.0,0.050823529411764705,0.9898468255996704
+pushpins/test/structural_anomalies/047,0.3333333333333333,False,True,구조,pushpins,contamination,0.8288376470588236,1,0.8288376470588236,1.0,0.20342588235294118,0.989679217338562
+pushpins/test/structural_anomalies/048,0.3333333333333333,False,True,구조,pushpins,contamination,0.7734211764705883,1,0.7734211764705883,1.0,0.07928470588235294,0.9906079173088074
+pushpins/test/structural_anomalies/049,0.0,False,True,구조,pushpins,contamination,1.3034917647058823,1,1.3034917647058823,1.0,0.06456470588235294,0.9885110855102539
+pushpins/test/structural_anomalies/050,1.0,True,True,구조,pushpins,contamination,1.472150588235294,1,1.472150588235294,1.0,0.12438588235294118,0.9666402339935303
+pushpins/test/structural_anomalies/051,0.0,False,True,구조,pushpins,contamination,1.024,1,1.024,1.0,1.0,0.9921760559082031
+pushpins/test/structural_anomalies/052,1.0,True,True,구조,pushpins,contamination,1.1179670588235293,1,1.1179670588235293,1.0,0.07228235294117646,0.9896615743637085
+pushpins/test/structural_anomalies/053,0.0,False,False,구조,pushpins,contamination,0.6529505882352942,1,0.6529505882352942,1.0,0.058447058823529414,0.9928428530693054
+pushpins/test/structural_anomalies/054,0.6666666666666666,True,False,구조,pushpins,contamination,1.043275294117647,1,1.043275294117647,1.0,1.0,0.9926899671554565
+pushpins/test/structural_anomalies/055,0.3333333333333333,False,True,구조,pushpins,contamination,0.8360658823529412,1,0.8360658823529412,1.0,0.11083294117647059,0.9915704727172852
+pushpins/test/structural_anomalies/056,1.0,True,True,구조,pushpins,contamination,0.8095623529411765,1,0.8095623529411765,1.0,0.07143529411764706,0.9853808283805847
+pushpins/test/structural_anomalies/057,0.0,False,True,구조,pushpins,contamination,0.8987105882352941,1,0.8987105882352941,1.0,0.08854588235294118,0.9926020503044128
+pushpins/test/structural_anomalies/058,1.0,True,False,구조,pushpins,contamination,0.38912,2,0.77824,1.0,0.08004705882352942,0.9845808148384094
+pushpins/test/structural_anomalies/059,0.6666666666666666,False,True,구조,pushpins,contamination,1.416734117647059,1,1.416734117647059,1.0,1.0,0.9708490371704102
+pushpins/test/structural_anomalies/060,0.6666666666666666,True,True,구조,pushpins,contamination,1.0288188235294118,1,1.0288188235294118,1.0,0.888,0.990602433681488
+pushpins/test/structural_anomalies/061,0.3333333333333333,False,False,구조,pushpins,contamination,1.0384564705882353,1,1.0384564705882353,1.0,0.050767058823529415,0.9898942708969116
+pushpins/test/structural_anomalies/062,1.0,True,True,구조,pushpins,contamination,0.9806305882352941,1,0.9806305882352941,1.0,0.19867294117647058,0.9880831837654114
+pushpins/test/structural_anomalies/063,1.0,True,True,구조,pushpins,contamination,1.021590588235294,1,1.021590588235294,1.0,0.252,0.9898573160171509
+pushpins/test/structural_anomalies/064,0.0,False,False,구조,pushpins,contamination,0.7830588235294118,1,0.7830588235294118,1.0,0.04743529411764706,0.9917046427726746
+pushpins/test/structural_anomalies/065,0.3333333333333333,False,False,구조,pushpins,pin_damaged,0.29153882352941174,1,0.29153882352941174,0.0,0.03292235294117647,0.9915778040885925
+pushpins/test/structural_anomalies/066,1.0,True,True,구조,pushpins,pin_damaged,0.2337129411764706,1,0.2337129411764706,0.0,0.03791058823529412,0.9924966096878052
+pushpins/test/structural_anomalies/067,1.0,True,True,구조,pushpins,pin_damaged,0.18793411764705883,1,0.18793411764705883,1.0,0.02643764705882353,0.9933369159698486
+pushpins/test/structural_anomalies/068,1.0,True,False,구조,pushpins,pin_damaged,0.17347764705882354,1,0.17347764705882354,0.0,0.02744470588235294,0.9922192096710205
+pushpins/test/structural_anomalies/069,0.0,False,False,구조,pushpins,pin_damaged,0.18552470588235295,1,0.18552470588235295,0.0,0.018456470588235293,0.9899826645851135
+pushpins/test/structural_anomalies/070,1.0,True,False,구조,pushpins,pin_damaged,0.29153882352941174,1,0.29153882352941174,0.0,0.03192470588235294,0.9903685450553894
+pushpins/test/structural_anomalies/071,0.3333333333333333,False,False,구조,pushpins,pin_damaged,0.12288,1,0.12288,0.0,0.02744470588235294,0.9923045635223389
+pushpins/test/structural_anomalies/072,1.0,True,False,구조,pushpins,pin_damaged,0.27708235294117645,1,0.27708235294117645,0.0,0.02444235294117647,0.9920439720153809
+pushpins/test/structural_anomalies/073,0.6666666666666666,True,True,구조,pushpins,pin_damaged,0.2337129411764706,1,0.2337129411764706,0.0,0.03092705882352941,0.9838367700576782
+pushpins/test/structural_anomalies/074,0.0,False,False,구조,pushpins,pin_damaged,0.26503529411764704,1,0.26503529411764704,0.0,0.0112,0.9925386905670166
+pushpins/test/structural_anomalies/075,0.0,False,True,구조,pushpins,pin_damaged,0.27467294117647056,1,0.27467294117647056,0.0,0.01079529411764706,0.9916331768035889
+pushpins/test/structural_anomalies/076,0.0,False,False,구조,pushpins,pin_damaged,0.2819011764705882,1,0.2819011764705882,0.0,0.032018823529411766,0.9880095720291138
+pushpins/test/structural_anomalies/077,0.0,False,False,구조,pushpins,pin_damaged,0.32286117647058826,1,0.32286117647058826,0.0,0.007378823529411765,0.9913374781608582
+pushpins/test/structural_anomalies/078,0.0,False,False,구조,pushpins,pin_damaged,0.19998117647058825,1,0.19998117647058825,0.0,0.026936470588235294,0.9926755428314209
+pushpins/test/structural_anomalies/079,0.0,False,False,구조,pushpins,pin_damaged,0.2313035294117647,1,0.2313035294117647,1.0,0.024941176470588234,0.9917170405387878
+pushpins/test/structural_anomalies/080,1.0,True,True,구조,pushpins,pin_damaged,0.20961882352941177,1,0.20961882352941177,1.0,0.026936470588235294,0.992308497428894
+screw_bag/test/logical_anomalies/000,1.0,True,True,기타 논리,screw_bag,screw_length,1.2613818181818182,2,2.5227636363636363,1.0,0.19854545454545455,0.9740999341011047
+screw_bag/test/logical_anomalies/001,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.3521454545454545,2,2.704290909090909,0.5017211703958692,0.2066909090909091,0.973173975944519
+screw_bag/test/logical_anomalies/002,0.0,False,True,기타 논리,screw_bag,screw_length,1.2544,2,2.5088,1.0,0.3808,0.975007951259613
+screw_bag/test/logical_anomalies/003,0.0,False,True,기타 논리,screw_bag,screw_length,1.3509818181818183,2,2.7019636363636366,1.0,0.2061090909090909,0.9804731607437134
+screw_bag/test/logical_anomalies/004,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.1997090909090908,2,2.3994181818181817,1.0,0.2308090909090909,0.981012761592865
+screw_bag/test/logical_anomalies/005,0.0,False,True,기타 논리,screw_bag,screw_length,1.3498181818181818,2,2.6996363636363636,1.0,0.207,0.9698736667633057
+screw_bag/test/logical_anomalies/006,0.0,False,True,기타 논리,screw_bag,screw_length,1.2660363636363636,2,2.5320727272727273,1.0,0.2912,0.9288368821144104
+screw_bag/test/logical_anomalies/007,0.0,False,True,기타 논리,screw_bag,screw_length,1.2951272727272727,2,2.5902545454545454,0.5130278526504941,0.10996363636363636,0.9514175057411194
+screw_bag/test/logical_anomalies/008,0.0,False,True,기타 논리,screw_bag,screw_length,1.2544,2,2.5088,1.0,0.27490909090909094,0.9741541147232056
+screw_bag/test/logical_anomalies/009,0.3333333333333333,True,True,기타 논리,screw_bag,screw_length,1.2148363636363637,2,2.4296727272727274,0.9367816091954023,0.1754181818181818,0.9801028966903687
+screw_bag/test/logical_anomalies/010,0.0,False,True,기타 논리,screw_bag,screw_length,1.274181818181818,2,2.548363636363636,0.6136986301369863,0.16322727272727272,0.9713557362556458
+screw_bag/test/logical_anomalies/011,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.168290909090909,2,2.336581818181818,1.0,0.13501818181818181,0.974494457244873
+screw_bag/test/logical_anomalies/012,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.2788363636363635,2,2.557672727272727,1.0,0.16545454545454547,0.9724259376525879
+screw_bag/test/logical_anomalies/013,0.6666666666666666,True,True,기타 논리,screw_bag,screw_length,1.2532363636363637,2,2.5064727272727274,1.0,0.21305454545454544,0.9710939526557922
+screw_bag/test/logical_anomalies/014,0.0,False,True,기타 논리,screw_bag,screw_length,1.3393454545454546,2,2.6786909090909092,1.0,0.31054545454545457,0.9739614725112915
+screw_bag/test/logical_anomalies/015,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.2416,2,2.4832,0.5332708528584817,0.16412727272727273,0.9805221557617188
+screw_bag/test/logical_anomalies/016,0.6666666666666666,True,True,기타 논리,screw_bag,screw_length,1.2497454545454545,2,2.499490909090909,1.0,0.22356363636363635,0.9434448480606079
+screw_bag/test/logical_anomalies/017,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.235781818181818,2,2.471563636363636,1.0,0.39387272727272726,0.9678003191947937
+screw_bag/test/logical_anomalies/018,0.6666666666666666,True,True,기타 논리,screw_bag,screw_length,1.4289454545454545,2,2.857890909090909,0.49348534201954397,0.20381818181818182,0.9826614856719971
+screw_bag/test/logical_anomalies/019,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.321890909090909,2,2.643781818181818,1.0,0.3287272727272727,0.9679421186447144
+screw_bag/test/logical_anomalies/020,1.0,True,True,기타 논리,screw_bag,screw_length,1.3067636363636363,2,2.6135272727272727,1.0,0.24109090909090908,0.9653763771057129
+screw_bag/test/logical_anomalies/021,0.0,False,True,기타 논리,screw_bag,screw_length,1.250909090909091,2,2.501818181818182,1.0,1.0,0.9712554216384888
+screw_bag/test/logical_anomalies/022,1.0,True,True,기타 논리,screw_bag,screw_length,1.2264727272727274,2,2.4529454545454548,1.0,1.0,0.9703846573829651
+screw_bag/test/logical_anomalies/023,0.0,False,True,기타 논리,screw_bag,screw_length,2.394763636363636,1,2.394763636363636,1.0,1.0,0.9665097594261169
+screw_bag/test/logical_anomalies/024,1.0,True,True,기타 논리,screw_bag,screw_length,1.1927272727272726,2,2.3854545454545453,1.0,1.0,0.9739030599594116
+screw_bag/test/logical_anomalies/025,0.3333333333333333,False,False,기타 논리,screw_bag,screw_length,1.1543272727272726,2,2.3086545454545453,1.0,1.0,0.9723333120346069
+screw_bag/test/logical_anomalies/026,0.0,False,True,기타 논리,screw_bag,screw_length,1.1950545454545454,2,2.3901090909090907,1.0,1.0,0.9688235521316528
+screw_bag/test/logical_anomalies/027,0.0,False,True,기타 논리,screw_bag,screw_length,1.3102545454545456,2,2.620509090909091,0.4946714031971581,0.07272727272727272,0.9692239165306091
+screw_bag/test/logical_anomalies/028,1.0,True,True,기타 논리,screw_bag,screw_length,1.2008727272727273,2,2.4017454545454546,1.0,1.0,0.9740639328956604
+screw_bag/test/logical_anomalies/029,0.6666666666666666,False,False,기타 논리,screw_bag,screw_length,1.225309090909091,2,2.450618181818182,1.0,1.0,0.9776773452758789
+screw_bag/test/logical_anomalies/030,1.0,True,True,기타 논리,screw_bag,screw_length,1.1403636363636365,2,2.280727272727273,1.0,1.0,0.9751038551330566
+screw_bag/test/logical_anomalies/031,0.0,False,False,기타 논리,screw_bag,screw_length,1.235781818181818,2,2.471563636363636,1.0,1.0,0.969315767288208
+screw_bag/test/logical_anomalies/032,1.0,True,True,기타 논리,screw_bag,screw_length,1.3044363636363636,2,2.6088727272727272,1.0,1.0,0.9672771096229553
+screw_bag/test/logical_anomalies/033,1.0,True,True,기타 논리,screw_bag,screw_length,2.1876363636363636,1,2.1876363636363636,1.0,1.0,0.9725469350814819
+screw_bag/test/logical_anomalies/034,0.0,False,False,기타 논리,screw_bag,screw_length,1.1880727272727272,2,2.3761454545454543,1.0,1.0,0.9735904335975647
+screw_bag/test/logical_anomalies/035,0.6666666666666666,False,False,기타 논리,screw_bag,screw_length,1.225309090909091,2,2.450618181818182,1.0,1.0,0.975439190864563
+screw_bag/test/logical_anomalies/036,0.3333333333333333,False,False,기타 논리,screw_bag,screw_length,1.250909090909091,2,2.501818181818182,1.0,1.0,0.9677518010139465
+screw_bag/test/logical_anomalies/037,1.0,True,True,기타 논리,screw_bag,screw_length,1.2404363636363636,2,2.480872727272727,1.0,1.0,0.974129319190979
+screw_bag/test/logical_anomalies/038,1.0,True,True,기타 논리,screw_bag,screw_length,1.216,2,2.432,1.0,1.0,0.9636281728744507
+screw_bag/test/logical_anomalies/039,1.0,True,True,기타 논리,screw_bag,screw_length,1.2788363636363635,2,2.557672727272727,1.0,1.0,0.9723002314567566
+screw_bag/test/logical_anomalies/040,0.0,False,False,기타 논리,screw_bag,screw_length,1.232290909090909,2,2.464581818181818,1.0,1.0,0.9754106998443604
+screw_bag/test/logical_anomalies/041,0.0,False,True,개수 계열,screw_bag,part_count,1.1473454545454544,3,3.4536727272727274,0.8854447439353099,0.18938181818181818,0.9766247272491455
+screw_bag/test/logical_anomalies/042,0.3333333333333333,False,False,개수 계열,screw_bag,part_count,4.3310545454545455,2,8.662109090909091,1.0,0.43854545454545457,0.9434605836868286
+screw_bag/test/logical_anomalies/043,0.0,False,False,개수 계열,screw_bag,part_count,1.033309090909091,3,3.0277818181818184,0.8823981552651806,0.13352727272727272,0.9794086813926697
+screw_bag/test/logical_anomalies/044,1.0,True,False,개수 계열,screw_bag,part_count,1.0565818181818183,3,3.1976727272727272,1.0,0.28,0.956088662147522
+screw_bag/test/logical_anomalies/045,1.0,True,False,개수 계열,screw_bag,part_count,1.6837818181818183,2,3.3675636363636365,1.0,0.3208909090909091,0.9693433046340942
+screw_bag/test/logical_anomalies/046,0.0,False,True,개수 계열,screw_bag,part_count,4.566109090909091,2,9.132218181818182,1.0,0.4379727272727273,0.973338782787323
+screw_bag/test/logical_anomalies/047,1.0,True,True,개수 계열,screw_bag,part_count,1.7128727272727273,2,3.4257454545454546,1.0,0.28399090909090907,0.9719097018241882
+screw_bag/test/logical_anomalies/048,1.0,True,True,개수 계열,screw_bag,part_count,1.0868363636363636,3,3.1627636363636364,1.0,0.33592727272727274,0.9713956713676453
+screw_bag/test/logical_anomalies/049,0.0,False,False,개수 계열,screw_bag,part_count,3.287272727272727,2,6.574545454545454,0.5005309734513275,0.22516363636363637,0.9758061170578003
+screw_bag/test/logical_anomalies/050,0.6666666666666666,True,False,개수 계열,screw_bag,part_count,3.216290909090909,2,6.432581818181818,1.0,0.3659636363636364,0.972619891166687
+screw_bag/test/logical_anomalies/051,0.0,False,True,개수 계열,screw_bag,part_count,1.135709090909091,3,3.4629818181818184,1.0,0.3231818181818182,0.9758908748626709
+screw_bag/test/logical_anomalies/052,0.3333333333333333,False,False,개수 계열,screw_bag,part_count,9.029818181818182,1,9.029818181818182,1.0,0.4270909090909091,0.9564378261566162
+screw_bag/test/logical_anomalies/053,1.0,True,False,개수 계열,screw_bag,part_count,0.9378909090909091,3,2.927709090909091,1.0,0.20863636363636365,0.962957501411438
+screw_bag/test/logical_anomalies/054,0.3333333333333333,True,True,개수 계열,screw_bag,part_count,1.5627636363636364,2,3.1255272727272727,1.0,0.34494545454545456,0.968593955039978
+screw_bag/test/logical_anomalies/055,0.6666666666666666,True,False,개수 계열,screw_bag,part_count,1.0589090909090908,3,3.2628363636363638,0.12410841654778887,0.16872727272727273,0.9725743532180786
+screw_bag/test/logical_anomalies/056,0.0,False,False,개수 계열,screw_bag,part_count,3.173236363636364,2,6.346472727272728,1.0,1.0,0.9767848253250122
+screw_bag/test/logical_anomalies/057,0.3333333333333333,False,False,개수 계열,screw_bag,part_count,1.6756363636363636,2,3.351272727272727,1.0,0.30116363636363636,0.9794753789901733
+screw_bag/test/logical_anomalies/058,1.0,True,True,개수 계열,screw_bag,part_count,4.418327272727272,2,8.836654545454545,1.0,1.0,0.9690712690353394
+screw_bag/test/logical_anomalies/059,0.0,False,True,개수 계열,screw_bag,part_count,4.632436363636364,2,9.264872727272728,1.0,1.0,0.9656819701194763
+screw_bag/test/logical_anomalies/060,0.6666666666666666,True,True,개수 계열,screw_bag,part_count,6.7072,1,6.7072,1.0,0.4918363636363636,0.9738720655441284
+screw_bag/test/logical_anomalies/061,1.0,True,True,개수 계열,screw_bag,part_count,1.7035636363636364,2,3.407127272727273,1.0,0.45081818181818184,0.9754833579063416
+screw_bag/test/logical_anomalies/062,0.6666666666666666,True,True,개수 계열,screw_bag,part_count,9.032145454545455,1,9.032145454545455,1.0,0.6059454545454546,0.9752386808395386
+screw_bag/test/logical_anomalies/063,0.0,False,True,개수 계열,screw_bag,part_count,3.0848,2,6.1696,1.0,1.0,0.9772788286209106
+screw_bag/test/logical_anomalies/064,1.0,True,True,개수 계열,screw_bag,part_count,6.4768,1,6.4768,1.0,1.0,0.9785336256027222
+screw_bag/test/logical_anomalies/065,1.0,True,False,개수 계열,screw_bag,part_count,132.4194909090909,1,132.4194909090909,1.0,1.0,0.959305465221405
+screw_bag/test/logical_anomalies/066,1.0,True,False,개수 계열,screw_bag,part_count,120.29905454545454,1,120.29905454545454,1.0,1.0,0.9763985872268677
+screw_bag/test/logical_anomalies/067,0.0,False,False,개수 계열,screw_bag,part_count,128.24203636363637,1,128.24203636363637,1.0,1.0,0.971865177154541
+screw_bag/test/logical_anomalies/068,0.0,False,False,개수 계열,screw_bag,part_count,122.7613090909091,1,122.7613090909091,1.0,1.0,0.9766346216201782
+screw_bag/test/logical_anomalies/069,1.0,True,True,개수 계열,screw_bag,part_count,61.979927272727274,2,123.95985454545455,1.0,1.0,0.9707291722297668
+screw_bag/test/logical_anomalies/070,0.0,False,True,개수 계열,screw_bag,part_count,132.1658181818182,1,132.1658181818182,1.0,1.0,0.9565215110778809
+screw_bag/test/logical_anomalies/071,0.0,False,True,개수 계열,screw_bag,part_count,124.91403636363637,1,124.91403636363637,1.0,1.0,0.9572798013687134
+screw_bag/test/logical_anomalies/072,1.0,True,False,개수 계열,screw_bag,part_count,118.9282909090909,1,118.9282909090909,1.0,1.0,0.9759697914123535
+screw_bag/test/logical_anomalies/073,0.6666666666666666,True,True,개수 계열,screw_bag,part_count,0.004654545454545455,3,125.46094545454545,1.0,1.0,0.9616875648498535
+screw_bag/test/logical_anomalies/074,1.0,True,True,개수 계열,screw_bag,part_count,125.77512727272727,1,125.77512727272727,1.0,1.0,0.9391101598739624
+screw_bag/test/logical_anomalies/075,0.0,False,False,개수 계열,screw_bag,part_count,126.97134545454546,1,126.97134545454546,1.0,1.0,0.9652376174926758
+screw_bag/test/logical_anomalies/076,0.3333333333333333,False,False,개수 계열,screw_bag,part_count,125.60756363636364,1,125.60756363636364,1.0,1.0,0.9437471628189087
+screw_bag/test/logical_anomalies/077,1.0,True,False,개수 계열,screw_bag,part_count,126.08,1,126.08,1.0,1.0,0.9698514342308044
+screw_bag/test/logical_anomalies/078,0.3333333333333333,True,True,개수 계열,screw_bag,part_count,61.2736,2,122.5472,1.0,1.0,0.9706336855888367
+screw_bag/test/logical_anomalies/079,1.0,True,True,개수 계열,screw_bag,part_count,125.01643636363636,1,125.01643636363636,1.0,1.0,0.9741021990776062
+screw_bag/test/logical_anomalies/080,0.6666666666666666,True,False,개수 계열,screw_bag,part_count,124.39970909090908,1,124.39970909090908,1.0,1.0,0.9814847707748413
+screw_bag/test/logical_anomalies/081,0.0,False,False,개수 계열,screw_bag,part_count,131.35127272727271,1,131.35127272727271,1.0,1.0,0.9599980711936951
+screw_bag/test/logical_anomalies/082,0.0,False,False,개수 계열,screw_bag,part_count,63.403054545454545,2,126.80610909090909,1.0,1.0,0.96369469165802
+screw_bag/test/logical_anomalies/083,1.0,True,False,개수 계열,screw_bag,part_count,124.72552727272728,1,124.72552727272728,1.0,1.0,0.971157431602478
+screw_bag/test/logical_anomalies/084,1.0,True,False,개수 계열,screw_bag,part_count,122.15156363636363,1,122.15156363636363,1.0,1.0,0.9787421226501465
+screw_bag/test/logical_anomalies/085,1.0,True,True,개수 계열,screw_bag,part_count,127.79054545454545,1,127.79054545454545,1.0,1.0,0.9596989154815674
+screw_bag/test/logical_anomalies/086,1.0,True,False,개수 계열,screw_bag,part_count,61.344581818181815,2,122.68916363636363,1.0,1.0,0.9795682430267334
+screw_bag/test/logical_anomalies/087,1.0,True,True,개수 계열,screw_bag,part_count,121.86298181818182,1,121.86298181818182,1.0,1.0,0.9215223789215088
+screw_bag/test/logical_anomalies/088,1.0,True,True,개수 계열,screw_bag,part_count,128.03723636363637,1,128.03723636363637,1.0,1.0,0.9402401447296143
+screw_bag/test/logical_anomalies/089,1.0,True,True,기타 논리,screw_bag,screw_length,1.9688727272727273,1,1.9688727272727273,1.0,1.0,0.9655488729476929
+screw_bag/test/logical_anomalies/090,1.0,True,True,기타 논리,screw_bag,screw_length,2.038690909090909,2,4.077381818181818,1.0,1.0,0.9543633460998535
+screw_bag/test/logical_anomalies/091,1.0,True,True,기타 논리,screw_bag,screw_length,1.9921454545454544,1,1.9921454545454544,1.0,1.0,0.9725441932678223
+screw_bag/test/logical_anomalies/092,0.0,False,False,기타 논리,screw_bag,screw_length,0.7237818181818182,1,0.7237818181818182,0.0,0.022727272727272728,0.9603779315948486
+screw_bag/test/logical_anomalies/093,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,2.0503272727272726,1,2.0503272727272726,1.0,1.0,0.9712668657302856
+screw_bag/test/logical_anomalies/094,0.0,False,False,기타 논리,screw_bag,screw_length,0.7912727272727272,1,0.7912727272727272,0.0,0.022727272727272728,0.9515557289123535
+screw_bag/test/logical_anomalies/095,0.0,False,False,기타 논리,screw_bag,screw_length,0.7959272727272727,1,0.7959272727272727,1.0,1.0,0.9783737063407898
+screw_bag/test/logical_anomalies/096,0.0,False,True,기타 논리,screw_bag,screw_length,1.9781818181818183,1,1.9781818181818183,1.0,1.0,0.9707995653152466
+screw_bag/test/logical_anomalies/097,1.0,True,True,기타 논리,screw_bag,screw_length,1.980509090909091,1,1.980509090909091,1.0,1.0,0.9687404036521912
+screw_bag/test/logical_anomalies/098,0.0,False,False,기타 논리,screw_bag,screw_length,0.7703272727272727,1,0.7703272727272727,0.0,0.022727272727272728,0.9618455767631531
+screw_bag/test/logical_anomalies/099,0.0,False,False,기타 논리,screw_bag,screw_length,0.8564363636363637,1,0.8564363636363637,1.0,1.0,0.9740692377090454
+screw_bag/test/logical_anomalies/100,0.0,False,False,기타 논리,screw_bag,screw_length,1.9968,1,1.9968,1.0,1.0,0.965581476688385
+screw_bag/test/logical_anomalies/101,0.0,False,False,기타 논리,screw_bag,screw_length,0.7726545454545455,1,0.7726545454545455,1.0,1.0,0.9717788696289062
+screw_bag/test/logical_anomalies/102,1.0,True,True,기타 논리,screw_bag,screw_length,1.9956363636363637,2,3.9912727272727273,1.0,1.0,0.9587165117263794
+screw_bag/test/logical_anomalies/103,0.3333333333333333,False,False,기타 논리,screw_bag,screw_length,0.7796363636363637,1,0.7796363636363637,1.0,1.0,0.9774120450019836
+screw_bag/test/logical_anomalies/104,0.3333333333333333,False,True,기타 논리,screw_bag,screw_length,1.9584,2,3.9168,1.0,1.0,0.9471848011016846
+screw_bag/test/logical_anomalies/105,1.0,True,True,기타 논리,screw_bag,screw_length,1.980509090909091,1,1.980509090909091,1.0,1.0,0.9808580875396729
+screw_bag/test/logical_anomalies/106,1.0,True,True,기타 논리,screw_bag,screw_length,2.0107636363636363,2,4.021527272727273,1.0,1.0,0.9659342169761658
+screw_bag/test/logical_anomalies/107,1.0,True,True,기타 논리,screw_bag,screw_length,2.0177454545454547,1,2.0177454545454547,1.0,1.0,0.9774393439292908
+screw_bag/test/logical_anomalies/108,1.0,True,True,기타 논리,screw_bag,screw_length,2.032872727272727,2,4.065745454545454,1.0,1.0,0.9591231346130371
+screw_bag/test/logical_anomalies/109,1.0,True,True,기타 논리,screw_bag,screw_length,0.9972363636363636,2,1.9944727272727272,1.0,1.0,0.9636187553405762
+screw_bag/test/logical_anomalies/110,0.0,False,False,기타 논리,screw_bag,screw_length,0.7889454545454545,1,0.7889454545454545,0.0,0.022727272727272728,0.972380518913269
+screw_bag/test/logical_anomalies/111,0.6666666666666666,False,True,기타 논리,screw_bag,screw_length,1.9816727272727273,2,3.9633454545454545,1.0,1.0,0.9566446542739868
+screw_bag/test/logical_anomalies/112,0.6666666666666666,False,True,기타 논리,screw_bag,screw_length,1.9816727272727273,2,3.9633454545454545,1.0,1.0,0.9545982480049133
+screw_bag/test/logical_anomalies/113,0.0,False,False,개수 계열,screw_bag,part_count,132.57076363636364,1,132.57076363636364,0.04388736746015027,0.022727272727272728,0.9702816605567932
+screw_bag/test/logical_anomalies/114,0.0,False,False,개수 계열,screw_bag,part_count,132.37061818181817,1,132.37061818181817,0.0,0.012272727272727272,0.9650401473045349
+screw_bag/test/logical_anomalies/115,0.3333333333333333,False,False,개수 계열,screw_bag,part_count,124.9373090909091,1,124.9373090909091,-0.5,1.0,0.976834237575531
+screw_bag/test/logical_anomalies/116,0.0,False,False,개수 계열,screw_bag,part_count,127.29250909090909,1,127.29250909090909,0.0,0.022727272727272728,0.948972225189209
+screw_bag/test/logical_anomalies/117,0.0,False,False,개수 계열,screw_bag,part_count,126.97832727272727,1,126.97832727272727,0.0,0.017727272727272727,0.9631580710411072
+screw_bag/test/logical_anomalies/118,0.0,False,False,개수 계열,screw_bag,part_count,126.15214545454545,1,126.15214545454545,0.04030919086447995,0.022727272727272728,0.9592084884643555
+screw_bag/test/logical_anomalies/119,0.0,False,False,개수 계열,screw_bag,part_count,125.43069090909091,1,125.43069090909091,0.036755974469348376,0.022727272727272728,0.9739351868629456
+screw_bag/test/logical_anomalies/120,0.6666666666666666,False,False,개수 계열,screw_bag,part_count,123.43156363636363,1,123.43156363636363,0.05645115673963459,0.031818181818181815,0.9729300737380981
+screw_bag/test/logical_anomalies/121,0.3333333333333333,False,False,개수 계열,screw_bag,part_count,128.1861818181818,1,128.1861818181818,0.03255265068990559,0.022727272727272728,0.9689183235168457
+screw_bag/test/logical_anomalies/122,0.0,False,False,개수 계열,screw_bag,part_count,126.68741818181819,1,126.68741818181819,0.0,0.022727272727272728,0.9782986044883728
+screw_bag/test/logical_anomalies/123,0.0,False,False,개수 계열,screw_bag,part_count,125.5936,1,125.5936,0.0,0.022727272727272728,0.956534206867218
+screw_bag/test/logical_anomalies/124,1.0,True,True,개수 계열,screw_bag,part_count,127.02254545454545,1,127.02254545454545,0.0023451813851227557,0.022727272727272728,0.9711098670959473
+screw_bag/test/logical_anomalies/125,0.0,False,False,개수 계열,screw_bag,part_count,125.27941818181819,1,125.27941818181819,0.0382493358845275,0.022727272727272728,0.9769653677940369
+screw_bag/test/logical_anomalies/126,0.3333333333333333,True,True,개수 계열,screw_bag,part_count,126.976,1,126.976,-0.5,1.0,0.9732682108879089
+screw_bag/test/logical_anomalies/127,1.0,True,False,개수 계열,screw_bag,part_count,126.76654545454545,1,126.76654545454545,-0.5,1.0,0.9734021425247192
+screw_bag/test/logical_anomalies/128,0.0,False,False,개수 계열,screw_bag,part_count,126.01250909090909,1,126.01250909090909,-0.5,1.0,0.9641109704971313
+screw_bag/test/logical_anomalies/129,0.0,False,False,개수 계열,screw_bag,part_count,127.79287272727272,1,127.79287272727272,-0.5,1.0,0.9688872694969177
+screw_bag/test/logical_anomalies/130,0.0,False,False,개수 계열,screw_bag,part_count,123.8178909090909,1,123.8178909090909,-0.5,1.0,0.9784260392189026
+screw_bag/test/logical_anomalies/131,0.0,False,False,개수 계열,screw_bag,part_count,124.46254545454545,1,124.46254545454545,-0.5,1.0,0.9698788523674011
+screw_bag/test/logical_anomalies/132,0.3333333333333333,False,True,개수 계열,screw_bag,part_count,125.75418181818182,1,125.75418181818182,-0.5,1.0,0.9606553316116333
+screw_bag/test/logical_anomalies/133,0.0,False,False,개수 계열,screw_bag,part_count,127.35534545454546,1,127.35534545454546,0.0024304223087184547,0.022727272727272728,0.9554785490036011
+screw_bag/test/logical_anomalies/134,1.0,True,False,개수 계열,screw_bag,part_count,133.16421818181817,1,133.16421818181817,0.0,0.022727272727272728,0.969028651714325
+screw_bag/test/logical_anomalies/135,0.0,False,False,개수 계열,screw_bag,part_count,124.90705454545454,1,124.90705454545454,0.0,0.023927272727272728,0.9645060896873474
+screw_bag/test/logical_anomalies/136,0.3333333333333333,False,False,개수 계열,screw_bag,part_count,123.9458909090909,1,123.9458909090909,0.23966352472867927,0.1504909090909091,0.9770903587341309
+screw_bag/test/structural_anomalies/000,0.0,False,False,구조,screw_bag,bag_broken,0.912290909090909,1,0.912290909090909,1.0,0.022727272727272728,0.9673380255699158
+screw_bag/test/structural_anomalies/001,0.0,False,False,구조,screw_bag,bag_broken,1.152,1,1.152,1.0,0.041236363636363634,0.9705016613006592
+screw_bag/test/structural_anomalies/002,0.0,False,False,구조,screw_bag,bag_broken,2.2993454545454544,1,2.2993454545454544,1.0,1.0,0.9691780209541321
+screw_bag/test/structural_anomalies/003,0.0,False,False,구조,screw_bag,bag_broken,2.415709090909091,1,2.415709090909091,0.0,0.03512727272727273,0.9441613554954529
+screw_bag/test/structural_anomalies/004,1.0,True,True,구조,screw_bag,bag_broken,1.5104,1,1.5104,1.0,0.06181818181818182,0.9444206953048706
+screw_bag/test/structural_anomalies/005,0.3333333333333333,True,True,구조,screw_bag,bag_broken,0.8203636363636364,2,1.6407272727272728,0.9985815602836879,0.056036363636363634,0.9792544841766357
+screw_bag/test/structural_anomalies/006,0.0,False,False,구조,screw_bag,bag_broken,2.4599272727272727,1,2.4599272727272727,1.0,0.040072727272727274,0.9184184074401855
+screw_bag/test/structural_anomalies/007,0.0,False,False,구조,screw_bag,bag_broken,3.7678545454545453,1,3.7678545454545453,1.0,1.0,0.9752263426780701
+screw_bag/test/structural_anomalies/008,0.0,False,False,구조,screw_bag,bag_broken,2.1108363636363636,1,2.1108363636363636,0.42006615214994486,0.023454545454545454,0.9675135612487793
+screw_bag/test/structural_anomalies/009,0.0,False,True,구조,screw_bag,bag_broken,4.566109090909091,1,4.566109090909091,0.9495412844036697,0.06681818181818182,0.9672303795814514
+screw_bag/test/structural_anomalies/010,0.0,False,False,구조,screw_bag,bag_broken,0.7354181818181819,1,0.7354181818181819,1.0,0.022727272727272728,0.9762526750564575
+screw_bag/test/structural_anomalies/011,1.0,True,True,구조,screw_bag,bag_broken,1.2381090909090908,1,1.2381090909090908,1.0,0.022727272727272728,0.9626336097717285
+screw_bag/test/structural_anomalies/012,0.6666666666666666,True,False,구조,screw_bag,bag_broken,1.4033454545454545,1,1.4033454545454545,0.0,0.022727272727272728,0.9749997854232788
+screw_bag/test/structural_anomalies/013,1.0,True,True,구조,screw_bag,bag_broken,0.5469090909090909,1,0.5469090909090909,0.9957446808510638,0.022727272727272728,0.9753812551498413
+screw_bag/test/structural_anomalies/014,0.0,False,False,구조,screw_bag,bag_broken,1.0635636363636363,1,1.0635636363636363,1.0,0.03,0.9642513394355774
+screw_bag/test/structural_anomalies/015,0.0,False,False,구조,screw_bag,bag_broken,2.250472727272727,1,2.250472727272727,1.0,1.0,0.9761098027229309
+screw_bag/test/structural_anomalies/016,0.3333333333333333,True,True,구조,screw_bag,part_broken,0.4747636363636364,1,0.4747636363636364,1.0,0.022727272727272728,0.9727789759635925
+screw_bag/test/structural_anomalies/017,0.0,False,False,구조,screw_bag,part_broken,0.6306909090909091,1,0.6306909090909091,0.0,0.022727272727272728,0.9534244537353516
+screw_bag/test/structural_anomalies/018,0.0,False,False,구조,screw_bag,part_broken,0.6795636363636364,1,0.6795636363636364,0.0,0.028181818181818183,0.9287661910057068
+screw_bag/test/structural_anomalies/019,0.3333333333333333,True,True,구조,screw_bag,part_broken,0.3211636363636364,1,0.3211636363636364,1.0,0.022727272727272728,0.9516656994819641
+screw_bag/test/structural_anomalies/020,0.6666666666666666,True,False,구조,screw_bag,part_broken,0.5818181818181818,1,0.5818181818181818,0.996,0.022727272727272728,0.9679681062698364
+screw_bag/test/structural_anomalies/021,0.0,False,False,구조,screw_bag,part_broken,0.5376,1,0.5376,0.0,0.022727272727272728,0.9762648940086365
+screw_bag/test/structural_anomalies/022,1.0,True,False,구조,screw_bag,part_broken,0.7237818181818182,1,0.7237818181818182,0.9967845659163987,0.022727272727272728,0.9129862189292908
+screw_bag/test/structural_anomalies/023,0.0,False,False,구조,screw_bag,part_broken,0.1978181818181818,1,0.1978181818181818,0.0,0.022727272727272728,0.9713894128799438
+screw_bag/test/structural_anomalies/024,0.0,False,False,구조,screw_bag,part_broken,1.3149090909090908,1,1.3149090909090908,1.0,1.0,0.9606946110725403
+screw_bag/test/structural_anomalies/025,0.0,False,False,구조,screw_bag,part_broken,0.2978909090909091,1,0.2978909090909091,0.0,0.022272727272727274,0.9621419310569763
+screw_bag/test/structural_anomalies/026,1.0,True,False,구조,screw_bag,part_broken,1.289309090909091,1,1.289309090909091,1.0,0.03338181818181818,0.9716823101043701
+screw_bag/test/structural_anomalies/027,0.0,False,False,구조,screw_bag,part_broken,0.4608,1,0.4608,1.0,1.0,0.9577972888946533
+screw_bag/test/structural_anomalies/028,0.0,False,False,구조,screw_bag,part_broken,0.3933090909090909,1,0.3933090909090909,1.0,0.03951818181818182,0.9730105400085449
+screw_bag/test/structural_anomalies/029,0.0,False,False,구조,screw_bag,part_broken,0.19316363636363637,1,0.19316363636363637,0.0,0.022727272727272728,0.9498262405395508
+screw_bag/test/structural_anomalies/030,0.0,False,False,구조,screw_bag,part_broken,1.3195636363636363,1,1.3195636363636363,1.0,1.0,0.9689858555793762
+screw_bag/test/structural_anomalies/031,1.0,True,True,구조,screw_bag,part_broken,0.8471272727272727,1,0.8471272727272727,1.0,0.022727272727272728,0.9648845195770264
+screw_bag/test/structural_anomalies/032,0.0,False,False,구조,screw_bag,part_broken,0.5888,1,0.5888,1.0,1.0,0.9732852578163147
+screw_bag/test/structural_anomalies/033,0.0,False,False,구조,screw_bag,part_broken,0.1885090909090909,1,0.1885090909090909,0.0,0.022727272727272728,0.9732794165611267
+screw_bag/test/structural_anomalies/034,0.0,False,False,구조,screw_bag,part_broken,0.9309090909090909,1,0.9309090909090909,-0.5,1.0,0.9689778089523315
+screw_bag/test/structural_anomalies/035,1.0,True,False,구조,screw_bag,part_broken,1.398690909090909,1,1.398690909090909,1.0,0.022727272727272728,0.9591322541236877
+screw_bag/test/structural_anomalies/036,0.0,False,True,구조,screw_bag,part_broken,0.0128,2,0.0256,0.0,0.022727272727272728,0.9724538326263428
+screw_bag/test/structural_anomalies/037,0.0,False,False,구조,screw_bag,part_broken,1.2474181818181818,1,1.2474181818181818,0.0,0.08863636363636364,0.9737014174461365
+screw_bag/test/structural_anomalies/038,0.0,False,True,구조,screw_bag,part_broken,0.09076363636363637,1,0.09076363636363637,0.0,0.022727272727272728,0.9644185900688171
+screw_bag/test/structural_anomalies/039,0.0,False,True,구조,screw_bag,part_broken,1.2730181818181818,1,1.2730181818181818,0.0,0.022727272727272728,0.9568939208984375
+screw_bag/test/structural_anomalies/040,0.3333333333333333,False,False,구조,screw_bag,part_broken,1.9944727272727272,1,1.9944727272727272,0.2613768961493582,0.10472727272727272,0.9551769495010376
+screw_bag/test/structural_anomalies/041,1.0,True,False,구조,screw_bag,color,0.8587636363636364,1,0.8587636363636364,1.0,0.0348,0.9704557061195374
+screw_bag/test/structural_anomalies/042,0.0,False,False,구조,screw_bag,color,0.6749090909090909,1,0.6749090909090909,0.0,0.03681818181818182,0.9746745228767395
+screw_bag/test/structural_anomalies/043,1.0,True,False,구조,screw_bag,color,0.5073454545454545,1,0.5073454545454545,1.0,0.09534545454545454,0.9635500311851501
+screw_bag/test/structural_anomalies/044,0.0,False,True,구조,screw_bag,color,1.1077818181818182,1,1.1077818181818182,1.0,0.058036363636363636,0.9601402878761292
+screw_bag/test/structural_anomalies/045,0.0,False,False,구조,screw_bag,color,1.519709090909091,1,1.519709090909091,0.0,0.1875,0.9491792321205139
+screw_bag/test/structural_anomalies/046,0.3333333333333333,False,False,구조,screw_bag,color,0.6818909090909091,1,0.6818909090909091,1.0,0.16652727272727272,0.9625293612480164
+screw_bag/test/structural_anomalies/047,1.0,True,True,구조,screw_bag,color,0.13265454545454544,2,0.2653090909090909,1.0,0.022727272727272728,0.9749276638031006
+screw_bag/test/structural_anomalies/048,1.0,True,False,구조,screw_bag,color,1.0402909090909092,1,1.0402909090909092,1.0,0.05352727272727273,0.943225622177124
+screw_bag/test/structural_anomalies/049,0.0,False,False,구조,screw_bag,color,0.7726545454545455,1,0.7726545454545455,0.0,0.1186909090909091,0.9640122056007385
+screw_bag/test/structural_anomalies/050,0.0,False,False,구조,screw_bag,color,0.11403636363636363,4,1.7268363636363637,1.0,0.12181818181818181,0.9781019687652588
+screw_bag/test/structural_anomalies/051,0.6666666666666666,False,False,구조,screw_bag,color,0.5538909090909091,1,0.5538909090909091,1.0,0.025454545454545455,0.95770663022995
+screw_bag/test/structural_anomalies/052,1.0,True,False,구조,screw_bag,color,0.14661818181818181,2,0.29323636363636363,1.0,0.025454545454545455,0.9695448875427246
+screw_bag/test/structural_anomalies/053,1.0,True,False,구조,screw_bag,color,0.19432727272727274,2,0.3886545454545455,1.0,0.042954545454545454,0.9691904187202454
+screw_bag/test/structural_anomalies/054,1.0,True,False,구조,screw_bag,color,0.8098909090909091,1,0.8098909090909091,1.0,0.08083636363636364,0.9658608436584473
+screw_bag/test/structural_anomalies/055,0.6666666666666666,False,False,구조,screw_bag,color,0.5259636363636364,1,0.5259636363636364,0.9867256637168141,0.03199090909090909,0.9775772094726562
+screw_bag/test/structural_anomalies/056,1.0,True,False,구조,screw_bag,color,0.2338909090909091,2,0.4677818181818182,1.0,0.025454545454545455,0.9686791896820068
+screw_bag/test/structural_anomalies/057,0.3333333333333333,True,True,구조,screw_bag,contamination,5.101381818181818,1,5.101381818181818,1.0,0.19003636363636364,0.9074966907501221
+screw_bag/test/structural_anomalies/058,0.0,False,True,구조,screw_bag,contamination,0.4514909090909091,1,0.4514909090909091,1.0,0.4212,0.9683206081390381
+screw_bag/test/structural_anomalies/059,0.6666666666666666,True,False,구조,screw_bag,contamination,2.413381818181818,1,2.413381818181818,1.0,0.05301818181818182,0.9697655439376831
+screw_bag/test/structural_anomalies/060,0.0,False,False,구조,screw_bag,contamination,1.1403636363636365,1,1.1403636363636365,0.9591836734693877,0.09229090909090909,0.9672459363937378
+screw_bag/test/structural_anomalies/061,0.0,False,True,구조,screw_bag,contamination,10.724072727272727,1,10.724072727272727,1.0,0.28909090909090907,0.9295075535774231
+screw_bag/test/structural_anomalies/062,0.0,False,True,구조,screw_bag,contamination,5.341090909090909,1,5.341090909090909,1.0,0.4436727272727273,0.9428210854530334
+screw_bag/test/structural_anomalies/063,0.0,False,False,구조,screw_bag,contamination,5.527272727272727,1,5.527272727272727,1.0,0.36204545454545456,0.9337021708488464
+screw_bag/test/structural_anomalies/064,0.6666666666666666,True,True,구조,screw_bag,contamination,1.9595636363636364,1,1.9595636363636364,1.0,0.4621818181818182,0.9493169784545898
+screw_bag/test/structural_anomalies/065,0.0,False,True,구조,screw_bag,contamination,1.5522909090909092,1,1.5522909090909092,0.0,0.2020909090909091,0.9706583023071289
+screw_bag/test/structural_anomalies/066,0.0,False,False,구조,screw_bag,contamination,1.6104727272727273,1,1.6104727272727273,1.0,0.5043272727272727,0.9314383864402771
+screw_bag/test/structural_anomalies/067,0.0,False,False,구조,screw_bag,contamination,4.512581818181818,1,4.512581818181818,0.7751418256833419,0.046836363636363634,0.9524688720703125
+screw_bag/test/structural_anomalies/068,0.0,False,False,구조,screw_bag,contamination,4.533527272727273,1,4.533527272727273,1.0,0.5292,0.949604868888855
+screw_bag/test/structural_anomalies/069,0.0,False,False,구조,screw_bag,contamination,2.280727272727273,1,2.280727272727273,1.0,0.3915272727272727,0.913047730922699
+screw_bag/test/structural_anomalies/070,0.0,False,False,구조,screw_bag,contamination,0.6144,1,0.6144,1.0,0.022727272727272728,0.9733767509460449
+screw_bag/test/structural_anomalies/071,0.0,False,False,구조,screw_bag,contamination,0.3328,1,0.3328,0.0,0.022727272727272728,0.9669976830482483
+screw_bag/test/structural_anomalies/072,0.3333333333333333,True,True,구조,screw_bag,contamination,0.8890181818181818,1,0.8890181818181818,1.0,0.4531636363636364,0.9654703140258789
+screw_bag/test/structural_anomalies/073,0.0,False,True,구조,screw_bag,contamination,2.4296727272727274,1,2.4296727272727274,1.0,1.0,0.961643636226654
+screw_bag/test/structural_anomalies/074,0.6666666666666666,False,False,구조,screw_bag,contamination,0.42821818181818183,1,0.42821818181818183,1.0,0.022727272727272728,0.9596073627471924
+screw_bag/test/structural_anomalies/075,1.0,True,False,구조,screw_bag,contamination,8.587636363636364,1,8.587636363636364,0.6926829268292682,0.03636363636363636,0.8993947505950928
+screw_bag/test/structural_anomalies/076,0.0,False,True,구조,screw_bag,contamination,1.4126545454545454,1,1.4126545454545454,0.0,0.084,0.9732666611671448
+screw_bag/test/structural_anomalies/077,0.0,False,False,구조,screw_bag,contamination,1.0845090909090909,1,1.0845090909090909,0.8969957081545065,0.022727272727272728,0.9737406373023987
+screw_bag/test/structural_anomalies/078,0.0,False,False,구조,screw_bag,contamination,6.9376,1,6.9376,1.0,0.4329818181818182,0.9232040643692017
+screw_bag/test/structural_anomalies/079,0.0,False,True,구조,screw_bag,contamination,1.2520727272727272,1,1.2520727272727272,0.0,0.2866909090909091,0.9585074782371521
+screw_bag/test/structural_anomalies/080,0.6666666666666666,True,False,구조,screw_bag,contamination,2.159709090909091,1,2.159709090909091,1.0,0.6557090909090909,0.9355258345603943
+screw_bag/test/structural_anomalies/081,1.0,True,True,구조,screw_bag,contamination,1.0565818181818183,1,1.0565818181818183,0.02643171806167401,0.1678909090909091,0.9353322386741638
+splicing_connectors/test/logical_anomalies/000,0.3333333333333333,True,True,기타 논리,splicing_connectors,cable_damaged,0.2727635960044395,1,0.2727635960044395,1.0,0.07411764705882352,0.9831448793411255
+splicing_connectors/test/logical_anomalies/001,1.0,True,True,기타 논리,splicing_connectors,cable_damaged,1.1706104328523863,1,1.1706104328523863,1.0,0.06832408435072142,0.9754126071929932
+splicing_connectors/test/logical_anomalies/002,1.0,True,True,기타 논리,splicing_connectors,cable_damaged,0.7728301886792452,1,0.7728301886792452,1.0,0.07882352941176471,0.9824181795120239
+splicing_connectors/test/logical_anomalies/003,0.0,False,True,기타 논리,splicing_connectors,cable_damaged,1.3041509433962264,1,1.3041509433962264,1.0,0.10428412874583796,0.9724048376083374
+splicing_connectors/test/logical_anomalies/004,1.0,True,True,기타 논리,splicing_connectors,cable_damaged,0.4091453940066593,1,0.4091453940066593,1.0,0.0611764705882353,0.977000892162323
+splicing_connectors/test/logical_anomalies/005,1.0,True,True,기타 논리,splicing_connectors,cable_damaged,0.3920976692563818,1,0.3920976692563818,1.0,0.048546059933407326,0.9810687899589539
+splicing_connectors/test/logical_anomalies/006,0.6666666666666666,True,True,기타 논리,splicing_connectors,cable_damaged,1.4717869034406215,1,1.4717869034406215,1.0,0.12,0.9772405624389648
+splicing_connectors/test/logical_anomalies/007,1.0,True,True,기타 논리,splicing_connectors,cable_damaged,0.11933407325194229,1,0.11933407325194229,1.0,0.03176470588235294,0.9783165454864502
+splicing_connectors/test/logical_anomalies/008,0.0,False,True,기타 논리,splicing_connectors,cable_damaged,0.3239067702552719,1,0.3239067702552719,1.0,0.04435072142064373,0.9875845313072205
+splicing_connectors/test/logical_anomalies/009,1.0,True,True,기타 논리,splicing_connectors,cable_damaged,0.27844617092119867,1,0.27844617092119867,1.0,0.05411764705882353,0.9761047959327698
+splicing_connectors/test/logical_anomalies/010,0.0,False,False,기타 논리,splicing_connectors,cable_damaged,0.9745615982241953,1,0.9745615982241953,1.0,0.15942286348501664,0.9841457605361938
+splicing_connectors/test/logical_anomalies/011,1.0,True,True,기타 논리,splicing_connectors,cable_damaged,0.2727635960044395,1,0.2727635960044395,1.0,0.042352941176470586,0.9808374047279358
+splicing_connectors/test/logical_anomalies/012,0.0,False,True,기타 논리,splicing_connectors,connector_type,4.600044395116537,7,22.909300776914538,0.20079374922485427,0.06529411764705882,0.9874547123908997
+splicing_connectors/test/logical_anomalies/013,0.0,False,False,기타 논리,splicing_connectors,connector_type,4.818823529411764,7,32.27134295227525,0.16358513822856136,0.05823529411764706,0.9828677773475647
+splicing_connectors/test/logical_anomalies/014,0.3333333333333333,False,True,기타 논리,splicing_connectors,connector_type,3.8755160932297446,5,13.959245283018868,0.0,0.051176470588235295,0.98320072889328
+splicing_connectors/test/logical_anomalies/015,0.6666666666666666,True,True,기타 논리,splicing_connectors,connector_type,3.557291897891232,5,21.457402885682576,0.3640095338983051,0.07647058823529412,0.9823142886161804
+splicing_connectors/test/logical_anomalies/016,0.0,False,False,기타 논리,splicing_connectors,connector_type,4.063041065482797,7,30.890477247502776,0.2997608535688006,0.1676470588235294,0.9761486053466797
+splicing_connectors/test/logical_anomalies/017,0.3333333333333333,False,True,기타 논리,splicing_connectors,connector_type,4.0516759156492785,5,30.285283018867926,0.3317384370015949,0.10215316315205328,0.980695366859436
+splicing_connectors/test/logical_anomalies/018,0.0,False,False,기타 논리,splicing_connectors,connector_type,3.9976914539400665,5,13.979134295227524,0.04491869918699187,0.03411764705882353,0.9873904585838318
+splicing_connectors/test/logical_anomalies/019,0.0,False,False,기타 논리,splicing_connectors,connector_type,3.97496115427303,5,13.467702552719201,0.0,0.06832408435072142,0.9848777651786804
+splicing_connectors/test/logical_anomalies/020,0.0,False,False,기타 논리,splicing_connectors,connector_type,4.614250832408435,7,31.356448390677027,0.2853388909025009,0.11237513873473919,0.9819391369819641
+splicing_connectors/test/logical_anomalies/021,0.6666666666666666,False,True,기타 논리,splicing_connectors,part_missing,0.30401775804661485,11,56.99338512763596,1.0,0.7991120976692564,0.9566856026649475
+splicing_connectors/test/logical_anomalies/022,0.6666666666666666,False,True,기타 논리,splicing_connectors,part_missing,0.4034628190899001,7,33.75733629300777,1.0,1.0,0.945547342300415
+splicing_connectors/test/logical_anomalies/023,1.0,True,True,기타 논리,splicing_connectors,part_missing,0.3892563817980022,5,24.30721420643729,1.0,1.0,0.9498564004898071
+splicing_connectors/test/logical_anomalies/024,1.0,True,True,기타 논리,splicing_connectors,part_missing,0.34379578246392895,11,59.536337402885685,0.21695141739047438,0.05529411764705883,0.9586138725280762
+splicing_connectors/test/logical_anomalies/025,1.0,True,True,기타 논리,splicing_connectors,part_missing,0.34379578246392895,7,31.211542730299666,1.0,1.0,0.9536422491073608
+splicing_connectors/test/logical_anomalies/026,0.6666666666666666,True,True,기타 논리,splicing_connectors,part_missing,0.3494783573806881,11,59.74659267480577,0.12145710481263078,0.034761376248612655,0.9606384038925171
+splicing_connectors/test/logical_anomalies/027,0.6666666666666666,True,True,기타 논리,splicing_connectors,part_missing,0.3239067702552719,11,57.163862375138734,1.0,1.0,0.9562508463859558
+splicing_connectors/test/logical_anomalies/028,0.6666666666666666,True,True,기타 논리,splicing_connectors,part_missing,0.31822419533851276,7,34.06987791342952,1.0,1.0,0.9517010450363159
+splicing_connectors/test/logical_anomalies/029,1.0,True,True,기타 논리,splicing_connectors,part_missing,0.29549389567147616,5,21.95178690344062,1.0,1.0,0.9568564295768738
+splicing_connectors/test/logical_anomalies/030,1.0,True,True,기타 논리,splicing_connectors,part_missing,0.30401775804661485,5,24.1111653718091,1.0,1.0,0.9523700475692749
+splicing_connectors/test/logical_anomalies/031,1.0,True,True,기타 논리,splicing_connectors,part_missing,0.32106548279689234,5,26.719467258601554,1.0,1.0,0.9409546256065369
+splicing_connectors/test/logical_anomalies/032,1.0,True,True,기타 논리,splicing_connectors,part_missing,0.33243063263041067,7,37.19813540510544,1.0,1.0,0.9535403251647949
+splicing_connectors/test/logical_anomalies/033,1.0,True,True,기타 논리,splicing_connectors,part_missing,256.0,1,256.0,1.0,1.0,0.8073983192443848
+splicing_connectors/test/logical_anomalies/034,1.0,True,True,기타 논리,splicing_connectors,part_missing,256.0,1,256.0,1.0,1.0,0.812102198600769
+splicing_connectors/test/logical_anomalies/035,0.0,False,True,기타 논리,splicing_connectors,part_missing,21.701753607103218,1,21.701753607103218,1.0,0.22361820199778024,0.9744479656219482
+splicing_connectors/test/logical_anomalies/036,0.0,False,True,기타 논리,splicing_connectors,part_missing,9.512630410654827,1,9.512630410654827,1.0,0.11986681465038845,0.9706225395202637
+splicing_connectors/test/logical_anomalies/037,1.0,True,True,기타 논리,splicing_connectors,part_missing,9.529678135405105,1,9.529678135405105,0.8539057841383423,0.1695893451720311,0.976309061050415
+splicing_connectors/test/logical_anomalies/038,0.0,False,True,기타 논리,splicing_connectors,part_missing,13.351209766925638,1,13.351209766925638,1.0,0.17830188679245282,0.9535680413246155
+splicing_connectors/test/logical_anomalies/039,0.0,False,True,기타 논리,splicing_connectors,part_missing,21.829611542730298,1,21.829611542730298,0.9925810230378759,0.15319644839067703,0.9716175198554993
+splicing_connectors/test/logical_anomalies/040,0.6666666666666666,True,True,기타 논리,splicing_connectors,part_missing,21.679023307436182,1,21.679023307436182,1.0,0.18956714761376248,0.9734950661659241
+splicing_connectors/test/logical_anomalies/041,0.0,False,True,기타 논리,splicing_connectors,part_missing,9.577980022197558,1,9.577980022197558,1.0,0.1027857935627081,0.9725209474563599
+splicing_connectors/test/logical_anomalies/042,0.6666666666666666,False,True,기타 논리,splicing_connectors,part_missing,13.444972253052164,1,13.444972253052164,1.0,0.16950055493895672,0.9737610816955566
+splicing_connectors/test/logical_anomalies/043,0.0,False,True,기타 논리,splicing_connectors,part_missing,13.368257491675916,1,13.368257491675916,1.0,0.25456159822419533,0.9724739789962769
+splicing_connectors/test/logical_anomalies/044,0.0,False,True,기타 논리,splicing_connectors,part_missing,9.56093229744728,1,9.56093229744728,0.986627043090639,0.11809100998890122,0.97529137134552
+splicing_connectors/test/logical_anomalies/045,0.0,False,True,기타 논리,splicing_connectors,part_missing,21.74721420643729,1,21.74721420643729,1.0,0.2653496115427303,0.9689972996711731
+splicing_connectors/test/logical_anomalies/046,0.0,False,True,기타 논리,splicing_connectors,part_missing,13.385305216426193,1,13.385305216426193,1.0,0.28568257491675914,0.9768879413604736
+splicing_connectors/test/logical_anomalies/047,1.0,True,True,기타 논리,splicing_connectors,wiring,0.2997558268590455,6,8.734117647058824,0.49544567338972023,0.1672142064372919,0.980522096157074
+splicing_connectors/test/logical_anomalies/048,1.0,True,True,기타 논리,splicing_connectors,wiring,0.3253274139844617,6,9.470011098779134,1.0,0.3430854605993341,0.9793635606765747
+splicing_connectors/test/logical_anomalies/049,1.0,True,True,기타 논리,splicing_connectors,wiring,0.28128745837957825,6,7.890255271920089,0.49297803384947786,0.21825749167591565,0.9798456430435181
+splicing_connectors/test/logical_anomalies/050,1.0,True,True,기타 논리,splicing_connectors,wiring,0.30401775804661485,6,8.029478357380688,0.5042462845010616,0.16058823529411764,0.9786176085472107
+splicing_connectors/test/logical_anomalies/051,1.0,True,True,기타 논리,splicing_connectors,wiring,0.2656603773584906,6,8.992674805771365,1.0,0.3652830188679245,0.9825947880744934
+splicing_connectors/test/logical_anomalies/052,1.0,True,True,기타 논리,splicing_connectors,wiring,0.2969145394006659,6,10.742907880133185,0.4739486908225337,0.21576026637069923,0.9688305854797363
+splicing_connectors/test/logical_anomalies/053,1.0,True,True,기타 논리,splicing_connectors,wiring,0.2756048834628191,6,9.668901220865704,1.0,0.3889678135405105,0.9844644665718079
+splicing_connectors/test/logical_anomalies/054,1.0,True,False,기타 논리,splicing_connectors,wiring,0.32816870144284127,6,8.106193118756936,0.488608482299334,0.16661487236403996,0.9847856163978577
+splicing_connectors/test/logical_anomalies/055,1.0,True,True,기타 논리,splicing_connectors,wiring,0.27844617092119867,6,8.68013318534961,0.579050736497545,0.18879023307436182,0.9788875579833984
+splicing_connectors/test/logical_anomalies/056,1.0,True,True,기타 논리,splicing_connectors,wiring,0.4034628190899001,6,10.325238623751387,0.3896532746285085,0.13647058823529412,0.9724507927894592
+splicing_connectors/test/logical_anomalies/057,1.0,True,True,기타 논리,splicing_connectors,wiring,0.29549389567147616,5,8.441465038845728,1.0,0.2558490566037736,0.9838894009590149
+splicing_connectors/test/logical_anomalies/058,1.0,True,True,기타 논리,splicing_connectors,wiring,0.27134295227524974,6,8.725593784683685,0.8274177792250081,0.19176470588235295,0.9804676175117493
+splicing_connectors/test/logical_anomalies/059,0.3333333333333333,False,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.6650943396226415,0.6650943396226415,0.9599600434303284
+splicing_connectors/test/logical_anomalies/060,0.6666666666666666,True,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.974250832408435,0.974250832408435,0.9633166193962097
+splicing_connectors/test/logical_anomalies/061,0.0,False,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.6792452830188679,0.6792452830188679,0.9743422269821167
+splicing_connectors/test/logical_anomalies/062,0.0,False,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.5377358490566038,0.5377358490566038,0.9693555235862732
+splicing_connectors/test/logical_anomalies/063,0.0,False,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.6037735849056604,0.6037735849056604,0.9660687446594238
+splicing_connectors/test/logical_anomalies/064,0.6666666666666666,True,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.8944062153163153,0.8944062153163153,0.9707136750221252
+splicing_connectors/test/logical_anomalies/065,0.0,False,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.5235849056603774,0.5235849056603774,0.9621299505233765
+splicing_connectors/test/logical_anomalies/066,1.0,True,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.6792452830188679,0.6792452830188679,0.9554229378700256
+splicing_connectors/test/logical_anomalies/067,0.3333333333333333,False,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.470677025527192,0.470677025527192,0.9729193449020386
+splicing_connectors/test/logical_anomalies/068,0.6666666666666666,False,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.8289678135405105,0.8289678135405105,0.9593159556388855
+splicing_connectors/test/logical_anomalies/069,1.0,True,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.6650943396226415,0.6650943396226415,0.9564453363418579
+splicing_connectors/test/logical_anomalies/070,1.0,True,True,기타 논리,splicing_connectors,cable_length,256.0,1,256.0,0.9254273029966704,0.9254273029966704,0.9594593644142151
+splicing_connectors/test/logical_anomalies/071,1.0,True,False,기타 논리,splicing_connectors,cable_color,4.009056603773585,7,21.983041065482798,0.5082073154969626,0.20497225305216427,0.9856088161468506
+splicing_connectors/test/logical_anomalies/072,0.3333333333333333,True,False,기타 논리,splicing_connectors,cable_color,12.217536071032187,7,54.51294117647059,0.08094443865318461,0.09705882352941177,0.9784666299819946
+splicing_connectors/test/logical_anomalies/073,1.0,True,False,기타 논리,splicing_connectors,cable_color,7.444173140954495,7,36.71511653718091,0.22032193158953722,0.15342952275249722,0.9814421534538269
+splicing_connectors/test/logical_anomalies/074,1.0,True,False,기타 논리,splicing_connectors,cable_color,11.64927857935627,7,53.44177580466149,0.0631080865543091,0.1011764705882353,0.982727587223053
+splicing_connectors/test/logical_anomalies/075,0.6666666666666666,True,True,기타 논리,splicing_connectors,cable_color,7.9300332963374025,7,36.51054384017758,0.15455252918287937,0.18339622641509434,0.9746167063713074
+splicing_connectors/test/logical_anomalies/076,0.6666666666666666,True,False,기타 논리,splicing_connectors,cable_color,8.700022197558269,7,39.58197558268591,0.18462421936687962,0.11764705882352941,0.9838601350784302
+splicing_connectors/test/logical_anomalies/077,0.6666666666666666,True,True,기타 논리,splicing_connectors,cable_color,1.8454162042175362,6,21.74721420643729,0.18173504050169845,0.16117647058823528,0.982244610786438
+splicing_connectors/test/logical_anomalies/078,0.6666666666666666,True,True,기타 논리,splicing_connectors,cable_color,4.307391786903441,5,14.234850166481687,0.4499001996007984,0.2169589345172031,0.983613908290863
+splicing_connectors/test/logical_anomalies/079,1.0,True,True,기타 논리,splicing_connectors,cable_color,3.5402441731409544,5,13.547258601553828,0.34395973154362414,0.18529411764705883,0.9858944416046143
+splicing_connectors/test/logical_anomalies/080,0.0,False,True,기타 논리,splicing_connectors,cable_color,4.338645948945616,7,22.656426193118758,0.5008778530223226,0.24058823529411766,0.9809553027153015
+splicing_connectors/test/logical_anomalies/081,1.0,True,True,기타 논리,splicing_connectors,cable_color,8.75684794672586,7,39.42002219755827,0.3308346547498919,0.16361820199778024,0.9861736297607422
+splicing_connectors/test/logical_anomalies/082,1.0,True,False,기타 논리,splicing_connectors,cable_color,3.403862375138735,5,29.529500554938956,0.13460983354180697,0.17260821309655938,0.9830071330070496
+splicing_connectors/test/logical_anomalies/083,0.3333333333333333,False,True,기타 논리,splicing_connectors,wiring,0.4489234184239734,5,26.702419533851277,0.3669929772291977,0.05394006659267481,0.984931468963623
+splicing_connectors/test/logical_anomalies/084,0.3333333333333333,False,True,기타 논리,splicing_connectors,wiring,0.47733629300776914,5,36.85149833518313,0.9791827293754819,0.25598224195338515,0.9841786026954651
+splicing_connectors/test/logical_anomalies/085,0.3333333333333333,False,False,기타 논리,splicing_connectors,wiring,0.33527192008879025,5,28.17988901220866,0.2516636418632789,0.10248612652608213,0.9912850260734558
+splicing_connectors/test/logical_anomalies/086,0.6666666666666666,False,True,기타 논리,splicing_connectors,wiring,0.4801775804661487,5,27.122930077691453,0.2963544940289126,0.05034406215316315,0.9855071902275085
+splicing_connectors/test/logical_anomalies/087,0.0,False,False,기타 논리,splicing_connectors,wiring,0.37504994450610435,5,23.005904550499444,0.13066567864641226,0.031176470588235295,0.9834980964660645
+splicing_connectors/test/logical_anomalies/088,1.0,True,True,기타 논리,splicing_connectors,wiring,0.49154273029966705,5,23.71338512763596,0.6329978432782171,0.1111764705882353,0.9867233037948608
+splicing_connectors/test/logical_anomalies/089,1.0,True,True,기타 논리,splicing_connectors,wiring,0.4318756936736959,5,32.362264150943396,0.9976294995610184,0.34201997780244175,0.9835518002510071
+splicing_connectors/test/logical_anomalies/090,0.0,False,True,기타 논리,splicing_connectors,wiring,0.5284794672586015,5,34.305704772475025,0.3543978797415935,0.07058823529411765,0.9896678328514099
+splicing_connectors/test/logical_anomalies/091,0.0,False,False,기타 논리,splicing_connectors,wiring,0.4261931187569367,5,25.59431742508324,0.11345470692717584,0.03176470588235294,0.9856758713722229
+splicing_connectors/test/logical_anomalies/092,1.0,True,True,기타 논리,splicing_connectors,wiring,0.41198668146503886,5,36.23778024417314,0.22283205268935236,0.07764705882352942,0.9872584342956543
+splicing_connectors/test/logical_anomalies/093,1.0,True,False,기타 논리,splicing_connectors,wiring,0.38073251942286346,5,22.551298557158713,0.18105077485195917,0.032364039955604884,0.9878222346305847
+splicing_connectors/test/logical_anomalies/094,1.0,True,False,기타 논리,splicing_connectors,wiring,0.46028856825749165,5,39.61322974472808,1.0,0.5683906770255271,0.9829182028770447
+splicing_connectors/test/logical_anomalies/095,1.0,True,True,기타 논리,splicing_connectors,wiring,0.4290344062153163,5,33.382286348501665,0.4680398331772917,0.09527192008879024,0.9872534871101379
+splicing_connectors/test/logical_anomalies/096,0.3333333333333333,False,True,기타 논리,splicing_connectors,wiring,0.31822419533851276,5,34.237513873473915,0.1787551867219917,0.03529411764705882,0.9821951985359192
+splicing_connectors/test/logical_anomalies/097,1.0,True,False,기타 논리,splicing_connectors,wiring,0.35800221975582686,5,24.730566037735848,0.0998391544117647,0.03176470588235294,0.9872860312461853
+splicing_connectors/test/logical_anomalies/098,0.3333333333333333,False,True,기타 논리,splicing_connectors,wiring,0.4830188679245283,5,31.171764705882353,0.31574150031902287,0.058823529411764705,0.9886250495910645
+splicing_connectors/test/logical_anomalies/099,0.6666666666666666,True,True,기타 논리,splicing_connectors,wiring,0.40062153163152053,5,24.827169811320754,0.19501029983978027,0.04135405105438402,0.9885252118110657
+splicing_connectors/test/logical_anomalies/100,0.0,False,False,기타 논리,splicing_connectors,wiring,0.4318756936736959,5,22.051231964483907,-0.5,1.0,0.9878343939781189
+splicing_connectors/test/logical_anomalies/101,0.0,False,False,기타 논리,splicing_connectors,wiring,0.5171143174250833,5,32.26566037735849,-0.5,1.0,0.9849881529808044
+splicing_connectors/test/logical_anomalies/102,1.0,True,False,기타 논리,splicing_connectors,wiring,0.45460599334073254,5,31.637735849056604,1.0,0.5497891231964483,0.9874891042709351
+splicing_connectors/test/logical_anomalies/103,0.0,False,False,기타 논리,splicing_connectors,wiring,0.5398446170921198,5,29.893185349611542,0.017393783860849728,0.032364039955604884,0.9877833127975464
+splicing_connectors/test/logical_anomalies/104,0.3333333333333333,True,False,기타 논리,splicing_connectors,wiring,0.33527192008879025,5,24.31573806881243,0.20916101892965647,0.03176470588235294,0.9880532026290894
+splicing_connectors/test/logical_anomalies/105,1.0,True,True,기타 논리,splicing_connectors,wiring,0.4460821309655938,5,37.14983351831299,0.3367495219885277,0.07431742508324084,0.9735193252563477
+splicing_connectors/test/logical_anomalies/106,1.0,True,True,기타 논리,splicing_connectors,wiring,0.44039955604883463,5,34.57562708102109,0.17634974114553373,0.051176470588235295,0.9871716499328613
+splicing_connectors/test/logical_anomalies/107,0.0,False,False,기타 논리,splicing_connectors,wiring,0.47733629300776914,5,30.134694783573806,-0.5,1.0,0.990101158618927
+splicing_connectors/test/structural_anomalies/000,1.0,True,True,구조,splicing_connectors,cable_damaged,0.1449056603773585,1,0.1449056603773585,1.0,0.031176470588235295,0.9869630336761475
+splicing_connectors/test/structural_anomalies/001,1.0,True,False,구조,splicing_connectors,cable_damaged,0.06819089900110988,1,0.06819089900110988,1.0,0.03176470588235294,0.9867894649505615
+splicing_connectors/test/structural_anomalies/002,0.0,False,False,구조,splicing_connectors,cable_damaged,0.3153829078801332,1,0.3153829078801332,1.0,0.048546059933407326,0.9813459515571594
+splicing_connectors/test/structural_anomalies/003,1.0,True,True,구조,splicing_connectors,cable_damaged,0.15911209766925638,1,0.15911209766925638,1.0,0.032364039955604884,0.9865787625312805
+splicing_connectors/test/structural_anomalies/004,1.0,True,True,구조,splicing_connectors,cable_damaged,0.0653496115427303,1,0.0653496115427303,1.0,0.03176470588235294,0.9870426058769226
+splicing_connectors/test/structural_anomalies/005,1.0,True,True,구조,splicing_connectors,cable_damaged,0.18042175360710322,2,0.36084350721420644,1.0,0.05394006659267481,0.9792382121086121
+splicing_connectors/test/structural_anomalies/006,1.0,True,False,구조,splicing_connectors,cable_damaged,0.4830188679245283,1,0.4830188679245283,1.0,0.06712541620421754,0.9826585054397583
+splicing_connectors/test/structural_anomalies/007,1.0,True,True,구조,splicing_connectors,cable_damaged,0.29549389567147616,1,0.29549389567147616,1.0,0.03411764705882353,0.9821997284889221
+splicing_connectors/test/structural_anomalies/008,1.0,True,True,구조,splicing_connectors,cable_damaged,0.289811320754717,1,0.289811320754717,1.0,0.0467480577136515,0.98335862159729
+splicing_connectors/test/structural_anomalies/009,1.0,True,True,구조,splicing_connectors,cable_damaged,0.363684794672586,1,0.363684794672586,1.0,0.04794672586015538,0.9861162304878235
+splicing_connectors/test/structural_anomalies/010,0.3333333333333333,False,False,구조,splicing_connectors,cable_damaged,0.17473917869034405,2,0.3494783573806881,1.0,0.07588235294117647,0.9850981831550598
+splicing_connectors/test/structural_anomalies/011,1.0,True,False,구조,splicing_connectors,cable_damaged,0.16195338512763596,1,0.16195338512763596,1.0,0.045549389567147616,0.9899863600730896
+splicing_connectors/test/structural_anomalies/012,0.0,False,True,구조,splicing_connectors,connector_damaged,1.6024861265260821,1,1.6024861265260821,1.0,0.04261931187569367,0.985504686832428
+splicing_connectors/test/structural_anomalies/013,1.0,True,True,구조,splicing_connectors,connector_damaged,1.974694783573807,1,1.974694783573807,1.0,0.05205327413984462,0.9851168394088745
+splicing_connectors/test/structural_anomalies/014,1.0,True,False,구조,splicing_connectors,connector_damaged,0.5853052164261932,1,0.5853052164261932,1.0,0.03176470588235294,0.986901581287384
+splicing_connectors/test/structural_anomalies/015,1.0,True,False,구조,splicing_connectors,connector_damaged,0.35800221975582686,3,1.0825305216426193,0.9606299212598425,0.04894561598224195,0.9851771593093872
+splicing_connectors/test/structural_anomalies/016,0.3333333333333333,False,False,구조,splicing_connectors,connector_damaged,1.0796892341842397,1,1.0796892341842397,1.0,0.6616648168701443,0.9806513786315918
+splicing_connectors/test/structural_anomalies/017,1.0,True,True,구조,splicing_connectors,connector_damaged,2.787302996670366,1,2.787302996670366,1.0,0.13041065482796893,0.9778192639350891
+splicing_connectors/test/structural_anomalies/018,1.0,True,True,구조,splicing_connectors,connector_damaged,1.2103884572697003,1,1.2103884572697003,1.0,0.07458379578246394,0.9874585866928101
+splicing_connectors/test/structural_anomalies/019,1.0,True,True,구조,splicing_connectors,connector_damaged,1.4604217536071031,1,1.4604217536071031,0.9961089494163424,0.03955604883462819,0.9848933815956116
+splicing_connectors/test/structural_anomalies/020,1.0,True,True,구조,splicing_connectors,connector_damaged,0.653496115427303,1,0.653496115427303,1.0,0.05214206437291898,0.986377477645874
+splicing_connectors/test/structural_anomalies/021,1.0,True,False,구조,splicing_connectors,connector_damaged,0.21593784683684794,1,0.21593784683684794,-0.5,1.0,0.987101137638092
+splicing_connectors/test/structural_anomalies/022,0.6666666666666666,True,False,구조,splicing_connectors,connector_damaged,2.9151609322974474,1,2.9151609322974474,0.8703703703703703,0.0495449500554939,0.983367919921875
+splicing_connectors/test/structural_anomalies/023,1.0,True,True,구조,splicing_connectors,connector_damaged,10.7826859045505,1,10.7826859045505,1.0,0.14293007769145394,0.9869254231452942
+splicing_connectors/test/structural_anomalies/024,0.0,False,False,구조,splicing_connectors,wiring,0.23866814650388457,2,0.47733629300776914,0.8273809523809523,0.033529411764705884,0.9846349954605103
+splicing_connectors/test/structural_anomalies/025,1.0,True,False,구조,splicing_connectors,wiring,1.4021753607103218,2,2.8043507214206436,1.0,0.11027746947835738,0.9851585030555725
+splicing_connectors/test/structural_anomalies/026,1.0,True,True,구조,splicing_connectors,wiring,0.26850166481687016,2,0.5370033296337403,0.4603174603174603,0.03356270810210877,0.9818273782730103
+splicing_connectors/test/structural_anomalies/027,0.3333333333333333,False,True,구조,splicing_connectors,wiring,0.3764705882352941,2,0.7529411764705882,0.5622641509433962,0.03529411764705882,0.9793419241905212
+splicing_connectors/test/structural_anomalies/028,0.3333333333333333,False,False,구조,splicing_connectors,wiring,0.32106548279689234,2,0.6421309655937847,0.588495575221239,0.03715871254162042,0.9859738945960999
+splicing_connectors/test/structural_anomalies/029,0.6666666666666666,True,True,구조,splicing_connectors,wiring,0.4659711431742508,2,0.9319422863485016,0.6432926829268293,0.032364039955604884,0.9864758849143982
+splicing_connectors/test/structural_anomalies/030,1.0,True,False,구조,splicing_connectors,wiring,1.7331853496115428,2,3.4663706992230856,1.0,0.12226415094339622,0.9781966209411621
+splicing_connectors/test/structural_anomalies/031,0.6666666666666666,True,True,구조,splicing_connectors,wiring,0.4972253052164262,2,0.9944506104328524,0.7257142857142858,0.04135405105438402,0.9876738786697388
+splicing_connectors/test/structural_anomalies/032,0.0,False,False,구조,splicing_connectors,wiring,0.37362930077691453,2,0.7472586015538291,1.0,0.040754716981132075,0.9849515557289124
+splicing_connectors/test/structural_anomalies/033,0.0,False,False,구조,splicing_connectors,color,1.071165371809101,1,1.071165371809101,0.9230769230769231,0.037758046614872365,0.9885815382003784
+splicing_connectors/test/structural_anomalies/034,0.0,False,False,구조,splicing_connectors,color,0.4574472807991121,1,0.4574472807991121,1.0,0.05529411764705883,0.9855073094367981
+splicing_connectors/test/structural_anomalies/035,0.0,False,True,구조,splicing_connectors,color,0.559733629300777,1,0.559733629300777,1.0,0.04941176470588235,0.9822366237640381
+splicing_connectors/test/structural_anomalies/036,0.0,False,False,구조,splicing_connectors,color,0.235826859045505,1,0.235826859045505,1.0,0.04195338512763596,0.9826657176017761
+splicing_connectors/test/structural_anomalies/037,0.0,False,False,구조,splicing_connectors,color,0.16195338512763596,1,0.16195338512763596,1.0,0.04435072142064373,0.9888384938240051
+splicing_connectors/test/structural_anomalies/038,0.0,False,False,구조,splicing_connectors,color,0.06392896781354052,4,0.26423973362930075,1.0,0.06588235294117648,0.9825621843338013
+splicing_connectors/test/structural_anomalies/039,0.0,False,False,구조,splicing_connectors,color,0.22730299667036627,1,0.22730299667036627,1.0,0.041176470588235294,0.9829309582710266
+splicing_connectors/test/structural_anomalies/040,0.0,False,False,구조,splicing_connectors,color,0.30401775804661485,1,0.30401775804661485,1.0,0.04823529411764706,0.9909012913703918
+splicing_connectors/test/structural_anomalies/041,0.0,False,False,구조,splicing_connectors,color,0.05682574916759157,3,0.17900110987791343,1.0,0.042352941176470586,0.9857634902000427
+splicing_connectors/test/structural_anomalies/042,0.0,False,True,구조,splicing_connectors,color,0.08665926748057713,4,0.34095449500554936,1.0,0.07072142064372919,0.9835188388824463
+splicing_connectors/test/structural_anomalies/043,0.0,False,False,구조,splicing_connectors,color,0.3267480577136515,1,0.3267480577136515,1.0,0.0611764705882353,0.9876322150230408
+splicing_connectors/test/structural_anomalies/044,0.0,False,False,구조,splicing_connectors,contamination,0.5568923418423973,1,0.5568923418423973,1.0,0.034761376248612655,0.9878706336021423
+splicing_connectors/test/structural_anomalies/045,0.0,False,False,구조,splicing_connectors,contamination,0.9376248612652608,1,0.9376248612652608,1.0,0.08540510543840178,0.9827563166618347
+splicing_connectors/test/structural_anomalies/046,0.6666666666666666,True,False,구조,splicing_connectors,contamination,1.4590011098779134,2,2.918002219755827,1.0,0.673118756936737,0.9384215474128723
+splicing_connectors/test/structural_anomalies/047,1.0,True,True,구조,splicing_connectors,contamination,2.7645726970033295,1,2.7645726970033295,1.0,0.13496115427302996,0.9582984447479248
+splicing_connectors/test/structural_anomalies/048,0.0,False,True,구조,splicing_connectors,contamination,4.4863928967813544,1,4.4863928967813544,1.0,0.13269700332963374,0.9803332090377808
+splicing_connectors/test/structural_anomalies/049,0.0,False,False,구조,splicing_connectors,contamination,9.711520532741398,1,9.711520532741398,1.0,0.2538179800221976,0.9795423746109009
+splicing_connectors/test/structural_anomalies/050,0.0,False,False,구조,splicing_connectors,contamination,9.70299667036626,1,9.70299667036626,1.0,0.5435072142064373,0.9674571752548218
+splicing_connectors/test/structural_anomalies/051,0.0,False,False,구조,splicing_connectors,contamination,1.7445504994450611,1,1.7445504994450611,1.0,0.5849056603773585,0.9755914807319641
+splicing_connectors/test/structural_anomalies/052,0.6666666666666666,False,False,구조,splicing_connectors,contamination,1.7587569367369589,1,1.7587569367369589,1.0,0.18832408435072143,0.9636487364768982
+splicing_connectors/test/structural_anomalies/053,0.0,False,False,구조,splicing_connectors,contamination,2.3895227524972253,1,2.3895227524972253,0.0,0.20341842397336293,0.9735023379325867
+splicing_connectors/test/structural_anomalies/054,0.0,False,False,구조,splicing_connectors,contamination,0.2699223085460599,1,0.2699223085460599,1.0,0.037758046614872365,0.9829467535018921
+splicing_connectors/test/structural_anomalies/055,0.3333333333333333,False,True,구조,splicing_connectors,connector_damaged,22.44901220865705,1,22.44901220865705,1.0,0.36699223085460597,0.9760820865631104
+splicing_connectors/test/structural_anomalies/056,0.0,False,True,구조,splicing_connectors,connector_damaged,13.689322974472807,1,13.689322974472807,1.0,0.581354051054384,0.9773852825164795
+splicing_connectors/test/structural_anomalies/057,0.0,False,True,구조,splicing_connectors,connector_damaged,13.686481687014428,1,13.686481687014428,1.0,0.5554938956714761,0.9827216863632202
+splicing_connectors/test/structural_anomalies/058,0.6666666666666666,True,True,구조,splicing_connectors,connector_damaged,22.341043285238623,1,22.341043285238623,1.0,0.34521642619311876,0.9666443467140198
+splicing_connectors/test/structural_anomalies/059,0.3333333333333333,True,True,구조,splicing_connectors,connector_damaged,22.585394006659268,1,22.585394006659268,1.0,0.30314095449500555,0.9773308038711548
+splicing_connectors/test/structural_anomalies/060,0.0,False,True,구조,splicing_connectors,connector_damaged,13.791609322974473,1,13.791609322974473,1.0,0.5581798002219756,0.973983645439148
+splicing_connectors/test/structural_anomalies/061,0.0,False,True,구조,splicing_connectors,connector_damaged,13.635338512763596,1,13.635338512763596,1.0,0.525449500554939,0.9743369817733765
+splicing_connectors/test/structural_anomalies/062,0.6666666666666666,True,True,구조,splicing_connectors,connector_damaged,9.845061043285238,1,9.845061043285238,1.0,0.13295227524972253,0.972136914730072
+splicing_connectors/test/structural_anomalies/063,1.0,True,True,구조,splicing_connectors,connector_damaged,9.742774694783574,1,9.742774694783574,1.0,0.16088790233074363,0.9729701280593872
+splicing_connectors/test/structural_anomalies/064,0.6666666666666666,True,True,구조,splicing_connectors,connector_damaged,9.77971143174251,1,9.77971143174251,1.0,0.14657047724750277,0.9768633842468262
+splicing_connectors/test/structural_anomalies/065,0.3333333333333333,False,True,구조,splicing_connectors,connector_damaged,22.29558268590455,1,22.29558268590455,1.0,0.3526637069922309,0.9838209748268127
+splicing_connectors/test/structural_anomalies/066,1.0,True,True,구조,splicing_connectors,connector_damaged,9.76834628190899,1,9.76834628190899,1.0,0.13075471698113209,0.9737091064453125
+splicing_connectors/test/structural_anomalies/067,1.0,True,True,구조,splicing_connectors,cable_color,0.2926526082130966,3,3.5942286348501664,1.0,0.207669256381798,0.9802616238594055
+splicing_connectors/test/structural_anomalies/068,1.0,True,True,구조,splicing_connectors,cable_color,0.3466370699223085,3,3.989167591564928,1.0,0.21132075471698114,0.9765673875808716
+splicing_connectors/test/structural_anomalies/069,1.0,True,False,구조,splicing_connectors,cable_color,0.3153829078801332,3,3.591387347391787,1.0,0.5625749167591565,0.9855592846870422
+splicing_connectors/test/structural_anomalies/070,1.0,True,True,구조,splicing_connectors,cable_color,0.3494783573806881,3,5.318890122086571,1.0,0.35294117647058826,0.9771925806999207
+splicing_connectors/test/structural_anomalies/071,1.0,True,True,구조,splicing_connectors,cable_color,0.28128745837957825,3,3.361243063263041,1.0,0.19405105438401776,0.9806751608848572
+splicing_connectors/test/structural_anomalies/072,1.0,True,True,구조,splicing_connectors,cable_color,0.2613984461709212,3,4.6767591564927855,1.0,0.31622641509433963,0.9766358137130737
+splicing_connectors/test/structural_anomalies/073,1.0,True,True,구조,splicing_connectors,connector_damaged,2.824239733629301,1,2.824239733629301,1.0,0.30543840177580467,0.9805467128753662
+splicing_connectors/test/structural_anomalies/074,0.6666666666666666,True,True,구조,splicing_connectors,connector_damaged,2.7844617092119868,1,2.7844617092119868,1.0,0.4890566037735849,0.9873989820480347
+splicing_connectors/test/structural_anomalies/075,0.6666666666666666,True,False,구조,splicing_connectors,connector_damaged,2.864017758046615,1,2.864017758046615,1.0,0.17980022197558268,0.9845120310783386
+splicing_connectors/test/structural_anomalies/076,0.0,False,True,구조,splicing_connectors,connector_damaged,2.810033296337403,1,2.810033296337403,1.0,0.6037735849056604,0.9856208562850952
+splicing_connectors/test/structural_anomalies/077,0.0,False,True,구조,splicing_connectors,connector_damaged,2.849811320754717,1,2.849811320754717,1.0,0.6415094339622641,0.9867302775382996
+splicing_connectors/test/structural_anomalies/078,1.0,True,True,구조,splicing_connectors,connector_damaged,2.795826859045505,1,2.795826859045505,1.0,0.13518312985571587,0.9862683415412903
+splicing_connectors/test/structural_anomalies/079,1.0,True,True,구조,splicing_connectors,connector_damaged,2.883906770255272,1,2.883906770255272,1.0,0.12586015538290787,0.9830600619316101
+splicing_connectors/test/structural_anomalies/080,1.0,True,True,구조,splicing_connectors,connector_damaged,2.6708102108768035,1,2.6708102108768035,1.0,0.13385127635960045,0.9867275953292847
+splicing_connectors/test/structural_anomalies/081,0.0,False,False,구조,splicing_connectors,connector_damaged,2.82992230854606,1,2.82992230854606,1.0,0.5754716981132075,0.9851105809211731
+splicing_connectors/test/structural_anomalies/082,0.6666666666666666,True,True,구조,splicing_connectors,connector_damaged,2.8981132075471696,1,2.8981132075471696,1.0,0.20226415094339623,0.9847763180732727
+splicing_connectors/test/structural_anomalies/083,1.0,True,True,구조,splicing_connectors,connector_damaged,2.918002219755827,1,2.918002219755827,1.0,0.2120976692563818,0.9845749139785767
+splicing_connectors/test/structural_anomalies/084,1.0,True,True,구조,splicing_connectors,connector_damaged,2.9151609322974474,1,2.9151609322974474,1.0,0.14084350721420644,0.9818937182426453

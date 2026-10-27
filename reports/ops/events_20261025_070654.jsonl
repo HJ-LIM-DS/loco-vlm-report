@@ -1,0 +1,78 @@
+{"ts": 1792849656.2618496, "time": "2026-10-24 22:47:36", "kind": "checkpoint", "run": "_smoke_m1_vlm2b_f0", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792849706.1669588, "time": "2026-10-24 22:48:26", "kind": "resume", "run": "_smoke_m1_vlm2b_f0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792849813.9428341, "time": "2026-10-24 22:50:13", "kind": "checkpoint", "run": "_smoke_m1_vlm2b_f0", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792849863.5568912, "time": "2026-10-24 22:51:03", "kind": "resume", "run": "_smoke_m1_vlm2b_f0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792849950.191515, "time": "2026-10-24 22:52:30", "kind": "checkpoint", "run": "_smoke_m1_vlm2b_f0", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792849999.5823085, "time": "2026-10-24 22:53:19", "kind": "resume", "run": "_smoke_m1_vlm2b_f0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792850020.7849712, "time": "2026-10-24 22:53:40", "kind": "checkpoint", "run": "_smoke_m1_vlm2b_f0", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792850095.5968628, "time": "2026-10-24 22:54:55", "kind": "checkpoint", "run": "_smoke_m1_effad_breakfast_box", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_breakfast_box\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792850118.9631238, "time": "2026-10-24 22:55:18", "kind": "resume", "run": "_smoke_m1_effad_breakfast_box", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_breakfast_box\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792850123.9093392, "time": "2026-10-24 22:55:23", "kind": "checkpoint", "run": "_smoke_m1_effad_breakfast_box", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_breakfast_box\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792850186.8227599, "time": "2026-10-24 22:56:26", "kind": "checkpoint", "run": "_smoke_m1_effad_screw_bag", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_screw_bag\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792850208.7499845, "time": "2026-10-24 22:56:48", "kind": "resume", "run": "_smoke_m1_effad_screw_bag", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_screw_bag\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792850213.2175047, "time": "2026-10-24 22:56:53", "kind": "checkpoint", "run": "_smoke_m1_effad_screw_bag", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_screw_bag\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792850313.718196, "time": "2026-10-24 22:58:33", "kind": "checkpoint", "run": "_smoke_m1_vlm4b_bench", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm4b_bench\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792850376.9600627, "time": "2026-10-24 22:59:36", "kind": "resume", "run": "_smoke_m1_vlm4b_bench", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm4b_bench\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792850420.9593146, "time": "2026-10-24 23:00:20", "kind": "checkpoint", "run": "_smoke_m1_vlm4b_bench", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm4b_bench\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792876209.21398, "time": "2026-10-25 06:10:09", "kind": "env_setup", "run": null, "task": "\\LOCO-Train\\Supervisor"}
+{"ts": 1792876269.456375, "time": "2026-10-25 06:11:09", "kind": "run_start", "run": "f1_ref", "attempt": 1, "pid": 21664, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f1_ref\\attempt_1.log"}
+{"ts": 1792876269.4585454, "time": "2026-10-25 06:11:09", "kind": "supervisor_start", "run": null, "pid": 18996}
+{"ts": 1792876269.5713692, "time": "2026-10-25 06:11:09", "kind": "monitor_open", "run": null}
+{"ts": 1792876333.523252, "time": "2026-10-25 06:12:13", "kind": "checkpoint", "run": "f1_ref", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_ref\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792876352.0718586, "time": "2026-10-25 06:12:32", "kind": "checkpoint", "run": "f1_ref", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_ref\\checkpoints\\checkpoint-20", "attempt": 1}
+{"ts": 1792876370.76814, "time": "2026-10-25 06:12:50", "kind": "checkpoint", "run": "f1_ref", "step": 30, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_ref\\checkpoints\\checkpoint-30", "attempt": 1}
+{"ts": 1792876389.1176872, "time": "2026-10-25 06:13:09", "kind": "checkpoint", "run": "f1_ref", "step": 40, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_ref\\checkpoints\\checkpoint-40", "attempt": 1}
+{"ts": 1792876399.8317077, "time": "2026-10-25 06:13:19", "kind": "run_done", "run": "f1_ref", "attempt": 1}
+{"ts": 1792876399.8382885, "time": "2026-10-25 06:13:19", "kind": "run_start", "run": "f1_kill", "attempt": 1, "pid": 8408, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\attempt_1.log"}
+{"ts": 1792876458.6441996, "time": "2026-10-25 06:14:18", "kind": "checkpoint", "run": "f1_kill", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792876476.954546, "time": "2026-10-25 06:14:36", "kind": "checkpoint", "run": "f1_kill", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\checkpoints\\checkpoint-20", "attempt": 1}
+{"ts": 1792876486.0910602, "time": "2026-10-25 06:14:46", "kind": "drill_kill_training", "run": "f1_kill", "pid": 8408}
+{"ts": 1792876490.0143242, "time": "2026-10-25 06:14:50", "kind": "run_retry", "run": "f1_kill", "attempt": 1, "reason": "exit code 15", "code": 15}
+{"ts": 1792876490.0159798, "time": "2026-10-25 06:14:50", "kind": "run_start", "run": "f1_kill", "attempt": 2, "pid": 29048, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\attempt_2.log"}
+{"ts": 1792876510.6423054, "time": "2026-10-25 06:15:10", "kind": "resume", "run": "f1_kill", "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792876549.8537903, "time": "2026-10-25 06:15:49", "kind": "checkpoint", "run": "f1_kill", "step": 30, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\checkpoints\\checkpoint-30", "attempt": 2}
+{"ts": 1792876568.2549958, "time": "2026-10-25 06:16:08", "kind": "checkpoint", "run": "f1_kill", "step": 40, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\checkpoints\\checkpoint-40", "attempt": 2}
+{"ts": 1792876580.1893222, "time": "2026-10-25 06:16:20", "kind": "run_done", "run": "f1_kill", "attempt": 2}
+{"ts": 1792876580.197974, "time": "2026-10-25 06:16:20", "kind": "run_start", "run": "f2_supervisor", "attempt": 1, "pid": 28536, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\attempt_1.log"}
+{"ts": 1792876708.2103658, "time": "2026-10-25 06:18:28", "kind": "drill_kill_supervisor", "run": null, "pid": 18996}
+{"ts": 1792876800.539302, "time": "2026-10-25 06:20:00", "kind": "checkpoint", "run": "f2_supervisor", "step": 100, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\checkpoints\\checkpoint-100", "attempt": 1}
+{"ts": 1792876870.4338415, "time": "2026-10-25 06:21:10", "kind": "run_adopted", "run": "f2_supervisor", "attempt": 1, "pid": 28536}
+{"ts": 1792876870.4338415, "time": "2026-10-25 06:21:10", "kind": "supervisor_start", "run": null, "pid": 3816}
+{"ts": 1792876892.3209388, "time": "2026-10-25 06:21:32", "kind": "drill_close_monitor", "run": null, "pid": 18604}
+{"ts": 1792876922.3423388, "time": "2026-10-25 06:22:02", "kind": "drill_reopen_monitor", "run": null}
+{"ts": 1792876922.9120011, "time": "2026-10-25 06:22:02", "kind": "monitor_open", "run": null}
+{"ts": 1792876982.522397, "time": "2026-10-25 06:23:02", "kind": "checkpoint", "run": "f2_supervisor", "step": 200, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\checkpoints\\checkpoint-200", "attempt": 1}
+{"ts": 1792877184.757444, "time": "2026-10-25 06:26:24", "kind": "checkpoint", "run": "f2_supervisor", "step": 300, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\checkpoints\\checkpoint-300", "attempt": 1}
+{"ts": 1792877364.5955105, "time": "2026-10-25 06:29:24", "kind": "checkpoint", "run": "f2_supervisor", "step": 400, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\checkpoints\\checkpoint-400", "attempt": 1}
+{"ts": 1792877536.553081, "time": "2026-10-25 06:32:16", "kind": "checkpoint", "run": "f2_supervisor", "step": 500, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\checkpoints\\checkpoint-500", "attempt": 1}
+{"ts": 1792877716.6457682, "time": "2026-10-25 06:35:16", "kind": "checkpoint", "run": "f2_supervisor", "step": 600, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\checkpoints\\checkpoint-600", "attempt": 1}
+{"ts": 1792877724.8434758, "time": "2026-10-25 06:35:24", "kind": "run_done", "run": "f2_supervisor", "attempt": 1}
+{"ts": 1792877724.8890843, "time": "2026-10-25 06:35:24", "kind": "run_start", "run": "f3_fault", "attempt": 1, "pid": 12896, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f3_fault\\attempt_1.log"}
+{"ts": 1792877775.1579866, "time": "2026-10-25 06:36:15", "kind": "run_retry", "run": "f3_fault", "attempt": 1, "reason": "ops.train_hooks.InjectedFault: 고장 주입: step N", "code": 1}
+{"ts": 1792877775.165999, "time": "2026-10-25 06:36:15", "kind": "run_start", "run": "f3_fault", "attempt": 2, "pid": 22768, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f3_fault\\attempt_2.log"}
+{"ts": 1792877825.4262383, "time": "2026-10-25 06:37:05", "kind": "run_failed", "run": "f3_fault", "attempt": 2, "reason": "ops.train_hooks.InjectedFault: 고장 주입: step N", "count": 2}
+{"ts": 1792877825.4757917, "time": "2026-10-25 06:37:05", "kind": "run_start", "run": "f4_hang", "attempt": 1, "pid": 19036, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f4_hang\\attempt_1.log"}
+{"ts": 1792877879.303701, "time": "2026-10-25 06:37:59", "kind": "checkpoint", "run": "f4_hang", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f4_hang\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792877886.9010193, "time": "2026-10-25 06:38:06", "kind": "fault_hang", "run": "f4_hang", "step": 15, "attempt": 1}
+{"ts": 1792877946.098854, "time": "2026-10-25 06:39:06", "kind": "heartbeat_timeout", "run": "f4_hang", "attempt": 1, "age_s": 61}
+{"ts": 1792877946.3985767, "time": "2026-10-25 06:39:06", "kind": "run_retry", "run": "f4_hang", "attempt": 1, "reason": "하트비트 정지", "code": null}
+{"ts": 1792877946.3985767, "time": "2026-10-25 06:39:06", "kind": "run_start", "run": "f4_hang", "attempt": 2, "pid": 15600, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f4_hang\\attempt_2.log"}
+{"ts": 1792877965.3492193, "time": "2026-10-25 06:39:25", "kind": "resume", "run": "f4_hang", "path": "E:\\VLM_MVTec LOCO AD\\runs\\f4_hang\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792877999.8564851, "time": "2026-10-25 06:39:59", "kind": "checkpoint", "run": "f4_hang", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f4_hang\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792878015.9640887, "time": "2026-10-25 06:40:15", "kind": "checkpoint", "run": "f4_hang", "step": 30, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f4_hang\\checkpoints\\checkpoint-30", "attempt": 2}
+{"ts": 1792878026.825132, "time": "2026-10-25 06:40:26", "kind": "run_done", "run": "f4_hang", "attempt": 2}
+{"ts": 1792878026.8326447, "time": "2026-10-25 06:40:26", "kind": "run_start", "run": "f5_corrupt", "attempt": 1, "pid": 26832, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\attempt_1.log"}
+{"ts": 1792878080.749095, "time": "2026-10-25 06:41:20", "kind": "checkpoint", "run": "f5_corrupt", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792878096.9197268, "time": "2026-10-25 06:41:36", "kind": "checkpoint", "run": "f5_corrupt", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-20", "attempt": 1}
+{"ts": 1792878113.0300176, "time": "2026-10-25 06:41:53", "kind": "checkpoint", "run": "f5_corrupt", "step": 30, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-30", "attempt": 1}
+{"ts": 1792878129.136016, "time": "2026-10-25 06:42:09", "kind": "checkpoint", "run": "f5_corrupt", "step": 40, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-40", "attempt": 1}
+{"ts": 1792878145.338871, "time": "2026-10-25 06:42:25", "kind": "checkpoint", "run": "f5_corrupt", "step": 50, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-50", "attempt": 1}
+{"ts": 1792878146.869646, "time": "2026-10-25 06:42:26", "kind": "drill_corrupt_checkpoint", "run": "f5_corrupt", "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-50\\adapter_model.safetensors"}
+{"ts": 1792878147.4631944, "time": "2026-10-25 06:42:27", "kind": "run_retry", "run": "f5_corrupt", "attempt": 1, "reason": "exit code 15", "code": 15}
+{"ts": 1792878147.4671934, "time": "2026-10-25 06:42:27", "kind": "run_start", "run": "f5_corrupt", "attempt": 2, "pid": 26612, "log": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\attempt_2.log"}
+{"ts": 1792878166.6116636, "time": "2026-10-25 06:42:46", "kind": "checkpoint_invalid", "run": null, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-50", "error": "SafetensorError: Error while deserializing header: incomplete metadata, file not fully covered"}
+{"ts": 1792878166.613664, "time": "2026-10-25 06:42:46", "kind": "resume", "run": "f5_corrupt", "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-40", "attempt": 2}
+{"ts": 1792878201.3494825, "time": "2026-10-25 06:43:21", "kind": "checkpoint", "run": "f5_corrupt", "step": 50, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-50", "attempt": 2}
+{"ts": 1792878217.3396888, "time": "2026-10-25 06:43:37", "kind": "checkpoint", "run": "f5_corrupt", "step": 60, "path": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\checkpoints\\checkpoint-60", "attempt": 2}
+{"ts": 1792878227.8893855, "time": "2026-10-25 06:43:47", "kind": "run_done", "run": "f5_corrupt", "attempt": 2}
+{"ts": 1792878227.8903737, "time": "2026-10-25 06:43:47", "kind": "supervisor_idle_exit", "run": null}

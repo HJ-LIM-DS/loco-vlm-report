@@ -1,0 +1,561 @@
+# 학습 대기열 (감독자 ops.supervisor가 위에서부터 순서대로 실행, 매 루프 다시 읽음)
+#
+# 항목 필드
+#   name        run 이름 (runs/<name>/에 로그·체크포인트·final)
+#   cmd         실행 명령 ("python"은 감독자가 python.exe로 바꿈, 작업 폴더는 프로젝트 루트)
+#   kind        train(기본: DONE 표식 필수) | task(데이터 작업: 종료 코드 0 + outputs로 판정)
+#   smoke       true면 python -m ops.smoke <name> 통과 기록이 있어야 시작 (기본 true)
+#   smoke_cmd   스모크에 쓸 명령 (입력이 앞 run의 결과라 아직 없을 때 같은 설정의 대체 입력으로 시험)
+#   env         추가 환경 변수 (고장 주입: LOCO_FAULT_AT_STEP, LOCO_FAULT_HANG_AT_STEP, LOCO_FAULT_ATTEMPT)
+#   requires    시작 전 존재해야 하는 경로
+#   outputs     완료 판정에 필요한 결과 파일 (.json은 파싱까지 확인)
+#   min_free_vram_gb, heartbeat_timeout_min, startup_grace_min: run별 덮어쓰기
+#   enabled     false면 건너뜀 (M1 본 작업은 고장 주입 시험 F1~F9 통과 후 켬)
+
+settings:
+  poll_s: 10
+  heartbeat_timeout_min: 15
+  startup_grace_min: 15
+  min_free_vram_gb: 10
+  min_free_disk_gb: 50
+  max_same_error: 2
+  max_attempts: 6
+  auto_teardown: true
+  open_monitor: true
+
+runs:
+  # --- 고장 주입 시험 (2B LoRA, GT crop 데이터, 짧게). F1~F6 통과 후 비활성 ---
+  - name: f1_ref            # F1 기준: 끊김 없는 40 step 손실 곡선
+    enabled: false            # 시험 완료(2026-10-25, reports/ops/fault_tests.md)
+    smoke: false
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --max-steps, "40", --grad-accum, "1",
+          --save-steps, "10", --logging-steps, "1", --no-eval-loss, --no-eval-generate, --no-mlflow]
+    outputs: [runs/f1_ref/final/summary.json]
+  - name: f1_kill           # F1: 학습 중 프로세스를 강제 종료 -> 1분 안에 재개, 손실 곡선이 f1_ref와 일치
+    enabled: false            # 시험 완료(2026-10-25, reports/ops/fault_tests.md)
+    smoke: false
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --max-steps, "40", --grad-accum, "1",
+          --save-steps, "10", --logging-steps, "1", --no-eval-loss, --no-eval-generate, --no-mlflow]
+    outputs: [runs/f1_kill/final/summary.json]
+  - name: f2_supervisor     # F2: 학습 중 감독자 강제 종료 -> 작업 스케줄러가 10분 안에 재시작, 학습 계속
+    enabled: false            # 시험 완료(2026-10-25, reports/ops/fault_tests.md)
+    smoke: false
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --max-steps, "600", --grad-accum, "1",
+          --save-steps, "100", --logging-steps, "10", --no-eval-loss, --no-eval-generate, --no-mlflow]
+    outputs: [runs/f2_supervisor/final/summary.json]
+  - name: f3_fault          # F3: step 5 예외 -> 같은 서명 2회 후 failed, 다음 run 시작, 토스트 알림
+    enabled: false            # 시험 완료(2026-10-25, reports/ops/fault_tests.md)
+    smoke: false
+    env: {LOCO_FAULT_AT_STEP: 5}
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --max-steps, "20", --grad-accum, "1",
+          --save-steps, "10", --logging-steps, "1", --no-eval-loss, --no-eval-generate, --no-mlflow]
+  - name: f4_hang           # F4: 1차 시도 step 15에서 하트비트 정지(임계값 1분) -> 강제 종료 후 재개
+    enabled: false            # 시험 완료(2026-10-25, reports/ops/fault_tests.md)
+    smoke: false
+    heartbeat_timeout_min: 1
+    env: {LOCO_FAULT_HANG_AT_STEP: 15, LOCO_FAULT_ATTEMPT: 1}
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --max-steps, "30", --grad-accum, "1",
+          --save-steps, "10", --logging-steps, "1", --no-eval-loss, --no-eval-generate, --no-mlflow]
+    outputs: [runs/f4_hang/final/summary.json]
+  - name: f5_corrupt        # F5: 마지막 체크포인트 손상 + 종료 -> 이전 체크포인트에서 재개
+    enabled: false            # 시험 완료(2026-10-25, reports/ops/fault_tests.md)
+    smoke: false
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --max-steps, "60", --grad-accum, "1",
+          --save-steps, "10", --logging-steps, "1", --no-eval-loss, --no-eval-generate, --no-mlflow]
+    outputs: [runs/f5_corrupt/final/summary.json]
+
+  # --- 탐지기 확정: SALAD 사전학습 가중치로 점수·맵 추출 + 공식 AUROC와 재계산 일치 확인 (전용 가상환경) ---
+  - name: m2_salad_breakfast_box
+    enabled: false            # 배포 가중치 autoencoder_final.pth 손상으로 실패 -> _r2로 재실행
+    smoke: false              # 학습이 아닌 추론(체크포인트 없음). 첫 run 실패 시 같은 오류 규칙으로 멈춤
+    min_free_vram_gb: 4
+    heartbeat_timeout_min: 60 # 공식 정규화 함수 안에서는 하트비트를 남길 수 없음
+    startup_grace_min: 30
+    requires: [external/SALAD/results, external/SALAD/data/mvtec_loco_composition_maps]
+    cmd: ['E:\venvs\loco_salad\Scripts\python.exe', -m, src.detector.salad_runner, --category, breakfast_box]
+    outputs: [outputs/detector/salad/breakfast_box/meta.json]
+  - name: m2_salad_juice_bottle
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 4
+    heartbeat_timeout_min: 60
+    startup_grace_min: 30
+    requires: [external/SALAD/results, external/SALAD/data/mvtec_loco_composition_maps]
+    cmd: ['E:\venvs\loco_salad\Scripts\python.exe', -m, src.detector.salad_runner, --category, juice_bottle]
+    outputs: [outputs/detector/salad/juice_bottle/meta.json]
+  - name: m2_salad_pushpins
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 4
+    heartbeat_timeout_min: 60
+    startup_grace_min: 30
+    requires: [external/SALAD/results, external/SALAD/data/mvtec_loco_composition_maps]
+    cmd: ['E:\venvs\loco_salad\Scripts\python.exe', -m, src.detector.salad_runner, --category, pushpins]
+    outputs: [outputs/detector/salad/pushpins/meta.json]
+  - name: m2_salad_screw_bag
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 4
+    heartbeat_timeout_min: 60
+    startup_grace_min: 30
+    requires: [external/SALAD/results, external/SALAD/data/mvtec_loco_composition_maps]
+    cmd: ['E:\venvs\loco_salad\Scripts\python.exe', -m, src.detector.salad_runner, --category, screw_bag]
+    outputs: [outputs/detector/salad/screw_bag/meta.json]
+  - name: m2_salad_splicing_connectors
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 4
+    heartbeat_timeout_min: 60
+    startup_grace_min: 30
+    requires: [external/SALAD/results, external/SALAD/data/mvtec_loco_composition_maps]
+    cmd: ['E:\venvs\loco_salad\Scripts\python.exe', -m, src.detector.salad_runner, --category, splicing_connectors]
+    outputs: [outputs/detector/salad/splicing_connectors/meta.json]
+  - name: m2_salad_breakfast_box_r2   # autoencoder_final.pth에 덧붙은 다른 파일 24개를 빼고 다시 묶은 뒤 재실행
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 4
+    heartbeat_timeout_min: 60
+    startup_grace_min: 30
+    requires: [external/SALAD/results, external/SALAD/data/mvtec_loco_composition_maps]
+    cmd: ['E:\venvs\loco_salad\Scripts\python.exe', -m, src.detector.salad_runner, --category, breakfast_box]
+    outputs: [outputs/detector/salad/breakfast_box/meta.json]
+
+  # --- M1 본 작업 (F1~F9 통과 후 enabled: true) ---
+  # --- M2 본 실험: SALAD 캐시(동결) 기반 5개 카테고리 2-fold ---
+  # SFT 데이터: 정상 하드 네거티브 fold당 150장(탐지 점수 상위), 목록 드롭아웃 12%. ablation은 fold 0만.
+  - name: m2_sft_f0
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --name, m2_salad]
+    outputs: [data/sft/m2_salad_f0/meta.json]
+  - name: m2_sft_f1
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "1", --crop-source, salad, --hard-neg, "150", --name, m2_salad]
+    outputs: [data/sft/m2_salad_f1/meta.json]
+  - name: m2_sft_f0_noref
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --drop-image, ref,
+          --name, m2_salad_noref]
+    outputs: [data/sft/m2_salad_noref_f0/meta.json]
+  - name: m2_sft_f0_nocrop
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --drop-image, crop,
+          --name, m2_salad_nocrop]
+    outputs: [data/sft/m2_salad_nocrop_f0/meta.json]
+  # 주력: 4B QLoRA, 2 fold x seed 3 (seed 0을 먼저 두 fold 모두 끝내 본 결과를 빨리 확보)
+  - name: m2_4b_f0_s0
+    enabled: false            # 완료(2026-10-27 대기열)
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3",
+          --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3",
+                --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m2_4b_f0_s0/final/summary.json]
+  - name: m2_4b_f1_s0
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_4b_f0_s0
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f1, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3",
+          --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m2_4b_f1_s0/final/summary.json]
+  # 경량판: 2B bf16 LoRA, 2 fold
+  - name: m2_2b_f0_s0
+    enabled: false            # 완료(2026-10-27 대기열)
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3",
+          --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3",
+                --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m2_2b_f0_s0/final/summary.json]
+  - name: m2_2b_f1_s0
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_2b_f0_s0
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f1, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3",
+          --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m2_2b_f1_s0/final/summary.json]
+  # 입력 ablation 선별 (RQ2): 2B, fold 0, 정상 참조 제거 / crop 제거
+  - name: m2_2b_f0_noref
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_2b_f0_s0
+    requires: [data/sft/m2_salad_noref_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_noref_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3",
+          --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m2_2b_f0_noref/final/summary.json]
+  - name: m2_2b_f0_nocrop
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_2b_f0_s0
+    requires: [data/sft/m2_salad_nocrop_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_nocrop_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3",
+          --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m2_2b_f0_nocrop/final/summary.json]
+  # 기준선과 MMAD 전후 평가 (P0). B0은 즉시, B1은 DINOv2 crop 특징, B3는 4B 기본 모델 프롬프트만
+  - name: m2_b0_f0
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    requires: [data/splits.csv]
+    cmd: [python, -m, src.baselines.majority, --fold, "0", --out, outputs/baselines/b0_f0_heldout.jsonl]
+    outputs: [outputs/baselines/b0_f0_heldout.jsonl]
+  - name: m2_b1_f0
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 3
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.baselines.crop_classifier, --sft, data/sft/m2_salad_f0, --out, outputs/baselines/b1_f0_heldout.jsonl]
+    outputs: [outputs/baselines/b1_f0_heldout.jsonl]
+  - name: m2_b0_f1
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    requires: [data/splits.csv]
+    cmd: [python, -m, src.baselines.majority, --fold, "1", --out, outputs/baselines/b0_f1_heldout.jsonl]
+    outputs: [outputs/baselines/b0_f1_heldout.jsonl]
+  - name: m2_b1_f1
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 3
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.baselines.crop_classifier, --sft, data/sft/m2_salad_f1, --out, outputs/baselines/b1_f1_heldout.jsonl]
+    outputs: [outputs/baselines/b1_f1_heldout.jsonl]
+  - name: m2_b3_zero_f0
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.baselines.vlm_prompt, --sft, data/sft/m2_salad_f0, --mode, zero,
+          --out, outputs/baselines/b3_zero_f0]
+    outputs: [outputs/baselines/b3_zero_f0/meta.json]
+  - name: m2_b3_zero_f1
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.baselines.vlm_prompt, --sft, data/sft/m2_salad_f1, --mode, zero,
+          --out, outputs/baselines/b3_zero_f1]
+    outputs: [outputs/baselines/b3_zero_f1/meta.json]
+  - name: m2_b3_few_f0
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.baselines.vlm_prompt, --sft, data/sft/m2_salad_f0, --mode, few,
+          --out, outputs/baselines/b3_few_f0]
+    outputs: [outputs/baselines/b3_few_f0/meta.json]
+  - name: m2_b3_few_f1
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.baselines.vlm_prompt, --sft, data/sft/m2_salad_f1, --mode, few,
+          --out, outputs/baselines/b3_few_f1]
+    outputs: [outputs/baselines/b3_few_f1/meta.json]
+  - name: m2_mmad_base_f0
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [data/splits.csv]
+    cmd: [python, -m, src.eval.mmad_eval, --fold, "0", --out, outputs/mmad/base_4b_f0.json]
+    outputs: [outputs/mmad/base_4b_f0.json]
+  - name: m2_mmad_lora_f0
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [runs/m2_4b_f0_s0/final/summary.json]
+    cmd: [python, -m, src.eval.mmad_eval, --fold, "0", --adapter, runs/m2_4b_f0_s0/final,
+          --out, outputs/mmad/lora_4b_s0_f0.json]
+    outputs: [outputs/mmad/lora_4b_s0_f0.json]
+  - name: m2_mmad_base_f1
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [data/splits.csv]
+    cmd: [python, -m, src.eval.mmad_eval, --fold, "1", --out, outputs/mmad/base_4b_f1.json]
+    outputs: [outputs/mmad/base_4b_f1.json]
+  - name: m2_mmad_lora_f1
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke: false
+    min_free_vram_gb: 9
+    requires: [runs/m2_4b_f1_s0/final/summary.json]
+    cmd: [python, -m, src.eval.mmad_eval, --fold, "1", --adapter, runs/m2_4b_f1_s0/final,
+          --out, outputs/mmad/lora_4b_s0_f1.json]
+    outputs: [outputs/mmad/lora_4b_s0_f1.json]
+  # --- M1 나머지 (EfficientAD가 카테고리당 약 3.7시간이라 M2 P0 핵심 뒤로 옮김, 2026-10-25) ---
+  - name: m1_effad_breakfast_box
+    enabled: false            # 완료(2026-10-27 대기열)
+    min_free_vram_gb: 4
+    requires: [MVTec-LOCO/breakfast_box, data/index.parquet]
+    cmd: [python, -m, src.detector.efficientad, --category, breakfast_box]
+    outputs: [outputs/detector/efficientad/breakfast_box/meta.json]
+  - name: m1_effad_screw_bag
+    enabled: false            # 완료(2026-10-27 대기열)
+    min_free_vram_gb: 4
+    requires: [MVTec-LOCO/screw_bag, data/index.parquet]
+    cmd: [python, -m, src.detector.efficientad, --category, screw_bag]
+    outputs: [outputs/detector/efficientad/screw_bag/meta.json]
+  - name: m1_sft_effad      # 탐지기 crop·점수 백분위로 SFT 데이터 재생성 (fold 0)
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 60
+    requires: [outputs/detector/efficientad/breakfast_box/meta.json, outputs/detector/efficientad/screw_bag/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --categories, breakfast_box, screw_bag,
+          --crop-source, efficientad, --name, m1_effad]
+    outputs: [data/sft/m1_effad_f0/meta.json]
+  - name: m1_vlm2b_f0       # 2B bf16 LoRA 3 epoch: 1회 학습 시간·VRAM 실측 + inner-val 생성 평가
+    enabled: false            # 완료(2026-10-27 대기열)
+    requires: [data/sft/m1_effad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_effad_f0, --epochs, "3"]
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --epochs, "3"]
+    outputs: [runs/m1_vlm2b_f0/final/summary.json]
+  - name: m1_vlm4b_bench    # 4B QLoRA 30 step 실측 (step 시간·VRAM -> GPU 예산 축소 규칙 판단)
+    enabled: false            # 완료(2026-10-27 대기열)
+    requires: [data/sft/m1_effad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_effad_f0, --model, Qwen/Qwen3-VL-4B-Instruct,
+          --quant, nf4, --max-steps, "30", --no-eval-loss, --no-eval-generate, --no-mlflow]
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-4B-Instruct,
+                --quant, nf4, --max-steps, "30", --no-eval-loss, --no-eval-generate, --no-mlflow]
+    outputs: [runs/m1_vlm4b_bench/final/summary.json]
+  - name: m1_e2e            # 종단 동작: fold 1(held-out)에서 탐지기 -> VLM -> Guard, 시스템 재현율·FPR·호출률
+    enabled: false            # 완료(2026-10-27 대기열)
+    kind: task
+    smoke: false
+    timeout_min: 120
+    min_free_vram_gb: 8
+    requires: [runs/m1_vlm2b_f0/final/summary.json]
+    cmd: [python, -m, src.pipeline, --adapter, runs/m1_vlm2b_f0/final, --sft, data/sft/m1_effad_f0,
+          --detector, efficientad, --out, outputs/pipeline/m1_f0_heldout.jsonl]
+    outputs: [outputs/pipeline/m1_f0_heldout.summary.json]
+
+  # 주력 나머지 seed
+  - name: m2_4b_f0_s1
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_4b_f0_s0
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3",
+          --seed, "1", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m2_4b_f0_s1/final/summary.json]
+  - name: m2_4b_f1_s1
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_4b_f0_s0
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f1, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3",
+          --seed, "1", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m2_4b_f1_s1/final/summary.json]
+  - name: m2_4b_f0_s2
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_4b_f0_s0
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3",
+          --seed, "2", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m2_4b_f0_s2/final/summary.json]
+  - name: m2_4b_f1_s2
+    enabled: false            # 완료(2026-10-27 대기열)
+    smoke_as: m2_4b_f0_s0
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f1, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3",
+          --seed, "2", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m2_4b_f1_s2/final/summary.json]
+
+  # ===== M3 (2026-10-27): P1 사전 등록 실험 =====
+  # SFT 데이터 (fold 0, B2는 fold 0·1). 기준은 m2_salad (하드 네거티브 150, 드롭아웃 12%)
+  - name: m3_sft_f0_noneg
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "0", --name, m3_noneg]
+    outputs: [data/sft/m3_noneg_f0/meta.json]
+  - name: m3_sft_f0_nospec
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --no-spec, --name, m3_nospec]
+    outputs: [data/sft/m3_nospec_f0/meta.json]
+  - name: m3_sft_f0_nodet
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --no-detector-text, --name, m3_nodet]
+    outputs: [data/sft/m3_nodet_f0/meta.json]
+  - name: m3_sft_f0_nodrop
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --dropout, "0", --name, m3_nodrop]
+    outputs: [data/sft/m3_nodrop_f0/meta.json]
+  - name: m3_sft_f0_open_struct
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --exclude-groups, all:contamination, --name, m3_open_struct]
+    outputs: [data/sft/m3_open_struct_f0/meta.json]
+  - name: m3_sft_f0_open_struct_nodrop
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --dropout, "0", --exclude-groups, all:contamination, --name, m3_open_struct_nodrop]
+    outputs: [data/sft/m3_open_struct_nodrop_f0/meta.json]
+  - name: m3_sft_f0_open_logic
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --exclude-groups, "breakfast_box:fruit_count,juice_bottle:fruit_icon,pushpins:missing_separator,screw_bag:screw_length,splicing_connectors:cable_color", --name, m3_open_logic]
+    outputs: [data/sft/m3_open_logic_f0/meta.json]
+  - name: m3_sft_f0_open_logic_nodrop
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --dropout, "0", --exclude-groups, "breakfast_box:fruit_count,juice_bottle:fruit_icon,pushpins:missing_separator,screw_bag:screw_length,splicing_connectors:cable_color", --name, m3_open_logic_nodrop]
+    outputs: [data/sft/m3_open_logic_nodrop_f0/meta.json]
+  - name: m3_sft_b2_f0
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, none, --name, m3_b2]
+    outputs: [data/sft/m3_b2_f0/meta.json]
+  - name: m3_sft_b2_f1
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "1", --crop-source, none, --name, m3_b2]
+    outputs: [data/sft/m3_b2_f1/meta.json]
+  # P1 ablation 선별: 2B, fold 0 (비교 기준 m2_2b_f0_s0)
+  - name: m3_2b_f0_noneg
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    requires: [data/sft/m3_noneg_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_noneg_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m3_2b_f0_noneg/final/summary.json]
+  - name: m3_2b_f0_nospec
+    smoke_as: m3_2b_f0_noneg
+    requires: [data/sft/m3_nospec_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_nospec_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m3_2b_f0_nospec/final/summary.json]
+  - name: m3_2b_f0_nodet
+    smoke_as: m3_2b_f0_noneg
+    requires: [data/sft/m3_nodet_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_nodet_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m3_2b_f0_nodet/final/summary.json]
+  - name: m3_2b_f0_nodrop
+    smoke_as: m3_2b_f0_noneg
+    requires: [data/sft/m3_nodrop_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_nodrop_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/m3_2b_f0_nodrop/final/summary.json]
+  - name: m3_2b_f0_vislora
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4", --vision-lora]
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4", --vision-lora]
+    outputs: [runs/m3_2b_f0_vislora/final/summary.json]
+  # RQ3 open-set: 4B, fold 0, 목록 드롭아웃 있음/없음
+  - name: m3_open_struct_4b_f0
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    requires: [data/sft/m3_open_struct_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_open_struct_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_open_struct_4b_f0/final/summary.json]
+  - name: m3_open_struct_nodrop_4b_f0
+    smoke_as: m3_open_struct_4b_f0
+    requires: [data/sft/m3_open_struct_nodrop_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_open_struct_nodrop_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_open_struct_nodrop_4b_f0/final/summary.json]
+  - name: m3_open_logic_4b_f0
+    smoke_as: m3_open_struct_4b_f0
+    requires: [data/sft/m3_open_logic_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_open_logic_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_open_logic_4b_f0/final/summary.json]
+  - name: m3_open_logic_nodrop_4b_f0
+    smoke_as: m3_open_struct_4b_f0
+    requires: [data/sft/m3_open_logic_nodrop_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_open_logic_nodrop_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_open_logic_nodrop_4b_f0/final/summary.json]
+  # B2 VLM 단독 (탐지기 없음, 이미지 2장, 학습 측 정상 전부): 4B, 2 fold
+  - name: m3_b2_4b_f0
+    smoke_as: m3_open_struct_4b_f0
+    requires: [data/sft/m3_b2_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_b2_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_b2_4b_f0/final/summary.json]
+  - name: m3_b2_4b_f1
+    smoke_as: m3_open_struct_4b_f0
+    requires: [data/sft/m3_b2_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m3_b2_f1, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_b2_4b_f1/final/summary.json]
+  # P1 상위 2개 효과 4B 2-fold 확인 (2026-10-28 추가). 선정 기준: 2B fold 0 ablation 7종 중 이상 이미지
+  # 그룹 정확도 쌍대 차이의 절댓값 상위 2개 -> crop 제거(+8.7%p, p=7e-4), 비전 인코더 LoRA(-3.4%p, p=0.075).
+  # 정상 네거티브 제거는 정상 거부 87.8 -> 0%로 설계상 자명한 효과라 제외. 비교 기준은 m2_4b_f*_s0.
+  - name: m3_sft_f1_nocrop
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "1", --crop-source, salad, --hard-neg, "150", --drop-image, crop, --name, m2_salad_nocrop]
+    outputs: [data/sft/m2_salad_nocrop_f1/meta.json]
+  - name: m3_4b_f0_nocrop
+    smoke_as: m3_open_struct_4b_f0
+    requires: [data/sft/m2_salad_nocrop_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_nocrop_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_4b_f0_nocrop/final/summary.json]
+  - name: m3_4b_f1_nocrop
+    smoke_as: m3_open_struct_4b_f0
+    requires: [data/sft/m2_salad_nocrop_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_nocrop_f1, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/m3_4b_f1_nocrop/final/summary.json]
+  - name: m3_4b_f0_vislora
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2", --vision-lora]
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2", --vision-lora]
+    outputs: [runs/m3_4b_f0_vislora/final/summary.json]
+  - name: m3_4b_f1_vislora
+    smoke_as: m3_4b_f0_vislora
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f1, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2", --vision-lora]
+    outputs: [runs/m3_4b_f1_vislora/final/summary.json]
+  # M3 집계: 위 학습이 모두 끝나면 4B 확인·논리형 open-set을 포함해 보고서와 그림3을 다시 만든다 (CPU)
+  - name: m3_report
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 30
+    requires: [runs/m3_open_logic_4b_f0/final/summary.json, runs/m3_open_logic_nodrop_4b_f0/final/summary.json, runs/m3_4b_f0_nocrop/final/summary.json, runs/m3_4b_f1_nocrop/final/summary.json, runs/m3_4b_f0_vislora/final/summary.json, runs/m3_4b_f1_vislora/final/summary.json]
+    cmd: [python, -m, src.report.m3_report, --with-figures]
+    outputs: [reports/tables/m3_summary.md, reports/figures/ablation_effects.png]

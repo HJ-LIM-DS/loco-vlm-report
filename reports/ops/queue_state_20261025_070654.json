@@ -1,0 +1,95 @@
+{
+ "runs": {
+  "f1_ref": {
+   "status": "done",
+   "attempts": 1,
+   "sig_counts": {},
+   "config_hash": "36240ee96065",
+   "name": "f1_ref",
+   "pid": null,
+   "started_at": 1792876269.456375,
+   "create_time": 1792876269.451441,
+   "log": "E:\\VLM_MVTec LOCO AD\\runs\\f1_ref\\attempt_1.log",
+   "finished_at": 1792876399.8317077
+  },
+  "f1_kill": {
+   "status": "done",
+   "attempts": 2,
+   "sig_counts": {
+    "exit code 15": 1
+   },
+   "config_hash": "36240ee96065",
+   "name": "f1_kill",
+   "pid": null,
+   "started_at": 1792876490.0159798,
+   "create_time": 1792876490.0167692,
+   "log": "E:\\VLM_MVTec LOCO AD\\runs\\f1_kill\\attempt_2.log",
+   "finished_at": 1792876580.1893222,
+   "last_sig": "exit code 15"
+  },
+  "f2_supervisor": {
+   "status": "done",
+   "attempts": 1,
+   "sig_counts": {},
+   "config_hash": "d2c3b58d3bce",
+   "name": "f2_supervisor",
+   "pid": null,
+   "started_at": 1792876580.197974,
+   "create_time": 1792876580.1933248,
+   "log": "E:\\VLM_MVTec LOCO AD\\runs\\f2_supervisor\\attempt_1.log",
+   "finished_at": 1792877724.8434758
+  },
+  "f3_fault": {
+   "status": "failed",
+   "attempts": 2,
+   "sig_counts": {
+    "ops.train_hooks.InjectedFault: 고장 주입: step N": 2
+   },
+   "config_hash": "b3b5a8fa0203",
+   "name": "f3_fault",
+   "pid": null,
+   "started_at": 1792877775.165999,
+   "create_time": 1792877775.1648152,
+   "log": "E:\\VLM_MVTec LOCO AD\\runs\\f3_fault\\attempt_2.log",
+   "finished_at": 1792877825.4262383,
+   "last_sig": "ops.train_hooks.InjectedFault: 고장 주입: step N"
+  },
+  "f4_hang": {
+   "status": "done",
+   "attempts": 2,
+   "sig_counts": {
+    "하트비트 정지": 1
+   },
+   "config_hash": "c6ab05107fe6",
+   "name": "f4_hang",
+   "pid": null,
+   "started_at": 1792877946.3985767,
+   "create_time": 1792877946.4027698,
+   "log": "E:\\VLM_MVTec LOCO AD\\runs\\f4_hang\\attempt_2.log",
+   "finished_at": 1792878026.8241317,
+   "last_sig": "하트비트 정지"
+  },
+  "f5_corrupt": {
+   "status": "done",
+   "attempts": 2,
+   "sig_counts": {
+    "exit code 15": 1
+   },
+   "config_hash": "536bada8ec53",
+   "name": "f5_corrupt",
+   "pid": null,
+   "started_at": 1792878147.4671934,
+   "create_time": 1792878147.465733,
+   "log": "E:\\VLM_MVTec LOCO AD\\runs\\f5_corrupt\\attempt_2.log",
+   "finished_at": 1792878227.8893855,
+   "last_sig": "exit code 15"
+  },
+  "f78_user": {
+   "status": "pending",
+   "attempts": 0,
+   "sig_counts": {},
+   "config_hash": "19561d2367e5"
+  }
+ },
+ "updated_at": 1792878227.8893855
+}

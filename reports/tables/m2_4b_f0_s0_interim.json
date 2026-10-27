@@ -1,0 +1,116 @@
+{
+ "files": [
+  "runs/m2_4b_f0_s0/final/heldout_predictions.jsonl"
+ ],
+ "n": 783,
+ "raw": {
+  "n_anomaly": 496,
+  "n_normal": 287,
+  "normal_correct": 0.8989547038327527,
+  "format_ok": 0.9979838709677419,
+  "normal_miss": 0.09475806451612903,
+  "unknown_rate": 0.012096774193548387,
+  "group_acc": 0.5786290322580645,
+  "type_acc": 0.7217741935483871,
+  "detail_exact": 0.46774193548387094,
+  "macro_f1": 0.5935802993183404,
+  "macro_f1_groups": 18,
+  "detail_exact_by_freq": {
+   "<10": {
+    "n": 258,
+    "acc": 0.37209302325581395
+   },
+   "10-29": {
+    "n": 175,
+    "acc": 0.5657142857142857
+   },
+   ">=30": {
+    "n": 63,
+    "acc": 0.5873015873015873
+   }
+  },
+  "location_exact": 0.6179104477611941,
+  "location_hit": 0.7164179104477612,
+  "location_n": 335,
+  "action_consistency": 0.9776785714285714,
+  "severity_miss": 0.4470588235294118,
+  "severity_n": 85,
+  "by_type": {
+   "logical": {
+    "n": 280,
+    "group_acc": 0.6607142857142857,
+    "detail_exact": 0.5107142857142857
+   },
+   "structural": {
+    "n": 216,
+    "group_acc": 0.4722222222222222,
+    "detail_exact": 0.41203703703703703
+   }
+  },
+  "by_category": {
+   "breakfast_box": 0.5697674418604651,
+   "juice_bottle": 0.6949152542372882,
+   "pushpins": 0.611764705882353,
+   "screw_bag": 0.38181818181818183,
+   "splicing_connectors": 0.6391752577319587
+  }
+ },
+ "guarded": {
+  "n_anomaly": 496,
+  "n_normal": 287,
+  "normal_correct": 0.8989547038327527,
+  "format_ok": 1.0,
+  "normal_miss": 0.09475806451612903,
+  "unknown_rate": 0.014112903225806451,
+  "group_acc": 0.5786290322580645,
+  "type_acc": 0.7217741935483871,
+  "detail_exact": 0.46169354838709675,
+  "macro_f1": 0.5935802993183404,
+  "macro_f1_groups": 18,
+  "detail_exact_by_freq": {
+   "<10": {
+    "n": 258,
+    "acc": 0.3643410852713178
+   },
+   "10-29": {
+    "n": 175,
+    "acc": 0.5485714285714286
+   },
+   ">=30": {
+    "n": 63,
+    "acc": 0.6190476190476191
+   }
+  },
+  "location_exact": 0.6179104477611941,
+  "location_hit": 0.7164179104477612,
+  "location_n": 335,
+  "action_consistency": 1.0,
+  "severity_miss": 0.4470588235294118,
+  "severity_n": 85,
+  "by_type": {
+   "logical": {
+    "n": 280,
+    "group_acc": 0.6607142857142857,
+    "detail_exact": 0.4928571428571429
+   },
+   "structural": {
+    "n": 216,
+    "group_acc": 0.4722222222222222,
+    "detail_exact": 0.4212962962962963
+   }
+  },
+  "by_category": {
+   "breakfast_box": 0.5697674418604651,
+   "juice_bottle": 0.6949152542372882,
+   "pushpins": 0.611764705882353,
+   "screw_bag": 0.38181818181818183,
+   "splicing_connectors": 0.6391752577319587
+  }
+ },
+ "guard_step_rate": {
+  "3_action": 0.016602809706257982,
+  "1_detail": 0.04469987228607918,
+  "4_parse_fail": 0.001277139208173691
+ },
+ "n_anomaly": 496
+}

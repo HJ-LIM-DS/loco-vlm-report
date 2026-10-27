@@ -1,0 +1,27 @@
+{
+ "n_anomaly": 993,
+ "n_normal": 575,
+ "detector_only": {
+  "recall": 0.9446122860020141,
+  "fpr": 0.21913043478260869
+ },
+ "cascade": {
+  "recall": 0.904330312185297,
+  "fpr": 0.09391304347826086
+ },
+ "recall_loss_pp": 4.028197381671705,
+ "false_alarm_reduction": 0.5714285714285715,
+ "rq4_hypothesis_met": false,
+ "judge_band": {
+  "normal_n": 118,
+  "normal_rejected": 0.6101694915254238,
+  "anomaly_n": 143,
+  "anomaly_wrongly_rejected": 0.27972027972027974
+ },
+ "vlm_call_rate": {
+  "pi=0.01": 0.22638525329480275,
+  "pi=0.05": 0.25540452734357894,
+  "pi=0.633291": 0.6785714285714286
+ },
+ "end_to_end_group_acc": 0.540785498489426
+}

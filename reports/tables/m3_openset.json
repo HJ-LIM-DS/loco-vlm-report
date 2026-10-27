@@ -1,0 +1,42 @@
+[
+ {
+  "run": "m3_open_struct_4b_f0",
+  "sft": "m3_open_struct_f0",
+  "n_unseen": 63,
+  "unseen_unknown_rate": 0.07936507936507936,
+  "unseen_to_known_group": 0.8095238095238095,
+  "unseen_said_normal": 0.1111111111111111,
+  "unseen_keyword_hit": 0.0,
+  "n_known": 433,
+  "known_false_unknown": 0.016166281755196306,
+  "known_group_acc": 0.5565819861431871,
+  "normal_correct": 0.9059233449477352,
+  "by_group": {
+   "contamination": {
+    "n": 63,
+    "unknown_rate": 0.07936507936507936,
+    "keyword_hit": 0.0
+   }
+  }
+ },
+ {
+  "run": "m3_open_struct_nodrop_4b_f0",
+  "sft": "m3_open_struct_nodrop_f0",
+  "n_unseen": 63,
+  "unseen_unknown_rate": 0.0,
+  "unseen_to_known_group": 0.8888888888888888,
+  "unseen_said_normal": 0.1111111111111111,
+  "unseen_keyword_hit": 0.0,
+  "n_known": 433,
+  "known_false_unknown": 0.0,
+  "known_group_acc": 0.5565819861431871,
+  "normal_correct": 0.9372822299651568,
+  "by_group": {
+   "contamination": {
+    "n": 63,
+    "unknown_rate": 0.0,
+    "keyword_hit": 0.0
+   }
+  }
+ }
+]

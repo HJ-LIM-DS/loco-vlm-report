@@ -1,0 +1,224 @@
+{"ts": 1792879641.3395212, "time": "2026-10-25 07:07:21", "kind": "env_setup", "run": null, "task": "\\LOCO-Train\\Supervisor"}
+{"ts": 1792879718.9731092, "time": "2026-10-25 07:08:38", "kind": "checkpoint", "run": "_smoke_m1_effad_breakfast_box", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_breakfast_box\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792879743.5666783, "time": "2026-10-25 07:09:03", "kind": "resume", "run": "_smoke_m1_effad_breakfast_box", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_breakfast_box\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792879748.616783, "time": "2026-10-25 07:09:08", "kind": "checkpoint", "run": "_smoke_m1_effad_breakfast_box", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_breakfast_box\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792879820.6852667, "time": "2026-10-25 07:10:20", "kind": "checkpoint", "run": "_smoke_m1_effad_screw_bag", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_screw_bag\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792879844.6055446, "time": "2026-10-25 07:10:44", "kind": "resume", "run": "_smoke_m1_effad_screw_bag", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_screw_bag\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792879849.4015706, "time": "2026-10-25 07:10:49", "kind": "checkpoint", "run": "_smoke_m1_effad_screw_bag", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_effad_screw_bag\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792880055.203365, "time": "2026-10-25 07:14:15", "kind": "checkpoint", "run": "_smoke_m1_vlm4b_bench", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm4b_bench\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792880125.0717127, "time": "2026-10-25 07:15:25", "kind": "resume", "run": "_smoke_m1_vlm4b_bench", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm4b_bench\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792880173.914598, "time": "2026-10-25 07:16:13", "kind": "checkpoint", "run": "_smoke_m1_vlm4b_bench", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm4b_bench\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792880439.8165064, "time": "2026-10-25 07:20:39", "kind": "checkpoint", "run": "_smoke_m1_vlm2b_f0", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792880491.5138829, "time": "2026-10-25 07:21:31", "kind": "resume", "run": "_smoke_m1_vlm2b_f0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792880513.9370215, "time": "2026-10-25 07:21:53", "kind": "checkpoint", "run": "_smoke_m1_vlm2b_f0", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m1_vlm2b_f0\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792880579.339675, "time": "2026-10-25 07:22:59", "kind": "checkpoint", "run": "_smoke_m2_2b_f0_s0", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m2_2b_f0_s0\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792880631.438645, "time": "2026-10-25 07:23:51", "kind": "resume", "run": "_smoke_m2_2b_f0_s0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m2_2b_f0_s0\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792880653.8531678, "time": "2026-10-25 07:24:13", "kind": "checkpoint", "run": "_smoke_m2_2b_f0_s0", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m2_2b_f0_s0\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792880749.5992444, "time": "2026-10-25 07:25:49", "kind": "checkpoint", "run": "_smoke_m2_4b_f0_s0", "step": 10, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m2_4b_f0_s0\\checkpoints\\checkpoint-10", "attempt": 1}
+{"ts": 1792880818.7879472, "time": "2026-10-25 07:26:58", "kind": "resume", "run": "_smoke_m2_4b_f0_s0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m2_4b_f0_s0\\checkpoints\\checkpoint-10", "attempt": 2}
+{"ts": 1792880867.542034, "time": "2026-10-25 07:27:47", "kind": "checkpoint", "run": "_smoke_m2_4b_f0_s0", "step": 20, "path": "E:\\VLM_MVTec LOCO AD\\runs\\_smoke\\m2_4b_f0_s0\\checkpoints\\checkpoint-20", "attempt": 2}
+{"ts": 1792880894.8324387, "time": "2026-10-25 07:28:14", "kind": "run_start", "run": "m2_salad_breakfast_box", "attempt": 1, "pid": 20804, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_salad_breakfast_box\\attempt_1.log"}
+{"ts": 1792880894.8351517, "time": "2026-10-25 07:28:14", "kind": "supervisor_start", "run": null, "pid": 29240}
+{"ts": 1792880894.8839579, "time": "2026-10-25 07:28:14", "kind": "monitor_open", "run": null}
+{"ts": 1792880904.9332178, "time": "2026-10-25 07:28:24", "kind": "run_retry", "run": "m2_salad_breakfast_box", "attempt": 1, "reason": "RuntimeError: [enforce fail at inline_container.cc:N] . file in archive is not in a subdirectory autoencoder_final/: breakfast_box/comp_autoencoder_final.pth", "code": 1}
+{"ts": 1792880904.995492, "time": "2026-10-25 07:28:24", "kind": "run_start", "run": "m2_salad_breakfast_box", "attempt": 2, "pid": 17768, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_salad_breakfast_box\\attempt_2.log"}
+{"ts": 1792880915.0356882, "time": "2026-10-25 07:28:35", "kind": "run_failed", "run": "m2_salad_breakfast_box", "attempt": 2, "reason": "RuntimeError: [enforce fail at inline_container.cc:N] . file in archive is not in a subdirectory autoencoder_final/: breakfast_box/comp_autoencoder_final.pth", "count": 2}
+{"ts": 1792880915.1250305, "time": "2026-10-25 07:28:35", "kind": "run_start", "run": "m2_salad_juice_bottle", "attempt": 1, "pid": 11952, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_salad_juice_bottle\\attempt_1.log"}
+{"ts": 1792881076.1476283, "time": "2026-10-25 07:31:16", "kind": "queue_read_error", "run": null, "error": "unacceptable character #x000b: special characters are not allowed\n  in \"<unicode string>\", position 6115"}
+{"ts": 1792881086.1486366, "time": "2026-10-25 07:31:26", "kind": "queue_read_error", "run": null, "error": "unacceptable character #x000b: special characters are not allowed\n  in \"<unicode string>\", position 6115"}
+{"ts": 1792881116.3332574, "time": "2026-10-25 07:31:56", "kind": "run_done", "run": "m2_salad_juice_bottle", "attempt": 1}
+{"ts": 1792881116.391544, "time": "2026-10-25 07:31:56", "kind": "run_start", "run": "m2_salad_pushpins", "attempt": 1, "pid": 17060, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_salad_pushpins\\attempt_1.log"}
+{"ts": 1792881358.038399, "time": "2026-10-25 07:35:58", "kind": "run_done", "run": "m2_salad_pushpins", "attempt": 1}
+{"ts": 1792881358.098407, "time": "2026-10-25 07:35:58", "kind": "run_start", "run": "m2_salad_screw_bag", "attempt": 1, "pid": 10716, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_salad_screw_bag\\attempt_1.log"}
+{"ts": 1792881599.7224767, "time": "2026-10-25 07:39:59", "kind": "run_done", "run": "m2_salad_screw_bag", "attempt": 1}
+{"ts": 1792881599.7812047, "time": "2026-10-25 07:39:59", "kind": "run_start", "run": "m2_salad_splicing_connectors", "attempt": 1, "pid": 29224, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_salad_splicing_connectors\\attempt_1.log"}
+{"ts": 1792881831.3178976, "time": "2026-10-25 07:43:51", "kind": "run_done", "run": "m2_salad_splicing_connectors", "attempt": 1}
+{"ts": 1792881831.380121, "time": "2026-10-25 07:43:51", "kind": "run_start", "run": "m2_salad_breakfast_box_r2", "attempt": 1, "pid": 27904, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_salad_breakfast_box_r2\\attempt_1.log"}
+{"ts": 1792882083.0912595, "time": "2026-10-25 07:48:03", "kind": "run_done", "run": "m2_salad_breakfast_box_r2", "attempt": 1}
+{"ts": 1792882083.14912, "time": "2026-10-25 07:48:03", "kind": "run_start", "run": "m1_effad_breakfast_box", "attempt": 1, "pid": 14088, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\attempt_1.log"}
+{"ts": 1792882355.185121, "time": "2026-10-25 07:52:35", "kind": "run_paused", "run": "m1_effad_breakfast_box", "attempt": 1}
+{"ts": 1792882365.2871583, "time": "2026-10-25 07:52:45", "kind": "run_start", "run": "m2_sft_f0", "attempt": 1, "pid": 8572, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_sft_f0\\attempt_1.log"}
+{"ts": 1792882656.9032106, "time": "2026-10-25 07:57:36", "kind": "run_done", "run": "m2_sft_f0", "attempt": 1}
+{"ts": 1792882656.9518418, "time": "2026-10-25 07:57:36", "kind": "run_start", "run": "m2_sft_f1", "attempt": 1, "pid": 376, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_sft_f1\\attempt_1.log"}
+{"ts": 1792882707.2706857, "time": "2026-10-25 07:58:27", "kind": "run_paused", "run": "m2_sft_f1", "attempt": 1}
+{"ts": 1792882750.9992661, "time": "2026-10-25 07:59:10", "kind": "manual_reset", "run": "m2_sft_f0", "reason": "드롭아웃 정답 위치 NaN 버그 수정 후 SFT 재생성"}
+{"ts": 1792882787.7476296, "time": "2026-10-25 07:59:47", "kind": "run_start", "run": "m2_sft_f0", "attempt": 1, "pid": 16720, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_sft_f0\\attempt_1.log"}
+{"ts": 1792882888.3043118, "time": "2026-10-25 08:01:28", "kind": "run_done", "run": "m2_sft_f0", "attempt": 1}
+{"ts": 1792882888.342313, "time": "2026-10-25 08:01:28", "kind": "run_start", "run": "m2_sft_f1", "attempt": 1, "pid": 17264, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_sft_f1\\attempt_1.log"}
+{"ts": 1792883029.126587, "time": "2026-10-25 08:03:49", "kind": "run_done", "run": "m2_sft_f1", "attempt": 1}
+{"ts": 1792883029.1888244, "time": "2026-10-25 08:03:49", "kind": "run_start", "run": "m2_sft_f0_noref", "attempt": 1, "pid": 11436, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_sft_f0_noref\\attempt_1.log"}
+{"ts": 1792883109.6295965, "time": "2026-10-25 08:05:09", "kind": "run_done", "run": "m2_sft_f0_noref", "attempt": 1}
+{"ts": 1792883109.6776137, "time": "2026-10-25 08:05:09", "kind": "run_start", "run": "m2_sft_f0_nocrop", "attempt": 1, "pid": 28536, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_sft_f0_nocrop\\attempt_1.log"}
+{"ts": 1792883190.1471283, "time": "2026-10-25 08:06:30", "kind": "run_done", "run": "m2_sft_f0_nocrop", "attempt": 1}
+{"ts": 1792883190.2047286, "time": "2026-10-25 08:06:30", "kind": "run_start", "run": "m2_4b_f0_s0", "attempt": 1, "pid": 17728, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\attempt_1.log"}
+{"ts": 1792884120.478459, "time": "2026-10-25 08:22:00", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 28, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-28", "attempt": 1}
+{"ts": 1792885048.1025581, "time": "2026-10-25 08:37:28", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 58, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-58", "attempt": 1}
+{"ts": 1792885959.5056689, "time": "2026-10-25 08:52:39", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 81, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-81", "attempt": 1}
+{"ts": 1792886574.894717, "time": "2026-10-25 09:02:54", "kind": "drill_claude_restart", "run": null, "note": "Claude Code 프로세스가 09:01:14에 새로 시작되는 동안 학습(PID 17728, 08:06 시작)과 감독자(PID 29240, 07:28 시작)가 같은 프로세스로 계속 실행, 재시도·하트비트 정지 0건, step 87(08:56) -> 98(09:01) 진행. 학습 프로세스 조상에 Claude 없음(python <- pythonw <- svchost(작업 스케줄러))", "ok": true}
+{"ts": 1792886747.9149249, "time": "2026-10-25 09:05:47", "kind": "run_retry", "run": "m2_4b_f0_s0", "attempt": 1, "reason": "감독자 부재 중 종료(종료 코드 미상)", "code": null}
+{"ts": 1792886748.2205875, "time": "2026-10-25 09:05:48", "kind": "run_start", "run": "m2_4b_f0_s0", "attempt": 2, "pid": 11272, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\attempt_2.log"}
+{"ts": 1792886748.2268643, "time": "2026-10-25 09:05:48", "kind": "supervisor_start", "run": null, "pid": 9084}
+{"ts": 1792886748.3593948, "time": "2026-10-25 09:05:48", "kind": "monitor_open", "run": null}
+{"ts": 1792886829.248634, "time": "2026-10-25 09:07:09", "kind": "run_retry", "run": "m2_4b_f0_s0", "attempt": 2, "reason": "ImportError: DLL load failed while importing _target_encoder_fast: 애플리케이션 제어 정책에서 이 파일을 차단했습니다.", "code": 1}
+{"ts": 1792886829.3168986, "time": "2026-10-25 09:07:09", "kind": "run_start", "run": "m2_4b_f0_s0", "attempt": 3, "pid": 22448, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\attempt_3.log"}
+{"ts": 1792886849.513904, "time": "2026-10-25 09:07:29", "kind": "run_paused", "run": "m2_4b_f0_s0", "attempt": 3}
+{"ts": 1792887096.4204566, "time": "2026-10-25 09:11:36", "kind": "manual_reset", "run": "m2_4b_f0_s0", "reason": "재부팅 직후 Smart App Control 일시 차단(1회)으로 늘어난 오류 횟수 초기화"}
+{"ts": 1792887121.0192509, "time": "2026-10-25 09:12:01", "kind": "run_start", "run": "m2_4b_f0_s0", "attempt": 3, "pid": 13308, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\attempt_3.log"}
+{"ts": 1792887153.0400152, "time": "2026-10-25 09:12:33", "kind": "resume", "run": "m2_4b_f0_s0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-81", "attempt": 3}
+{"ts": 1792887291.948782, "time": "2026-10-25 09:14:51", "kind": "drill_logon", "run": null, "note": "재부팅(09:05:21 부팅) 후 로그온 트리거로 감독자가 16초 만에 시작, 끊긴 m2_4b_f0_s0을 '감독자 부재 중 종료'로 재시도. 첫 재시도는 Smart App Control이 sklearn DLL을 1회 일시 차단해 실패(부팅 직후 평판 확인 전으로 추정, 이후 차단 0건). 연쇄 실패를 막으려 수동 일시 정지·오류 횟수 초기화 후 checkpoint-81에서 재개(09:12). 손실: 22 step(약 13분) + 정지 8분. 대책: 부팅 후 5분 대기(BOOT_GRACE_S) 추가, 다음 재부팅에서 자동 처리 재확인 필요", "ok": true}
+{"ts": 1792888070.6270616, "time": "2026-10-25 09:27:50", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 109, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-109", "attempt": 3}
+{"ts": 1792888996.8222451, "time": "2026-10-25 09:43:16", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 136, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-136", "attempt": 3}
+{"ts": 1792889924.1437275, "time": "2026-10-25 09:58:44", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 156, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-156", "attempt": 3}
+{"ts": 1792890836.7526326, "time": "2026-10-25 10:13:56", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 182, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-182", "attempt": 3}
+{"ts": 1792891749.447698, "time": "2026-10-25 10:29:09", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 209, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-209", "attempt": 3}
+{"ts": 1792891872.6048017, "time": "2026-10-25 10:31:12", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-213", "attempt": 3}
+{"ts": 1792897256.1316433, "time": "2026-10-25 12:00:56", "kind": "run_done", "run": "m2_4b_f0_s0", "attempt": 3}
+{"ts": 1792897256.2035599, "time": "2026-10-25 12:00:56", "kind": "run_start", "run": "m2_4b_f1_s0", "attempt": 1, "pid": 22140, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\attempt_1.log"}
+{"ts": 1792898204.1366596, "time": "2026-10-25 12:16:44", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 29, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-29", "attempt": 1}
+{"ts": 1792899134.8061674, "time": "2026-10-25 12:32:14", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 59, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-59", "attempt": 1}
+{"ts": 1792900047.7290666, "time": "2026-10-25 12:47:27", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 82, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-82", "attempt": 1}
+{"ts": 1792900977.4974737, "time": "2026-10-25 13:02:57", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 112, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-112", "attempt": 1}
+{"ts": 1792901909.2457695, "time": "2026-10-25 13:18:29", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 142, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-142", "attempt": 1}
+{"ts": 1792902824.289407, "time": "2026-10-25 13:33:44", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 165, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-165", "attempt": 1}
+{"ts": 1792903753.3405852, "time": "2026-10-25 13:49:13", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 195, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-195", "attempt": 1}
+{"ts": 1792904312.5153375, "time": "2026-10-25 13:58:32", "kind": "checkpoint", "run": "m2_4b_f1_s0", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1792906404.812019, "time": "2026-10-25 14:33:24", "kind": "run_retry", "run": "m2_4b_f1_s0", "attempt": 1, "reason": "PIL.UnidentifiedImageError: cannot identify image file 'E:\\\\VLM_MVTec LOCO AD\\\\data\\\\vlm_cache\\\\img\\\\juice_bottle__test__good__N.png'", "code": 1}
+{"ts": 1792906404.864747, "time": "2026-10-25 14:33:24", "kind": "run_start", "run": "m2_4b_f1_s0", "attempt": 2, "pid": 13944, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\attempt_2.log"}
+{"ts": 1792906429.6370134, "time": "2026-10-25 14:33:49", "kind": "resume", "run": "m2_4b_f1_s0", "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s0\\checkpoints\\checkpoint-213", "attempt": 2}
+{"ts": 1792906949.07902, "time": "2026-10-25 14:42:29", "kind": "monitor_open", "run": null}
+{"ts": 1792912297.2045643, "time": "2026-10-25 16:11:37", "kind": "run_done", "run": "m2_4b_f1_s0", "attempt": 2}
+{"ts": 1792912297.2686064, "time": "2026-10-25 16:11:37", "kind": "run_start", "run": "m2_2b_f0_s0", "attempt": 1, "pid": 12864, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_s0\\attempt_1.log"}
+{"ts": 1792913229.4463332, "time": "2026-10-25 16:27:09", "kind": "checkpoint", "run": "m2_2b_f0_s0", "step": 68, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_s0\\checkpoints\\checkpoint-68", "attempt": 1}
+{"ts": 1792914139.0950139, "time": "2026-10-25 16:42:19", "kind": "checkpoint", "run": "m2_2b_f0_s0", "step": 129, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_s0\\checkpoints\\checkpoint-129", "attempt": 1}
+{"ts": 1792915046.9611955, "time": "2026-10-25 16:57:26", "kind": "checkpoint", "run": "m2_2b_f0_s0", "step": 190, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_s0\\checkpoints\\checkpoint-190", "attempt": 1}
+{"ts": 1792915347.829642, "time": "2026-10-25 17:02:27", "kind": "checkpoint", "run": "m2_2b_f0_s0", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_s0\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1792917505.2526312, "time": "2026-10-25 17:38:25", "kind": "run_done", "run": "m2_2b_f0_s0", "attempt": 1}
+{"ts": 1792917505.3157403, "time": "2026-10-25 17:38:25", "kind": "run_start", "run": "m2_2b_f1_s0", "attempt": 1, "pid": 16472, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f1_s0\\attempt_1.log"}
+{"ts": 1792918433.6710935, "time": "2026-10-25 17:53:53", "kind": "checkpoint", "run": "m2_2b_f1_s0", "step": 68, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f1_s0\\checkpoints\\checkpoint-68", "attempt": 1}
+{"ts": 1792919342.308837, "time": "2026-10-25 18:09:02", "kind": "checkpoint", "run": "m2_2b_f1_s0", "step": 129, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f1_s0\\checkpoints\\checkpoint-129", "attempt": 1}
+{"ts": 1792920254.010588, "time": "2026-10-25 18:24:14", "kind": "checkpoint", "run": "m2_2b_f1_s0", "step": 190, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f1_s0\\checkpoints\\checkpoint-190", "attempt": 1}
+{"ts": 1792920555.409053, "time": "2026-10-25 18:29:15", "kind": "checkpoint", "run": "m2_2b_f1_s0", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f1_s0\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1792923055.184904, "time": "2026-10-25 19:10:55", "kind": "run_done", "run": "m2_2b_f1_s0", "attempt": 1}
+{"ts": 1792923055.2567291, "time": "2026-10-25 19:10:55", "kind": "run_start", "run": "m2_2b_f0_noref", "attempt": 1, "pid": 9380, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_noref\\attempt_1.log"}
+{"ts": 1792923982.557725, "time": "2026-10-25 19:26:22", "kind": "checkpoint", "run": "m2_2b_f0_noref", "step": 85, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_noref\\checkpoints\\checkpoint-85", "attempt": 1}
+{"ts": 1792924892.3843503, "time": "2026-10-25 19:41:32", "kind": "checkpoint", "run": "m2_2b_f0_noref", "step": 172, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_noref\\checkpoints\\checkpoint-172", "attempt": 1}
+{"ts": 1792925278.5623083, "time": "2026-10-25 19:47:58", "kind": "checkpoint", "run": "m2_2b_f0_noref", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_noref\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1792927197.466726, "time": "2026-10-25 20:19:57", "kind": "run_done", "run": "m2_2b_f0_noref", "attempt": 1}
+{"ts": 1792927197.517605, "time": "2026-10-25 20:19:57", "kind": "run_start", "run": "m2_2b_f0_nocrop", "attempt": 1, "pid": 4216, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_nocrop\\attempt_1.log"}
+{"ts": 1792928125.064188, "time": "2026-10-25 20:35:25", "kind": "checkpoint", "run": "m2_2b_f0_nocrop", "step": 86, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_nocrop\\checkpoints\\checkpoint-86", "attempt": 1}
+{"ts": 1792929028.0686595, "time": "2026-10-25 20:50:28", "kind": "checkpoint", "run": "m2_2b_f0_nocrop", "step": 174, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_nocrop\\checkpoints\\checkpoint-174", "attempt": 1}
+{"ts": 1792929391.7244155, "time": "2026-10-25 20:56:31", "kind": "checkpoint", "run": "m2_2b_f0_nocrop", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_2b_f0_nocrop\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1792931832.3880987, "time": "2026-10-25 21:37:12", "kind": "run_done", "run": "m2_2b_f0_nocrop", "attempt": 1}
+{"ts": 1792931832.4523783, "time": "2026-10-25 21:37:12", "kind": "run_start", "run": "m2_b0_f0", "attempt": 1, "pid": 6380, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b0_f0\\attempt_1.log"}
+{"ts": 1792931842.4987695, "time": "2026-10-25 21:37:22", "kind": "run_done", "run": "m2_b0_f0", "attempt": 1}
+{"ts": 1792931842.5485103, "time": "2026-10-25 21:37:22", "kind": "run_start", "run": "m2_b1_f0", "attempt": 1, "pid": 2012, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b1_f0\\attempt_1.log"}
+{"ts": 1792931933.0332863, "time": "2026-10-25 21:38:53", "kind": "run_done", "run": "m2_b1_f0", "attempt": 1}
+{"ts": 1792931933.0806353, "time": "2026-10-25 21:38:53", "kind": "run_start", "run": "m2_b0_f1", "attempt": 1, "pid": 22376, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b0_f1\\attempt_1.log"}
+{"ts": 1792931943.1357381, "time": "2026-10-25 21:39:03", "kind": "run_done", "run": "m2_b0_f1", "attempt": 1}
+{"ts": 1792931943.1996827, "time": "2026-10-25 21:39:03", "kind": "run_start", "run": "m2_b1_f1", "attempt": 1, "pid": 18816, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b1_f1\\attempt_1.log"}
+{"ts": 1792932033.6787302, "time": "2026-10-25 21:40:33", "kind": "run_done", "run": "m2_b1_f1", "attempt": 1}
+{"ts": 1792932033.7284021, "time": "2026-10-25 21:40:33", "kind": "run_start", "run": "m2_b3_zero_f0", "attempt": 1, "pid": 2772, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b3_zero_f0\\attempt_1.log"}
+{"ts": 1792934989.572324, "time": "2026-10-25 22:29:49", "kind": "run_done", "run": "m2_b3_zero_f0", "attempt": 1}
+{"ts": 1792934989.6361308, "time": "2026-10-25 22:29:49", "kind": "run_start", "run": "m2_b3_zero_f1", "attempt": 1, "pid": 6460, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b3_zero_f1\\attempt_1.log"}
+{"ts": 1792937875.1209035, "time": "2026-10-25 23:17:55", "kind": "run_done", "run": "m2_b3_zero_f1", "attempt": 1}
+{"ts": 1792937875.1681504, "time": "2026-10-25 23:17:55", "kind": "run_start", "run": "m2_b3_few_f0", "attempt": 1, "pid": 368, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b3_few_f0\\attempt_1.log"}
+{"ts": 1792941454.3986096, "time": "2026-10-26 00:17:34", "kind": "run_done", "run": "m2_b3_few_f0", "attempt": 1}
+{"ts": 1792941454.4528344, "time": "2026-10-26 00:17:34", "kind": "run_start", "run": "m2_b3_few_f1", "attempt": 1, "pid": 20492, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_b3_few_f1\\attempt_1.log"}
+{"ts": 1792944923.1241322, "time": "2026-10-26 01:15:23", "kind": "run_done", "run": "m2_b3_few_f1", "attempt": 1}
+{"ts": 1792944923.1715007, "time": "2026-10-26 01:15:23", "kind": "run_start", "run": "m2_mmad_base_f0", "attempt": 1, "pid": 17840, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_mmad_base_f0\\attempt_1.log"}
+{"ts": 1792945848.2770197, "time": "2026-10-26 01:30:48", "kind": "run_done", "run": "m2_mmad_base_f0", "attempt": 1}
+{"ts": 1792945848.3334022, "time": "2026-10-26 01:30:48", "kind": "run_start", "run": "m2_mmad_lora_f0", "attempt": 1, "pid": 2172, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_mmad_lora_f0\\attempt_1.log"}
+{"ts": 1792947044.7510862, "time": "2026-10-26 01:50:44", "kind": "run_done", "run": "m2_mmad_lora_f0", "attempt": 1}
+{"ts": 1792947044.7990406, "time": "2026-10-26 01:50:44", "kind": "run_start", "run": "m2_mmad_base_f1", "attempt": 1, "pid": 12860, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_mmad_base_f1\\attempt_1.log"}
+{"ts": 1792947949.7375946, "time": "2026-10-26 02:05:49", "kind": "run_done", "run": "m2_mmad_base_f1", "attempt": 1}
+{"ts": 1792947949.801253, "time": "2026-10-26 02:05:49", "kind": "run_start", "run": "m2_mmad_lora_f1", "attempt": 1, "pid": 5812, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_mmad_lora_f1\\attempt_1.log"}
+{"ts": 1792949146.335091, "time": "2026-10-26 02:25:46", "kind": "run_done", "run": "m2_mmad_lora_f1", "attempt": 1}
+{"ts": 1792949146.4145627, "time": "2026-10-26 02:25:46", "kind": "run_start", "run": "m1_effad_breakfast_box", "attempt": 1, "pid": 2420, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\attempt_1.log"}
+{"ts": 1792950314.2957537, "time": "2026-10-26 02:45:14", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 5000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-5000", "attempt": 1}
+{"ts": 1792951404.4961894, "time": "2026-10-26 03:03:24", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 10000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-10000", "attempt": 1}
+{"ts": 1792952492.5669777, "time": "2026-10-26 03:21:32", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 15000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-15000", "attempt": 1}
+{"ts": 1792953576.7078948, "time": "2026-10-26 03:39:36", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 20000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-20000", "attempt": 1}
+{"ts": 1792954674.8840396, "time": "2026-10-26 03:57:54", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 25000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-25000", "attempt": 1}
+{"ts": 1792955758.7531402, "time": "2026-10-26 04:15:58", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 30000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-30000", "attempt": 1}
+{"ts": 1792956843.0174224, "time": "2026-10-26 04:34:03", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 35000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-35000", "attempt": 1}
+{"ts": 1792957926.43109, "time": "2026-10-26 04:52:06", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 40000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-40000", "attempt": 1}
+{"ts": 1792959027.785016, "time": "2026-10-26 05:10:27", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 45000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-45000", "attempt": 1}
+{"ts": 1792960112.914038, "time": "2026-10-26 05:28:32", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 50000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-50000", "attempt": 1}
+{"ts": 1792961197.491397, "time": "2026-10-26 05:46:37", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 55000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-55000", "attempt": 1}
+{"ts": 1792962281.6677217, "time": "2026-10-26 06:04:41", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 60000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-60000", "attempt": 1}
+{"ts": 1792963380.3658476, "time": "2026-10-26 06:23:00", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 65000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-65000", "attempt": 1}
+{"ts": 1792964464.8081343, "time": "2026-10-26 06:41:04", "kind": "checkpoint", "run": "m1_effad_breakfast_box", "step": 70000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_breakfast_box\\checkpoints\\checkpoint-70000", "attempt": 1}
+{"ts": 1792964540.633469, "time": "2026-10-26 06:42:20", "kind": "run_done", "run": "m1_effad_breakfast_box", "attempt": 1}
+{"ts": 1792964540.6856048, "time": "2026-10-26 06:42:20", "kind": "run_start", "run": "m1_effad_screw_bag", "attempt": 1, "pid": 15144, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\attempt_1.log"}
+{"ts": 1792965682.1454935, "time": "2026-10-26 07:01:22", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 5000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-5000", "attempt": 1}
+{"ts": 1792966768.7898765, "time": "2026-10-26 07:19:28", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 10000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-10000", "attempt": 1}
+{"ts": 1792967848.7081444, "time": "2026-10-26 07:37:28", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 15000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-15000", "attempt": 1}
+{"ts": 1792968924.8818967, "time": "2026-10-26 07:55:24", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 20000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-20000", "attempt": 1}
+{"ts": 1792970000.6484196, "time": "2026-10-26 08:13:20", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 25000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-25000", "attempt": 1}
+{"ts": 1792971076.0433242, "time": "2026-10-26 08:31:16", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 30000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-30000", "attempt": 1}
+{"ts": 1792972151.4230173, "time": "2026-10-26 08:49:11", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 35000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-35000", "attempt": 1}
+{"ts": 1792973229.1664522, "time": "2026-10-26 09:07:09", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 40000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-40000", "attempt": 1}
+{"ts": 1792974291.7664247, "time": "2026-10-26 09:24:51", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 45000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-45000", "attempt": 1}
+{"ts": 1792975369.9796128, "time": "2026-10-26 09:42:49", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 50000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-50000", "attempt": 1}
+{"ts": 1792976462.9961216, "time": "2026-10-26 10:01:02", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 55000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-55000", "attempt": 1}
+{"ts": 1792977589.8156812, "time": "2026-10-26 10:19:49", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 60000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-60000", "attempt": 1}
+{"ts": 1792978739.0633671, "time": "2026-10-26 10:38:59", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 65000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-65000", "attempt": 1}
+{"ts": 1792979881.3294256, "time": "2026-10-26 10:58:01", "kind": "checkpoint", "run": "m1_effad_screw_bag", "step": 70000, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_effad_screw_bag\\checkpoints\\checkpoint-70000", "attempt": 1}
+{"ts": 1792979954.9957285, "time": "2026-10-26 10:59:14", "kind": "run_done", "run": "m1_effad_screw_bag", "attempt": 1}
+{"ts": 1792979955.067909, "time": "2026-10-26 10:59:15", "kind": "run_start", "run": "m1_sft_effad", "attempt": 1, "pid": 15980, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m1_sft_effad\\attempt_1.log"}
+{"ts": 1792980035.5209875, "time": "2026-10-26 11:00:35", "kind": "run_done", "run": "m1_sft_effad", "attempt": 1}
+{"ts": 1792980035.5777352, "time": "2026-10-26 11:00:35", "kind": "run_start", "run": "m1_vlm2b_f0", "attempt": 1, "pid": 3064, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m1_vlm2b_f0\\attempt_1.log"}
+{"ts": 1792980974.8854907, "time": "2026-10-26 11:16:14", "kind": "checkpoint", "run": "m1_vlm2b_f0", "step": 63, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_vlm2b_f0\\checkpoints\\checkpoint-63", "attempt": 1}
+{"ts": 1792981491.0561244, "time": "2026-10-26 11:24:51", "kind": "checkpoint", "run": "m1_vlm2b_f0", "step": 99, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_vlm2b_f0\\checkpoints\\checkpoint-99", "attempt": 1}
+{"ts": 1792981684.4956195, "time": "2026-10-26 11:28:04", "kind": "run_done", "run": "m1_vlm2b_f0", "attempt": 1}
+{"ts": 1792981684.5513458, "time": "2026-10-26 11:28:04", "kind": "run_start", "run": "m1_vlm4b_bench", "attempt": 1, "pid": 23336, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m1_vlm4b_bench\\attempt_1.log"}
+{"ts": 1792982630.806705, "time": "2026-10-26 11:43:50", "kind": "checkpoint", "run": "m1_vlm4b_bench", "step": 29, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_vlm4b_bench\\checkpoints\\checkpoint-29", "attempt": 1}
+{"ts": 1792982663.6134603, "time": "2026-10-26 11:44:23", "kind": "checkpoint", "run": "m1_vlm4b_bench", "step": 30, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m1_vlm4b_bench\\checkpoints\\checkpoint-30", "attempt": 1}
+{"ts": 1792982669.8356898, "time": "2026-10-26 11:44:29", "kind": "run_done", "run": "m1_vlm4b_bench", "attempt": 1}
+{"ts": 1792982669.8930159, "time": "2026-10-26 11:44:29", "kind": "run_start", "run": "m1_e2e", "attempt": 1, "pid": 20560, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m1_e2e\\attempt_1.log"}
+{"ts": 1792983484.3146932, "time": "2026-10-26 11:58:04", "kind": "run_done", "run": "m1_e2e", "attempt": 1}
+{"ts": 1792983484.3712337, "time": "2026-10-26 11:58:04", "kind": "run_start", "run": "m2_4b_f0_s1", "attempt": 1, "pid": 22844, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\attempt_1.log"}
+{"ts": 1792984438.6011806, "time": "2026-10-26 12:13:58", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 28, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-28", "attempt": 1}
+{"ts": 1792985361.02428, "time": "2026-10-26 12:29:21", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 56, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-56", "attempt": 1}
+{"ts": 1792986293.740845, "time": "2026-10-26 12:44:53", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 78, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-78", "attempt": 1}
+{"ts": 1792987214.043739, "time": "2026-10-26 13:00:14", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 107, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-107", "attempt": 1}
+{"ts": 1792988120.530283, "time": "2026-10-26 13:15:20", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 136, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-136", "attempt": 1}
+{"ts": 1792989033.9613602, "time": "2026-10-26 13:30:33", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 159, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-159", "attempt": 1}
+{"ts": 1792989936.743384, "time": "2026-10-26 13:45:36", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 187, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-187", "attempt": 1}
+{"ts": 1792990797.3474648, "time": "2026-10-26 13:59:57", "kind": "checkpoint", "run": "m2_4b_f0_s1", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s1\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1792992486.5615902, "time": "2026-10-26 14:28:06", "kind": "monitor_open", "run": null}
+{"ts": 1792996264.2067335, "time": "2026-10-26 15:31:04", "kind": "run_done", "run": "m2_4b_f0_s1", "attempt": 1}
+{"ts": 1792996264.2635803, "time": "2026-10-26 15:31:04", "kind": "run_start", "run": "m2_4b_f1_s1", "attempt": 1, "pid": 6892, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\attempt_1.log"}
+{"ts": 1792997204.5788646, "time": "2026-10-26 15:46:44", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 28, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-28", "attempt": 1}
+{"ts": 1792998134.9506245, "time": "2026-10-26 16:02:14", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 56, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-56", "attempt": 1}
+{"ts": 1792999058.1291144, "time": "2026-10-26 16:17:38", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 77, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-77", "attempt": 1}
+{"ts": 1792999959.3382967, "time": "2026-10-26 16:32:39", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 105, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-105", "attempt": 1}
+{"ts": 1793000880.0037708, "time": "2026-10-26 16:48:00", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 133, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-133", "attempt": 1}
+{"ts": 1793001793.221249, "time": "2026-10-26 17:03:13", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 154, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-154", "attempt": 1}
+{"ts": 1793002719.8441267, "time": "2026-10-26 17:18:39", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 182, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-182", "attempt": 1}
+{"ts": 1793003651.1494372, "time": "2026-10-26 17:34:11", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 211, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-211", "attempt": 1}
+{"ts": 1793003716.4641042, "time": "2026-10-26 17:35:16", "kind": "checkpoint", "run": "m2_4b_f1_s1", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s1\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1793009818.522226, "time": "2026-10-26 19:16:58", "kind": "run_done", "run": "m2_4b_f1_s1", "attempt": 1}
+{"ts": 1793009818.583078, "time": "2026-10-26 19:16:58", "kind": "run_start", "run": "m2_4b_f0_s2", "attempt": 1, "pid": 7936, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\attempt_1.log"}
+{"ts": 1793010769.9028304, "time": "2026-10-26 19:32:49", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 28, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-28", "attempt": 1}
+{"ts": 1793011700.7315178, "time": "2026-10-26 19:48:20", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 58, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-58", "attempt": 1}
+{"ts": 1793012621.4362211, "time": "2026-10-26 20:03:41", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 81, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-81", "attempt": 1}
+{"ts": 1793013539.8127594, "time": "2026-10-26 20:18:59", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 110, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-110", "attempt": 1}
+{"ts": 1793014451.8814065, "time": "2026-10-26 20:34:11", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 139, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-139", "attempt": 1}
+{"ts": 1793015370.1151524, "time": "2026-10-26 20:49:30", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 162, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-162", "attempt": 1}
+{"ts": 1793016302.434641, "time": "2026-10-26 21:05:02", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 192, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-192", "attempt": 1}
+{"ts": 1793017005.0982118, "time": "2026-10-26 21:16:45", "kind": "checkpoint", "run": "m2_4b_f0_s2", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s2\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1793022628.167225, "time": "2026-10-26 22:50:28", "kind": "run_done", "run": "m2_4b_f0_s2", "attempt": 1}
+{"ts": 1793022628.2414434, "time": "2026-10-26 22:50:28", "kind": "run_start", "run": "m2_4b_f1_s2", "attempt": 1, "pid": 24372, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\attempt_1.log"}
+{"ts": 1793023580.6730332, "time": "2026-10-26 23:06:20", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 27, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-27", "attempt": 1}
+{"ts": 1793024484.1055963, "time": "2026-10-26 23:21:24", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 54, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-54", "attempt": 1}
+{"ts": 1793025388.1886914, "time": "2026-10-26 23:36:28", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 75, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-75", "attempt": 1}
+{"ts": 1793026315.165424, "time": "2026-10-26 23:51:55", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 105, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-105", "attempt": 1}
+{"ts": 1793027221.0536118, "time": "2026-10-27 00:07:01", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 133, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-133", "attempt": 1}
+{"ts": 1793028142.3998415, "time": "2026-10-27 00:22:22", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 155, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-155", "attempt": 1}
+{"ts": 1793029062.2521253, "time": "2026-10-27 00:37:42", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 184, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-184", "attempt": 1}
+{"ts": 1793029989.024865, "time": "2026-10-27 00:53:09", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 212, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-212", "attempt": 1}
+{"ts": 1793030025.1595235, "time": "2026-10-27 00:53:45", "kind": "checkpoint", "run": "m2_4b_f1_s2", "step": 213, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f1_s2\\checkpoints\\checkpoint-213", "attempt": 1}
+{"ts": 1793035940.7068932, "time": "2026-10-27 02:32:20", "kind": "run_done", "run": "m2_4b_f1_s2", "attempt": 1}
+{"ts": 1793035940.7084153, "time": "2026-10-27 02:32:20", "kind": "queue_finished", "run": null}
+{"ts": 1793035940.7582037, "time": "2026-10-27 02:32:20", "kind": "auto_teardown_start", "run": null}

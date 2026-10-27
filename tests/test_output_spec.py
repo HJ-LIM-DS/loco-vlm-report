@@ -156,3 +156,28 @@ def test_index_reports():
         assert r.type == row.defect_type, row.image_id
         if row.loc_mode == "point":
             assert r.location in CELLS, row.image_id
+
+
+SFT_DIR = Path(__file__).resolve().parents[1] / "data" / "sft"
+
+
+@pytest.mark.skipif(not SFT_DIR.exists(), reason="data/sft 없음")
+def test_sft_targets_parse():
+    """만들어진 SFT 데이터의 모든 정답이 출력 명세를 따른다 (위치 NaN 같은 잘못된 목표 방지)."""
+    import json
+
+    for f in SFT_DIR.glob("*/*.jsonl"):
+        for ln in f.read_text(encoding="utf-8").splitlines():
+            t = json.loads(ln)["target"]
+            assert t == NORMAL or parse_report(t) is not None, f"{f}: {t!r}"
+
+
+CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "vlm_cache"
+
+
+@pytest.mark.skipif(not CACHE_DIR.exists(), reason="data/vlm_cache 없음")
+def test_vlm_cache_has_no_empty_files():
+    """쓰는 도중 끊겨 남은 빈 캐시 이미지가 없어야 한다 (원자적 쓰기 이전에 생긴 0바이트 PNG 사례)."""
+    empty = [str(p) for p in CACHE_DIR.rglob("*.png") if p.stat().st_size == 0]
+    leftovers = [str(p) for p in CACHE_DIR.rglob(".*.tmp*")]
+    assert not empty and not leftovers, (empty[:5], leftovers[:5])

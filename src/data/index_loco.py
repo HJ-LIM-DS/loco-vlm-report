@@ -52,7 +52,7 @@ def read_mask_info(mask_dir: Path, pixel_to_name: dict, table: dict) -> dict:
     bbox = [xs.min() / ww, ys.min() / hh, (xs.max() + 1) / ww, (ys.max() + 1) / hh]
 
     mode = resolve_loc_mode(table[n]["loc_mode"] for n in names)
-    location, top_share = None, None
+    location, top_share, cell_frac = None, None, None
     if mode == "point":
         pm = np.logical_or.reduce(
             [m for v, m in masks.items() if table[pixel_to_name[v]]["loc_mode"] == "point"]
@@ -62,6 +62,9 @@ def read_mask_info(mask_dir: Path, pixel_to_name: dict, table: dict) -> dict:
         # 라벨 칸에 closing 전 원 마스크가 실제로 들어 있어야 한다
         assert cell_areas(pm)[r, c] > 0, f"{mask_dir}: 위치 칸 {GRID_KO[r][c]}에 원 마스크 없음"
         location, top_share = GRID_KO[r][c], float(cells.max() / cells.sum())
+        # 위치 적중 채점용: closing 전 원 마스크가 3x3 칸마다 차지하는 비율 (행 우선 9개)
+        raw = cell_areas(pm)
+        cell_frac = [round(float(v), 4) for v in (raw / raw.sum()).ravel()]
     elif mode == "global":
         location = LOC_GLOBAL
     return {
@@ -69,6 +72,7 @@ def read_mask_info(mask_dir: Path, pixel_to_name: dict, table: dict) -> dict:
         "loc_mode": mode,
         "location": location,
         "loc_top_share": None if top_share is None else round(top_share, 4),
+        "point_cell_frac": cell_frac,
         "bbox": [round(float(b), 4) for b in bbox],
     }
 
@@ -118,6 +122,7 @@ def build_index(data_root: Path, kb: dict) -> pd.DataFrame:
                     "loc_mode": None,
                     "location": None,
                     "loc_top_share": None,
+                    "point_cell_frac": None,
                     "bbox": None,
                     "mask_dir": None,
                     "gt_report": NORMAL,
