@@ -17,6 +17,8 @@ crop 출처
 open-set(--exclude-groups): 지정 그룹 이미지를 train·val에서 빼고 모든 프롬프트 목록에서도 지운다.
   held-out의 해당 이미지는 정답을 미분류 템플릿으로 두고 openset=true로 표시한다 (RQ3).
 B2 VLM 단독(--crop-source none): 탐지기 없이 검사 이미지 + 정상 참조 2장, 탐지기 줄 없음, 학습 측 정상 전부 사용.
+라벨 수 곡선(--label-frac): 하드 네거티브 선택 뒤 train·val을 (역할, 카테고리, 정상/그룹) 층별로 줄인다
+  (층마다 최소 1장, 비율 간 중첩). B1도 같은 SFT 폴더로 학습하므로 같은 부분집합을 쓴다 (P2).
 
 사용법:
     python -m src.vlm.build_sft --fold 0 --categories breakfast_box screw_bag --crop-source gt --name m1_gt
@@ -137,6 +139,26 @@ def select_hard_negatives(test: pd.DataFrame, calibs: dict, total: int) -> set:
     return keep
 
 
+def subsample_labels(pool: pd.DataFrame, frac: float, seed: int = 0) -> set | None:
+    """라벨 수 곡선(P2): 학습 측(train·val) 이미지를 (역할, 카테고리, 정상/그룹) 층마다 frac만 남긴다.
+
+    - 층마다 최소 1장을 남겨 모든 그룹이 학습에 나타나게 한다(곡선이 그룹 수가 아니라 그룹당 표본 수를 재도록).
+    - 층마다 frac과 무관한 고정 순열의 앞부분을 쓰므로 25% 집합 ⊂ 50% 집합 ⊂ 전체가 된다(중첩).
+    - held-out은 건드리지 않는다. frac >= 1이면 None(전부 사용).
+    """
+    if frac >= 1:
+        return None
+    rng = np.random.default_rng(seed)
+    side = pool[pool["role"] != "heldout"]
+    key = side["groups"].map(lambda g: g[0] if len(g) else "good")
+    keep = set()
+    for _, g in side.groupby([side["role"], side["category"], key], sort=True):
+        ids = np.array(sorted(g["image_id"]))
+        order = rng.permutation(len(ids))
+        keep.update(ids[order[:max(1, round(frac * len(ids)))]].tolist())
+    return keep
+
+
 def parse_excluded(spec: str, categories: list) -> set:
     """'all:contamination,breakfast_box:fruit_count' -> {(카테고리, 그룹ID)}. 없는 그룹이면 오류."""
     kb = load_kb()
@@ -165,6 +187,8 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--no-detector-text", action="store_true", help="탐지기 백분위·의심 위치 줄 제거")
     ap.add_argument("--exclude-groups", default="",
                     help="open-set 제외 그룹: '카테고리:그룹ID' 쉼표 구분, 카테고리 자리에 all 가능")
+    ap.add_argument("--label-frac", type=float, default=1.0,
+                    help="라벨 수 곡선(P2): 학습 측(train·val) 이미지를 층별로 이 비율만 사용")
     return ap
 
 
@@ -198,6 +222,10 @@ def main():
         keep_neg = set()  # 정상 이미지를 학습에 넣지 않음
     elif args.hard_neg and use_detector:
         keep_neg = select_hard_negatives(test, calibs, args.hard_neg)
+    pool = test
+    if keep_neg is not None:  # 하드 네거티브를 고른 뒤의 학습 측에서 라벨을 줄인다
+        pool = test[~((test["role"] == "train") & (test["label"] == "good") & ~test["image_id"].isin(keep_neg))]
+    keep_lab = subsample_labels(pool, args.label_frac, args.seed)
     slot = {"ref": 2, "crop": 1}.get(args.drop_image)
     if args.crop_source == "none":
         slot = 1  # 탐지기가 없으면 crop도 없다
@@ -211,6 +239,8 @@ def main():
     n_open = 0
     for row in test.itertuples():
         if keep_neg is not None and row.role == "train" and row.label == "good" and row.image_id not in keep_neg:
+            continue
+        if keep_lab is not None and row.role != "heldout" and row.image_id not in keep_lab:
             continue
         is_open = row.label != "good" and (row.category, row.groups[0]) in excluded
         if is_open and row.role != "heldout":
@@ -272,6 +302,7 @@ def main():
             "dropout": args.dropout, "seed": args.seed, "counts": n, "hard_neg": args.hard_neg,
             "drop_image": args.drop_image, "no_spec": args.no_spec, "no_detector_text": args.no_detector_text,
             "excluded_groups": sorted(f"{c}:{g}" for c, g in excluded), "n_openset_heldout": n_open,
+            "label_frac": args.label_frac,
             "map_thresholds": {c: cb.map_thr for c, cb in calibs.items()}}
     (out_dir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"저장: {out_dir}")

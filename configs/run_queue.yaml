@@ -559,3 +559,73 @@ runs:
     requires: [runs/m3_open_logic_4b_f0/final/summary.json, runs/m3_open_logic_nodrop_4b_f0/final/summary.json, runs/m3_4b_f0_nocrop/final/summary.json, runs/m3_4b_f1_nocrop/final/summary.json, runs/m3_4b_f0_vislora/final/summary.json, runs/m3_4b_f1_vislora/final/summary.json]
     cmd: [python, -m, src.report.m3_report, --with-figures]
     outputs: [reports/tables/m3_summary.md, reports/figures/ablation_effects.png]
+
+  # ===== P2 (2026-10-29, M4와 병행). 가설·판정 기준은 계획 문서 "P2 사전 등록" (결과 전 기록) =====
+  # P2-b 라벨 수 곡선: 학습 측 라벨 25/50% (100% = m2_salad_f0, m2_2b_f0_s0, b1_f0). B1도 같은 부분집합.
+  - name: p2_sft_f0_frac25
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --label-frac, "0.25", --name, p2_frac25]
+    outputs: [data/sft/p2_frac25_f0/meta.json]
+  - name: p2_sft_f0_frac50
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 90
+    requires: [outputs/detector/salad/breakfast_box/meta.json, outputs/detector/salad/juice_bottle/meta.json, outputs/detector/salad/pushpins/meta.json, outputs/detector/salad/screw_bag/meta.json, outputs/detector/salad/splicing_connectors/meta.json]
+    cmd: [python, -m, src.vlm.build_sft, --fold, "0", --crop-source, salad, --hard-neg, "150", --label-frac, "0.5", --name, p2_frac50]
+    outputs: [data/sft/p2_frac50_f0/meta.json]
+  - name: p2_b1_f0_frac25
+    smoke: false
+    min_free_vram_gb: 3
+    requires: [data/sft/p2_frac25_f0/meta.json]
+    cmd: [python, -m, src.baselines.crop_classifier, --sft, data/sft/p2_frac25_f0, --out, outputs/baselines/p2_b1_f0_frac25_heldout.jsonl]
+    outputs: [outputs/baselines/p2_b1_f0_frac25_heldout.jsonl]
+  - name: p2_b1_f0_frac50
+    smoke: false
+    min_free_vram_gb: 3
+    requires: [data/sft/p2_frac50_f0/meta.json]
+    cmd: [python, -m, src.baselines.crop_classifier, --sft, data/sft/p2_frac50_f0, --out, outputs/baselines/p2_b1_f0_frac50_heldout.jsonl]
+    outputs: [outputs/baselines/p2_b1_f0_frac50_heldout.jsonl]
+  - name: p2_2b_f0_frac25
+    smoke_as: m3_2b_f0_noneg
+    requires: [data/sft/p2_frac25_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/p2_frac25_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/p2_2b_f0_frac25/final/summary.json]
+  - name: p2_2b_f0_frac50
+    smoke_as: m3_2b_f0_noneg
+    requires: [data/sft/p2_frac50_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/p2_frac50_f0, --model, Qwen/Qwen3-VL-2B-Instruct, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "4"]
+    outputs: [runs/p2_2b_f0_frac50/final/summary.json]
+  # P2-a 모델 크기: 8B QLoRA, 4B 주력과 같은 설정, 2 fold. 새 설정이라 대기열 안의 스모크 작업을 통과해야 시작한다
+  # (사람이 없는 시간에도 실패하면 8B만 blocked로 남고 다른 run은 계속된다).
+  - name: p2_smoke_8b
+    kind: task
+    smoke: false
+    min_free_vram_gb: 10
+    timeout_min: 45
+    requires: [data/sft/m1_gt_f0/meta.json]
+    cmd: [python, -m, ops.smoke, p2_8b_f0, --timeout-min, "40"]
+    outputs: [ops/runtime/smoke/p2_8b_f0.json]
+  - name: p2_8b_f0
+    smoke_cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m1_gt_f0, --model, Qwen/Qwen3-VL-8B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    requires: [data/sft/m2_salad_f0/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f0, --model, Qwen/Qwen3-VL-8B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/p2_8b_f0/final/summary.json]
+  - name: p2_8b_f1
+    smoke_as: p2_8b_f0
+    requires: [data/sft/m2_salad_f1/meta.json]
+    cmd: [python, -m, src.vlm.train_lora, --data, data/sft/m2_salad_f1, --model, Qwen/Qwen3-VL-8B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
+    outputs: [runs/p2_8b_f1/final/summary.json]
+  # P2 집계: 모든 P2 run이 끝나면 보고서를 만든다 (CPU)
+  - name: p2_report
+    kind: task
+    smoke: false
+    min_free_vram_gb: 0
+    timeout_min: 30
+    requires: [runs/p2_2b_f0_frac25/final/summary.json, runs/p2_2b_f0_frac50/final/summary.json, outputs/baselines/p2_b1_f0_frac25_heldout.jsonl, outputs/baselines/p2_b1_f0_frac50_heldout.jsonl, runs/p2_8b_f0/final/summary.json, runs/p2_8b_f1/final/summary.json]
+    cmd: [python, -m, src.report.p2_report]
+    outputs: [reports/tables/p2_summary.md]

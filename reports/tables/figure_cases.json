@@ -1,0 +1,32 @@
+[
+ {
+  "id": "breakfast_box/test/logical_anomalies/002",
+  "kind": "success",
+  "label": "성공"
+ },
+ {
+  "id": "juice_bottle/test/structural_anomalies/000",
+  "kind": "success",
+  "label": "성공"
+ },
+ {
+  "id": "pushpins/test/logical_anomalies/001",
+  "kind": "success",
+  "label": "성공"
+ },
+ {
+  "id": "breakfast_box/test/logical_anomalies/055",
+  "kind": "fail",
+  "label": "실패: 수량 결함을 다른 그룹으로"
+ },
+ {
+  "id": "juice_bottle/test/structural_anomalies/005",
+  "kind": "fail",
+  "label": "실패: crop이 결함을 놓침"
+ },
+ {
+  "id": "pushpins/test/structural_anomalies/012",
+  "kind": "fail",
+  "label": "실패: 탐지기 놓침(무출력)"
+ }
+]

@@ -173,11 +173,16 @@ def openset_section(res: dict) -> list:
             b = pd.DataFrame(got["없음"]["unseen_per_image"]).set_index("id").reindex(a.index)
             mc_unk = mcnemar(a["unknown"].to_numpy(), b["unknown"].to_numpy())
             mc_known = mcnemar(b["known_group"].to_numpy(), a["known_group"].to_numpy())
+            # 탐색(사전 등록 아님): 드롭아웃이 알려진 결함의 그룹 정확도를 깎는가
+            ka = pd.DataFrame(got["있음"]["known_per_image"]).set_index("id")
+            kb = pd.DataFrame(got["없음"]["known_per_image"]).set_index("id").reindex(ka.index)
+            mc_kacc = mcnemar(kb["correct"].to_numpy(), ka["correct"].to_numpy())
             got["paired"] = {"unknown_drop_vs_nodrop": mc_unk, "known_group_nodrop_vs_drop": mc_known,
+                             "known_acc_nodrop_vs_drop": mc_kacc,
                              "by_group": {g: {"drop": got["있음"]["by_group"][g]["unknown_rate"],
                                               "nodrop": got["없음"]["by_group"][g]["unknown_rate"],
                                               "n": got["있음"]["by_group"][g]["n"]} for g in got["있음"]["by_group"]}}
-        res["openset"][name] = {k: ({kk: vv for kk, vv in v.items() if kk != "unseen_per_image"} if k != "paired" else v)
+        res["openset"][name] = {k: ({kk: vv for kk, vv in v.items() if not kk.endswith("_per_image")} if k != "paired" else v)
                                 for k, v in got.items()}
     for name, r in res["openset"].items():
         if "paired" in r:
@@ -185,6 +190,9 @@ def openset_section(res: dict) -> list:
             lines.append(f"- {name}: 미분류 응답 드롭아웃 있음만 {p['unknown_drop_vs_nodrop']['n10']}장 / 없음만 "
                          f"{p['unknown_drop_vs_nodrop']['n01']}장 (McNemar p={p['unknown_drop_vs_nodrop']['p']:.2g}). 그룹별 미분류 응답(있음/없음): "
                          + ", ".join(f"{g} {pct(v['drop'])}/{pct(v['nodrop'])} (n={v['n']})" for g, v in p["by_group"].items()))
+            k = p["known_acc_nodrop_vs_drop"]
+            lines.append(f"  - 탐색(사전 등록 아님): 알려진 결함 그룹 정답이 드롭아웃 없음만 {k['n10']}장 / 있음만 {k['n01']}장 "
+                         f"(McNemar p={k['p']:.2g})")
     if pend:
         lines.append("- 대기열 진행 중: " + ", ".join(pend))
     return lines

@@ -46,7 +46,7 @@ def score(run: str, sft: str) -> dict:
                            "keyword": unk and any(k in free for k in KEYWORDS.get(r["group"], []))})
         else:
             gt = parse_report(r["gt_report"])
-            known.append({"unknown": rep is not None and rep.group == UNKNOWN_LABEL,
+            known.append({"id": p["id"], "unknown": rep is not None and rep.group == UNKNOWN_LABEL,
                           "correct": rep is not None and rep.group == gt.group})
 
     def rate(xs, k):
@@ -61,7 +61,8 @@ def score(run: str, sft: str) -> dict:
             "unseen_keyword_hit": rate(unseen, "keyword"), "n_known": len(known),
             "known_false_unknown": rate(known, "unknown"), "known_group_acc": rate(known, "correct"),
             "normal_correct": sum(normal) / max(len(normal), 1), "by_group": by_group,
-            "unseen_per_image": [{k: u[k] for k in ("id", "group", "unknown", "known_group")} for u in unseen]}
+            "unseen_per_image": [{k: u[k] for k in ("id", "group", "unknown", "known_group")} for u in unseen],
+            "known_per_image": [{k: x[k] for k in ("id", "correct")} for x in known]}
 
 
 def main():
