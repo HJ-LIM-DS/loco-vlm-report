@@ -9,12 +9,12 @@ data/*
 !data/near_dups.csv
 !data/defect_mask_stats.csv
 
-# 학습·추론 산출물
-outputs/
-checkpoints/
-runs/
-mlruns/
-ops/runtime/
+# 학습·추론 산출물 (루트에 고정: reports/predictions/runs/ 같은 공개 사본은 제외하지 않는다)
+/outputs/
+/checkpoints/
+/runs/
+/mlruns/
+/ops/runtime/
 
 # 재생성 가능한 확인용 시트 (데이터셋 이미지 포함)
 reports/phase0/mask_sheets/

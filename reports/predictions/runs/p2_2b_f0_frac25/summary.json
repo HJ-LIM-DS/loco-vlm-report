@@ -1,0 +1,102 @@
+{
+ "model": "Qwen/Qwen3-VL-2B-Instruct",
+ "quant": "none",
+ "vision_lora": false,
+ "data": "data/sft/p2_frac25_f0",
+ "train_samples": 144,
+ "global_step": 54,
+ "train_seconds_this_attempt": 910.3,
+ "train_runtime": 909.9987,
+ "peak_vram_alloc_gb": 5.02,
+ "peak_vram_reserved_gb": 6.3,
+ "eval_loss_by_epoch": [
+  1.1224,
+  0.7284,
+  0.6486
+ ],
+ "train_loss_by_step": {
+  "5": 2.331696319580078,
+  "10": 1.7022287368774414,
+  "15": 1.474310302734375,
+  "20": 1.2236847877502441,
+  "25": 1.048023509979248,
+  "30": 0.877983283996582,
+  "35": 0.7751649856567383,
+  "40": 0.7195274353027343,
+  "45": 0.6658913612365722,
+  "50": 0.6330451011657715
+ },
+ "args": {
+  "data": "data/sft/p2_frac25_f0",
+  "model": "Qwen/Qwen3-VL-2B-Instruct",
+  "quant": "none",
+  "vision_lora": false,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "epochs": 3.0,
+  "max_steps": null,
+  "lr": 0.0001,
+  "batch_size": 1,
+  "grad_accum": 8,
+  "warmup_steps": 5,
+  "save_every_minutes": 15,
+  "save_steps": null,
+  "logging_steps": 5,
+  "eval_loss": true,
+  "predict_heldout": true,
+  "gen_batch_size": 4,
+  "workers": 2,
+  "seed": 0,
+  "mlflow": false,
+  "eval_generate": true
+ },
+ "val_generation": {
+  "n": 45,
+  "raw": {
+   "format_ok": 1.0,
+   "normal_decision_acc": 0.7777777777777778,
+   "group_acc": 0.14285714285714285,
+   "type_acc": 0.4,
+   "detail_exact": 0.0,
+   "location_exact": 0.4857142857142857
+  },
+  "guarded": {
+   "format_ok": 1.0,
+   "normal_decision_acc": 0.7777777777777778,
+   "group_acc": 0.14285714285714285,
+   "type_acc": 0.4,
+   "detail_exact": 0.17142857142857143,
+   "location_exact": 0.4857142857142857
+  },
+  "guard_steps": {
+   "3_action": 45,
+   "1_detail": 25
+  },
+  "seconds_per_image": 3.143
+ },
+ "heldout_generation": {
+  "n": 783,
+  "raw": {
+   "format_ok": 0.9987228607918263,
+   "normal_decision_acc": 0.6334610472541508,
+   "group_acc": 0.22983870967741934,
+   "type_acc": 0.5524193548387096,
+   "detail_exact": 0.09274193548387097,
+   "location_exact": 0.3971774193548387
+  },
+  "guarded": {
+   "format_ok": 1.0,
+   "normal_decision_acc": 0.6334610472541508,
+   "group_acc": 0.22983870967741934,
+   "type_acc": 0.5524193548387096,
+   "detail_exact": 0.20161290322580644,
+   "location_exact": 0.3971774193548387
+  },
+  "guard_steps": {
+   "3_action": 782,
+   "1_detail": 377,
+   "4_parse_fail": 1
+  },
+  "seconds_per_image": 2.835
+ }
+}
