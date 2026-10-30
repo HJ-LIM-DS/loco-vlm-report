@@ -1,0 +1,45 @@
+# 실험 환경 그대로 고정 (Windows 11, Python 3.11.9, RTX 3060 12GB, CUDA 12.4). 2026-10-30 기준 설치 버전.
+# torch·torchvision은 CUDA 빌드를 먼저 설치한다:
+#   pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+# 테스트·표 재계산만 할 때는 requirements-ci.txt(CPU torch)로 충분하다.
+torch==2.5.1
+torchvision==0.20.1
+
+# VLM 학습·추론
+transformers==5.12.1
+peft==0.19.1
+accelerate==1.14.0
+bitsandbytes==0.50.2
+safetensors==0.8.0
+huggingface_hub==1.20.1
+qwen-vl-utils==0.0.14
+datasets==5.0.0
+sentencepiece==0.2.2
+einops==0.8.2
+timm==0.9.7
+
+# 데이터·평가·보고
+pandas==3.0.3
+numpy==2.4.4
+scipy==1.17.1
+scikit-learn==1.9.0
+pyarrow==24.0.0
+matplotlib==3.11.0
+Jinja2==3.1.6
+opencv-python==5.0.0.93
+pillow==12.2.0
+PyYAML==6.0.3
+
+# 학습 운영(감독자·모니터)과 데모·GIF
+psutil==7.2.2
+filelock==3.29.0
+rich==15.0.0
+nvidia-ml-py==13.610.43
+gradio==6.26.0
+websocket-client==1.9.2
+
+# 테스트
+pytest==9.1.1
+
+# 선택: train_lora --mlflow
+# mlflow==3.17.1

@@ -1,0 +1,37 @@
+{
+ "category": "splicing_connectors",
+ "official_auroc": {
+  "auc": 97.26314055033778,
+  "auc_img": 96.87313487486497,
+  "auc_maha": 86.7937697954999,
+  "auc_comp": 87.3525292469929
+ },
+ "recomputed_auroc": {
+  "auc": 97.26314055033778,
+  "auc_img": 96.87313487486497,
+  "auc_maha": 86.7937697954999,
+  "auc_comp": 87.3525292469929
+ },
+ "recomputed_detail": {
+  "auc": {
+   "logical_anomalies": 96.078431372549,
+   "structural_anomalies": 98.44784972812654
+  },
+  "auc_img": {
+   "logical_anomalies": 94.57671957671958,
+   "structural_anomalies": 99.16955017301038
+  },
+  "auc_maha": {
+   "logical_anomalies": 88.3675692499222,
+   "structural_anomalies": 85.2199703410776
+  },
+  "auc_comp": {
+   "logical_anomalies": 82.70308123249299,
+   "structural_anomalies": 92.00197726149283
+  }
+ },
+ "max_abs_diff": 0.0,
+ "n_test": 312,
+ "latency_ms_median": 111.38,
+ "seed": 42
+}

@@ -1,0 +1,49 @@
+{
+ "fold": 0,
+ "categories": [
+  "breakfast_box",
+  "juice_bottle",
+  "pushpins",
+  "screw_bag",
+  "splicing_connectors"
+ ],
+ "crop_source": "salad",
+ "dropout": 0.12,
+ "seed": 0,
+ "counts": {
+  "train": {
+   "good": 149,
+   "anomaly": 357,
+   "dropped": 43
+  },
+  "val": {
+   "good": 43,
+   "anomaly": 67,
+   "dropped": 0
+  },
+  "heldout": {
+   "good": 287,
+   "anomaly": 496,
+   "dropped": 0
+  }
+ },
+ "hard_neg": 150,
+ "drop_image": null,
+ "no_spec": false,
+ "no_detector_text": false,
+ "excluded_groups": [
+  "breakfast_box:fruit_count",
+  "juice_bottle:fruit_icon",
+  "pushpins:missing_separator",
+  "screw_bag:screw_length",
+  "splicing_connectors:cable_color"
+ ],
+ "n_openset_heldout": 74,
+ "map_thresholds": {
+  "breakfast_box": -1.2548828125,
+  "juice_bottle": -1.6572265625,
+  "pushpins": -3.30859375,
+  "screw_bag": -1.7939453125,
+  "splicing_connectors": -0.37210914492607117
+ }
+}

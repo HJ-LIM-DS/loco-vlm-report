@@ -1,0 +1,40 @@
+# push·PR마다: (1) 테스트 전체를 Windows에서 GPU 없이 실행, (2) 공개한 예측 원본으로 표1·캐스케이드·P2 표를
+# Linux에서 다시 계산해 저장소의 표와 같은지 확인한다.
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - run: pip install -r requirements-ci.txt
+      - run: python -m src.report.publish_predictions restore
+      - run: python -m pytest -q
+
+  tables:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - run: pip install -r requirements-ci.txt
+      - run: python -m src.report.publish_predictions verify
+      - run: python -m src.report.publish_predictions restore
+      - run: python -m src.report.m4_tables
+      - run: python -m src.eval.cascade
+      - run: python -m src.eval.cascade_judge
+      - run: python -m src.report.p2_report
+      - name: 표가 저장소의 파일과 같은지
+        run: git diff --exit-code -- reports/tables/table1_main.md reports/tables/m3_cascade.md reports/tables/m3_cascade_b1judge.md reports/tables/p2_summary.md

@@ -10,10 +10,12 @@
 
 > 진행 상태(2026-10-30): Phase 0, M1·M2(본 실험), M3(분석), P2(8B, 라벨 수 곡선), M4(표·그림·데모·PDF) 완료.
 > 학습 환경은 대기열 종료 후 자동 원복했다(잔여 변경 0건). 아래 수치는 모두 `reports/tables/`에서 자동 생성된 값이다.
+> 2차 개선(10-30): 예측 원본·어댑터 카드 공개와 CI, 캐스케이드 B1 심판 후속 실험(미충족) 반영. P3 입력 표현 실험은 대기열에 등록해 두었다.
 
 ![데모: held-out 성공 3건, 정상 1건, 실패 3건](reports/figures/demo.gif)
 
-데모 화면(`python -m app.demo`, 캐시 모드). 각 이미지는 그 이미지를 학습하지 않은 fold 모델의 출력이다. 사례는 그림 4와 같은
+데모 화면(`python -m app.demo`, 캐시 모드). 각 이미지는 그 이미지를 학습하지 않은 fold 모델의 출력이다. 가운데 줄은 같은 SALAD
+캐스케이드에 넣은 Ours(VLM)와 B1(비-VLM 기준선)의 최종 출력을 정답과 나란히 두고 정답 여부를 표시한다. 사례는 그림 4와 같은
 규칙으로 미리 정한 목록이며 실패 3건(수량 결함을 다른 그룹으로, crop이 결함을 놓침, 탐지기 놓침)을 함께 보여 준다.
 
 ## 핵심 결과
@@ -44,6 +46,9 @@
 - **캐스케이드는 VLM 단독보다 낫다(성공 기준 충족).** 종단 정답 그룹 F1 +10.5%p [7.2, 13.9](seed 3개 모두 같은 결론),
   탐지기 단독 대비 오경보 65% 감소. 다만 재현율을 4.0%p 잃어 RQ4 가설(손실 1%p 이하)은 충족하지 못했고,
   π=1%에서 VLM 호출률은 22.6%로 목표(10%)를 넘는다(탐지기 FPR 21.9%가 원인).
+  후속(사전 등록, `reports/tables/m3_cascade_b1judge.md`): 판정 구간의 거부를 VLM 대신 B1의 정상 판정에 맡기면 오경보 감소 78%,
+  VLM 호출률 5.7%로 목표를 넘기지만 재현율 손실이 5.3%p로 더 커져 RQ4 기준은 여전히 미충족이다(seed 3개 모두).
+  종단 정답 그룹 F1은 test 비율에서 -0.7%p [-1.5, +0.0], π=1%에서 +4.3%p [+0.9, +8.7]로 운영점에 따라 갈린다.
 - **격차가 어디서 생기는가.** 개수 계열 결함(과일·푸시핀·부품 수량, 169장)은 Ours 64.3 vs B1 64.5로 같다.
   격차는 칸막이 누락(2.6 vs 100), 케이블 길이(47 vs 100) 같은 장면 전체의 구성 결함과 나사 길이↔부품 수량 혼동에서 나온다.
   오류 분해에서 종단 오류의 79%가 VLM의 그룹 오답이고 탐지기 놓침은 12%다.
@@ -64,7 +69,7 @@
 | RQ1 진단 이득 | 그룹 정확도는 B1과 비슷하고 논리 결함 세부에서 앞선다 | 그룹 -10.8%p, 논리 결함에서도 B1 우세(75.8 vs 63.3) | 기각 |
 | RQ2 입력 단서 | 참조·규격은 논리, crop은 작은 구조 결함에 기여 | 2B: crop 구조 +10.6%p(Holm 유의), 참조 0.0, 규격 -2.4. 4B 확인: crop 전체 +4.7%p(p=0.0049, 논리·구조에 고르게 분산), 비전 인코더 LoRA -0.1%p | crop만 지지 |
 | RQ3 미등록 결함 | 목록 드롭아웃 없이는 미등록 결함을 기존 그룹으로 오분류 | 미분류 응답 드롭아웃 있음 vs 없음: 이물 혼입 제외 7.9% vs 0%(p=0.062), 논리 그룹 제외 4.1% vs 0%(p=0.25). 기존 그룹 오분류 81.0 vs 88.9, 90.5 vs 95.9 | 방향 일치, 효과 작음 |
-| RQ4 거부 단계 | 재현율 손실 1%p 이하로 오경보 절반 이상 감소 | 오경보 -65%, 재현율 -4.0%p | 미충족 |
+| RQ4 거부 단계 | 재현율 손실 1%p 이하로 오경보 절반 이상 감소 | 오경보 -65%, 재현율 -4.0%p. 후속: B1 심판으로 바꾸면 오경보 -78%, 재현율 -5.3%p | 미충족 |
 
 탐색 관찰(사전 등록 아님): 논리형 open-set에서는 드롭아웃 모델의 알려진 결함 그룹 정확도가 53.3 vs 58.3으로 낮았다
 (쌍대 12:33, p=0.0025, 구조형에서는 차이 없음). 미분류 응답을 늘리는 대가로 알려진 결함 정확도를 깎을 수 있다는 가능성으로만 기록한다.
@@ -105,6 +110,24 @@ held-out 성공 3건과 실패 3건(선택 규칙은 `src/report/m4_figures.py` 
 ![held-out 사례](reports/figures/cases.png)
 
 ## 재현 절차
+
+### GPU·데이터셋 없이 표 다시 계산하기
+
+held-out 예측 원본(29개 run), 기준선 출력, SALAD 점수 캐시, 학습 표본 수, 인덱스의 라벨 열을
+`reports/predictions/`에 넣어 두었다(이미지 ID·라벨·모델 출력 텍스트·수치만 10.8MB, 데이터셋 이미지와 MMAD QA 텍스트는 없음).
+새 클론에서 아래를 실행하면 표1·캐스케이드·P2 표가 저장소의 파일과 바이트 단위로 같게 다시 나온다(검증 완료).
+
+```bash
+pip install -r requirements.txt
+python -m src.report.publish_predictions restore   # reports/predictions -> runs/, outputs/, data/ (있는 파일은 건드리지 않음)
+python -m src.report.m4_tables                     # 표1 reports/tables/table1_main.md
+python -m src.eval.cascade                         # RQ4 캐스케이드 reports/tables/m3_cascade.md
+python -m src.report.p2_report                     # P2 reports/tables/p2_summary.md, 라벨 수 곡선
+```
+
+`python -m src.report.publish_predictions verify`는 `MANIFEST.json`의 sha256과 대조한다. ablation·open-set·실패 분석 표는
+SFT 프롬프트와 마스크가 더 필요하므로 아래 전체 절차를 따른다. GitHub Actions(`.github/workflows/tests.yml`)는 push마다
+테스트 전체(Windows, CPU)와 위 표 재계산(Linux)을 돌려 저장소의 표와 다르면 실패한다.
 
 ### Phase 0. 데이터 인덱스와 택소노미
 
@@ -179,6 +202,8 @@ E:\venvs\loco_salad\Scripts\python.exe -m pip install numpy==1.26.4 opencv-pytho
 python -m src.eval.cascade            # RQ4, 종단 F1(Ours vs B2, π 보정, 층화 paired bootstrap), 오류 분해
 python -m src.eval.failure            # 결함 종류·해상도·crop 포함률·참조 유사도별 분해, 사례 후보
 python -m src.report.m3_report --with-figures
+python -m src.baselines.crop_classifier --sft data/sft/m2_salad_f0 --out outputs/baselines/b1_f0_rerun.jsonl --probs-out outputs/baselines/b1_f0_probs.jsonl   # B1 확률(+학습 측 OOF), fold 1도 같게
+python -m src.eval.cascade_judge      # 2차 개선: 판정 구간 심판을 B1로 바꾼 캐스케이드 (reports/tables/m3_cascade_b1judge.md)
 ```
 
 ### P2. 추가 실험 (결과 전 가설 등록, `reports/tables/p2_summary.md`)
@@ -187,7 +212,10 @@ python -m src.report.m3_report --with-figures
   가설 "8B > 4B seed 0"은 방향 일치·유의하지 않음(+0.2%p, p=0.95). 8B 56.4%는 4B seed 범위 55.4~56.2의 바로 위라
   사전 규칙 "범위 안이면 용량이 병목이 아님"을 문자 그대로 충족하지는 않지만, 쌍대 차이가 0과 구분되지 않아 용량 2배의
   이득은 확인되지 않았다. 결함 종류별(개수 계열 0.0, 기타 논리 -2.0, 구조 +2.3)도 모두 유의하지 않다.
-  생성 지연은 fold 0 32.5초/장, fold 1 12.3초/장으로 fold 간 차이가 컸고 원인은 확인하지 못했다(예약 VRAM이 한계에 가까움).
+  생성 지연은 fold 0 32.5초/장, fold 1 12.3초/장으로 fold 간 차이가 컸다. 원인은 학습 프로세스 안에서 생성해 예약 VRAM 11.5GB가
+  유지된 채 데스크톱의 GPU 사용(약 1GB)과 겹쳐 12GB를 넘은 것이다(`python -m ops.gen_probe`: 같은 두 어댑터를 별도 프로세스에서
+  재면 7.3·7.6초/장, 예약 8.8~9.3GB, `reports/ops/gen_probe_desktop.json`). 이후 `train_lora`는 생성 전에 캐시를 비우고
+  하트비트에 VRAM을 기록한다. 표1의 8B 22.4초/장은 과대 측정값이다.
 - 라벨 수 곡선: `build_sft --label-frac 0.25|0.5`(학습 측을 역할·카테고리·그룹 층별로 줄임, 층마다 최소 1장,
   25 ⊂ 50 ⊂ 100 중첩, 실제 비율은 최소 1장 규칙 때문에 27%·52%). 2B LoRA와 B1을 같은 부분집합으로 학습했다.
   가설 1(50 -> 100%에서도 증가)은 지지(+9.7%p, p=4e-4). 가설 2(라벨 2배당 증가폭 VLM > B1)는 +10.2 vs +9.5로 문자 그대로는
@@ -209,7 +237,14 @@ python -m app.demo                    # Gradio 데모 (held-out 갤러리 + 캐�
 python -m app.demo --live             # 4B QLoRA 어댑터로 실시간 생성
 python -m app.record_gif              # 데모 GIF reports/figures/demo.gif (Edge 헤드리스 + CDP, 새 설치 없음)
 python -m src.report.build_portfolio  # PDF reports/portfolio.pdf (Edge 헤드리스 인쇄, 4쪽 초과 시 실패)
+python -m src.report.publish_predictions export   # 예측 원본·점수 캐시 -> reports/predictions/ (MANIFEST sha256)
+python -m app.publish_adapters                    # LoRA 어댑터 10개의 모델 카드·manifest -> reports/adapters/
+python -m app.publish_adapters --upload --namespace <HF 계정>   # Hub 업로드 (HF_TOKEN 환경 변수, 사용자가 직접 실행)
 ```
+
+LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, 합계 약 1.3GB)는 `reports/adapters/<run>/README.md`의
+카드와 함께 `<계정>/loco-vlm-<run>`으로 올린다. 카드에는 학습 설정·표본 수·held-out 지표·비용·라이선스(CC BY-NC-SA 4.0,
+학습 데이터 조건 승계)를 적고, `reports/adapters/manifest.json`의 sha256으로 올린 가중치를 대조할 수 있다.
 
 ## 학습 운영 (GPU 유휴 방지)
 
@@ -284,7 +319,8 @@ python -m src.report.build_portfolio  # PDF reports/portfolio.pdf (Edge 헤드�
   (출처: MVTec LOCO AD, Bergmann et al., IJCV 2022)을 따른다.
 - MMAD 부가자료: 라이선스 미표기라 재배포하지 않고 인용만 한다.
 - Qwen3-VL: Apache-2.0. SALAD: MIT.
-- LoRA 어댑터: 비상업 데이터로 학습했으므로 공개할 경우 비상업 조건을 함께 명시한다.
+- LoRA 어댑터: 비상업 데이터로 학습했으므로 CC BY-NC-SA 4.0으로 공개한다(카드 `reports/adapters/`, 절차는 M4 절).
+- `reports/predictions/`: 이미지 ID·라벨·모델 출력 텍스트·탐지 점수만 담는다(데이터셋 이미지, MMAD QA 텍스트 없음).
 
 ## 확장 방향
 

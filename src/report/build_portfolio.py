@@ -92,6 +92,11 @@ def ops_metrics() -> dict:
 def context() -> dict:
     t1, m2, m3 = load("table1_main.json"), load("m2_summary.json"), load("m3_summary.json")
     cas, fail, p2 = load("m3_cascade.json"), load("m3_failure.json"), load("p2_summary.json")
+    judge = load("m3_cascade_b1judge.json")  # 2차 개선 2: 판정 구간 심판을 B1로 바꾼 캐스케이드 (없으면 문단 생략)
+    judge_key, judge_met = None, 0
+    if judge and judge.get("seeds"):
+        judge_key = next(k for k in judge["seeds"]["0"]["j1"]["vs_vlm"] if k != "pi=0.01")
+        judge_met = sum(bool(s["j1"]["summary"]["rq4_hypothesis_met"]) for s in judge["seeds"].values())
     casm = cas["by_recall_target"]["0.95"]
     n_anom, n_norm = casm["n_anomaly"], casm["n_normal"]
     test_key = next(k for k in cas["end_to_end"]["ours_minus_b2"] if k not in ("pi=0.01", "pi=0.05"))
@@ -131,6 +136,7 @@ def context() -> dict:
         "det": {"mean": sum(d["official_auroc"]["auc"] for d in det) / len(det),
                 "latency": t1["detector"]["latency_ms_median"]},
         "p2": p2, "ops": ops_metrics(),
+        "judge": judge if judge and judge.get("seeds") else None, "judge_key": judge_key, "judge_met": judge_met,
         "figs": {"system": rel("system.png"), "pi": rel("pi_call_rate.png"), "ablation": rel("ablation_effects.png"),
                  "cases": rel("cases.png"), "curve": rel("label_curve.png")},
     }

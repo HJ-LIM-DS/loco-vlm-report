@@ -1,0 +1,37 @@
+{
+ "category": "screw_bag",
+ "official_auroc": {
+  "auc": 95.10133902643322,
+  "auc_img": 82.16873834407843,
+  "auc_maha": 86.06612099685674,
+  "auc_comp": 87.91111292709192
+ },
+ "recomputed_auroc": {
+  "auc": 95.10133902643322,
+  "auc_img": 82.16873834407843,
+  "auc_maha": 86.06612099685674,
+  "auc_comp": 87.91111292709192
+ },
+ "recomputed_detail": {
+  "auc": {
+   "logical_anomalies": 93.95117865262654,
+   "structural_anomalies": 96.25149940023991
+  },
+  "auc_img": {
+   "logical_anomalies": 69.17554146224721,
+   "structural_anomalies": 95.16193522590963
+  },
+  "auc_maha": {
+   "logical_anomalies": 83.15783175780781,
+   "structural_anomalies": 88.97441023590564
+  },
+  "auc_comp": {
+   "logical_anomalies": 90.75625224362808,
+   "structural_anomalies": 85.06597361055577
+  }
+ },
+ "max_abs_diff": 0.0,
+ "n_test": 341,
+ "latency_ms_median": 111.75,
+ "seed": 42
+}

@@ -63,8 +63,48 @@ def group_correct(final: str, gt_report: str) -> bool:
     return p is not None and p.group == parse_report(gt_report).group
 
 
-def cascade(models: dict, recall: float, kb: dict, index: pd.DataFrame, splits: pd.DataFrame) -> pd.DataFrame:
-    """models: {학습 fold: 예측 jsonl}. 이미지별 단계·최종 출력 표."""
+def judge_final(stage: str, pred: str, kb: dict, cat: str, judge_normal: bool | None) -> str:
+    """판정 구간의 거부를 외부 심판(B1)에 맡길 때의 최종 출력 (2차 개선 J1·J2).
+    judge_normal=None이면 기존 규칙(VLM이 "정상"이면 거부). 심판이 이상이라 하면 설명 구간과 같은 규칙(거부 불가)."""
+    if stage != "judge" or judge_normal is None:
+        return finalize(stage, pred, kb, cat, None)[0]
+    return "" if judge_normal else finalize("describe", pred, kb, cat, None)[0]
+
+
+def load_judge(path: Path) -> pd.DataFrame:
+    """crop_classifier --probs-out 파일 -> id 인덱스, p_good·argmax."""
+    df = pd.read_json(path, lines=True)
+    return df.set_index("id")[["p_good", "argmax"]]
+
+
+def threshold_from_pgood(p_good: np.ndarray, pass_frac: float = 0.97) -> float:
+    """J2 임계값: 판정 구간 이상(학습 측 OOF)의 pass_frac이 거부되지 않도록 p(good) 상위 분위수. 비면 1.0(거부 없음)."""
+    p = np.asarray(p_good, dtype=float)
+    if len(p) == 0:
+        return 1.0
+    return float(np.quantile(p, pass_frac, method="higher"))
+
+
+def oof_threshold(oof_path: Path, fold: int, recall: float, index: pd.DataFrame, splits: pd.DataFrame,
+                  pass_frac: float = 0.97) -> dict:
+    """fold 학습 측 OOF 확률에서 판정 구간 이상만 골라 J2 임계값을 정한다 (held-out 미사용)."""
+    scores = pd.concat([load_scores("salad", c) for c in CATS]).set_index("image_id")["score"]
+    idx = index.set_index("image_id")
+    th = {c: fold_thresholds("salad", c, index, splits, fold, recall) for c in CATS}
+    oof = pd.read_json(oof_path, lines=True).set_index("id")
+    sel = []
+    for iid, row in oof.iterrows():
+        cat = idx.loc[iid, "category"]
+        if idx.loc[iid, "label"] != "good" and decide(float(scores.loc[iid]), th[cat]) == "judge":
+            sel.append(float(row["p_good"]))
+    return {"threshold": threshold_from_pgood(np.array(sel), pass_frac), "n_judge_anomaly": len(sel), "pass_frac": pass_frac}
+
+
+def cascade(models: dict, recall: float, kb: dict, index: pd.DataFrame, splits: pd.DataFrame,
+            judge: dict | None = None, judge_rule: str = "argmax", judge_thr: dict | None = None) -> pd.DataFrame:
+    """models: {학습 fold: 예측 jsonl}. 이미지별 단계·최종 출력 표.
+    judge: {fold: load_judge(...)}를 주면 판정 구간의 거부를 B1에 맡긴다(judge_rule 'argmax': argmax=="good"이면 거부,
+    'threshold': p_good >= judge_thr[fold]이면 거부). judge_normal 열에 실제로 거부 판단을 내린 쪽의 결정을 적는다."""
     scores = pd.concat([load_scores("salad", c) for c in CATS]).set_index("image_id")["score"]
     idx = index.set_index("image_id")
     rows = []
@@ -72,12 +112,19 @@ def cascade(models: dict, recall: float, kb: dict, index: pd.DataFrame, splits: 
         th = {c: fold_thresholds("salad", c, index, splits, fold, recall) for c in CATS}
         pct = {c: train_side_percentile(scores, index, splits, fold, c) for c in CATS}
         pr = load_preds([path])
+        jd = judge.get(fold) if judge else None
         for r in pr.itertuples():
             cat = idx.loc[r.id, "category"]
             stage = decide(float(scores.loc[r.id]), th[cat])
-            final, _ = finalize(stage, r.pred, kb, cat, None)
+            vn = is_normal(r.pred)
+            jn = None
+            if jd is not None and stage == "judge":
+                jn = bool(jd.loc[r.id, "argmax"] == "good") if judge_rule == "argmax" \
+                    else bool(float(jd.loc[r.id, "p_good"]) >= judge_thr[fold])
+            final = judge_final(stage, r.pred, kb, cat, jn)
             rows.append({"id": r.id, "fold": fold, "category": cat, "label": idx.loc[r.id, "label"],
-                         "stage": stage, "final": final, "pred": r.pred, "vlm_normal": is_normal(r.pred),
+                         "stage": stage, "final": final, "pred": r.pred, "vlm_normal": vn,
+                         "judge": "vlm" if jd is None else f"b1_{judge_rule}", "judge_normal": vn if jn is None else jn,
                          "percentile": float(pct[cat](float(scores.loc[r.id]))),
                          "gt_report": idx.loc[r.id, "gt_report"]})
     return pd.DataFrame(rows)
@@ -202,6 +249,11 @@ def summarize(df: pd.DataFrame) -> dict:
         p, q = parse_report(t) if t else None, parse_report(g)
         grp.append(p is not None and p.group == q.group)
     judge = df["stage"] == "judge"
+    jn = df["judge_normal"] if "judge_normal" in df else df["vlm_normal"]  # 판정 구간에서 실제로 거부 판단을 내린 쪽
+    external = "judge" in df and bool((df["judge"] != "vlm").any())
+    # VLM 호출: VLM 심판이면 tau_low 이상 전체(판정 구간도 VLM이 봐야 함), 외부 심판(B1)이면 설명 구간 + 심판이 이상이라 한 판정 구간
+    call = ((df["stage"] == "describe") | (judge & ~jn)) if external else det
+    tpr_call, fpr_call = float(call[anom].mean()), float(call[~anom].mean())
     return {
         "n_anomaly": int(anom.sum()), "n_normal": int((~anom).sum()),
         "detector_only": {"recall": tpr_d, "fpr": fpr_d},
@@ -209,11 +261,11 @@ def summarize(df: pd.DataFrame) -> dict:
         "recall_loss_pp": 100 * (tpr_d - tpr_c),
         "false_alarm_reduction": (fpr_d - fpr_c) / fpr_d if fpr_d > 0 else None,
         "rq4_hypothesis_met": (100 * (tpr_d - tpr_c) <= 1.0) and fpr_d > 0 and (fpr_d - fpr_c) / fpr_d >= 0.5,
-        "judge_band": {"normal_n": int((judge & ~anom).sum()), "normal_rejected": float(df.loc[judge & ~anom, "vlm_normal"].mean())
+        "judge_band": {"normal_n": int((judge & ~anom).sum()), "normal_rejected": float(jn[judge & ~anom].mean())
                        if (judge & ~anom).any() else None,
-                       "anomaly_n": int((judge & anom).sum()), "anomaly_wrongly_rejected": float(df.loc[judge & anom, "vlm_normal"].mean())
+                       "anomaly_n": int((judge & anom).sum()), "anomaly_wrongly_rejected": float(jn[judge & anom].mean())
                        if (judge & anom).any() else None},
-        "vlm_call_rate": {f"pi={p:g}": p * tpr_d + (1 - p) * fpr_d for p in PIS + (test_pi,)},
+        "vlm_call_rate": {f"pi={p:g}": p * tpr_call + (1 - p) * fpr_call for p in PIS + (test_pi,)},
         "end_to_end_group_acc": sum(grp) / max(len(grp), 1),
     }
 

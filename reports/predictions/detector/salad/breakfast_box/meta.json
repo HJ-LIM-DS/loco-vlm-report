@@ -1,0 +1,37 @@
+{
+ "category": "breakfast_box",
+ "official_auroc": {
+  "auc": 88.92616216499987,
+  "auc_img": 85.61376223849646,
+  "auc_maha": 83.54824526865633,
+  "auc_comp": 77.1784523715778
+ },
+ "recomputed_auroc": {
+  "auc": 88.92616216499987,
+  "auc_img": 85.61376223849646,
+  "auc_maha": 83.54824526865633,
+  "auc_comp": 77.1784523715778
+ },
+ "recomputed_detail": {
+  "auc": {
+   "logical_anomalies": 92.27498228206944,
+   "structural_anomalies": 85.57734204793029
+  },
+  "auc_img": {
+   "logical_anomalies": 84.5499645641389,
+   "structural_anomalies": 86.67755991285404
+  },
+  "auc_maha": {
+   "logical_anomalies": 93.62154500354359,
+   "structural_anomalies": 73.47494553376906
+  },
+  "auc_comp": {
+   "logical_anomalies": 78.98653437278527,
+   "structural_anomalies": 75.37037037037037
+  }
+ },
+ "max_abs_diff": 0.0,
+ "n_test": 275,
+ "latency_ms_median": 110.95,
+ "seed": 42
+}

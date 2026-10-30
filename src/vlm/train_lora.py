@@ -275,22 +275,34 @@ def train(args):
         "train_loss_by_step": {int(h["step"]): h["loss"] for h in trainer.state.log_history if "loss" in h},
         "args": vars(args),
     }
+    # 생성 전에 학습용 VRAM을 돌려준다. optimizer 상태·기울기·allocator 캐시가 남으면 예약 메모리가 학습 최고치(8B는 11.5GB)에
+    # 머물러 데스크톱의 GPU 사용(약 1GB)과 겹칠 때 WDDM 공유 메모리로 밀려 생성이 2~4배 느려졌다
+    # (P2 8B: 학습 프로세스 안 생성 32.5초/장 vs 별도 프로세스 7.3초/장, ops/gen_probe.py로 확인. 2차 개선).
+    import gc
+
+    gstep = trainer.state.global_step
+    trainer.optimizer = trainer.lr_scheduler = None
+    del trainer
+    model.zero_grad(set_to_none=True)
+    gc.collect()
+    torch.cuda.empty_cache()
+    summary["vram_reserved_before_generation_gb"] = round(torch.cuda.memory_reserved() / 1024**3, 2)
     if not ctx.smoke and args.eval_generate:
         from src.vlm.infer import evaluate_records
-        ctx.heartbeat(step=trainer.state.global_step, force=True, phase="eval_generate")
+        ctx.heartbeat(step=gstep, force=True, phase="eval_generate")
         model.config.use_cache = True
         summary["val_generation"] = evaluate_records(
             model, processor, val_ds.rows, ctx.final_dir / "val_predictions.jsonl", batch_size=args.gen_batch_size,
-            on_batch=lambda i, n: ctx.heartbeat(step=trainer.state.global_step, phase=f"eval_generate {i}/{n}"))
+            on_batch=lambda i, n: ctx.heartbeat(step=gstep, phase=f"eval_generate {i}/{n}"))
     if not ctx.smoke and args.predict_heldout:
         # held-out fold 예측은 최종 평가용으로 한 번만 남긴다 (설정 선택에는 inner-val만 쓴다)
         from src.vlm.infer import evaluate_records
-        ctx.heartbeat(step=trainer.state.global_step, force=True, phase="predict_heldout")
+        ctx.heartbeat(step=gstep, force=True, phase="predict_heldout")
         model.config.use_cache = True
         held = SFTDataset(Path(args.data) / "heldout.jsonl").rows
         summary["heldout_generation"] = evaluate_records(
             model, processor, held, ctx.final_dir / "heldout_predictions.jsonl", batch_size=args.gen_batch_size,
-            on_batch=lambda i, n: ctx.heartbeat(step=trainer.state.global_step, phase=f"predict_heldout {i}/{n}"))
+            on_batch=lambda i, n: ctx.heartbeat(step=gstep, phase=f"predict_heldout {i}/{n}"))
     (ctx.final_dir / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     ctx.mark_done(**{k: summary[k] for k in ("global_step", "peak_vram_alloc_gb", "peak_vram_reserved_gb",
                                               "train_runtime")})

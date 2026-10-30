@@ -159,6 +159,43 @@ def subsample_labels(pool: pd.DataFrame, frac: float, seed: int = 0) -> set | No
     return keep
 
 
+def group_hints(kb: dict, category: str, probs: dict, allowed: set | None = None, k: int = 2) -> list:
+    """P3 변형 B: B1 클래스 확률({'good' 또는 'a+b': p})을 결함 그룹으로 합산해 상위 k개 [(그룹 ko_label|정상, p)].
+
+    allowed가 있으면 그 그룹(프롬프트 목록에 보이는 그룹 + 정상)만 후보로 둔다: 목록 드롭아웃으로 목록에서 뺀 그룹을
+    힌트가 다시 알려 주지 않게 해 학습·held-out의 힌트 분포를 같게 유지한다. 확률은 다시 정규화하지 않는다."""
+    d2g = {}
+    for g in kb[category]["groups"].values():
+        for dname in g["defects"]:
+            d2g[dname] = g["ko_label"]
+    acc = {}
+    for cls, p in probs.items():
+        if cls == "good":
+            label = NORMAL
+        else:
+            names = cls.split("+")
+            table = defect_table(kb, category)
+            first = sorted((n for n in names if n in table), key=lambda n: table[n]["order"])
+            label = d2g.get(first[0] if first else names[0])
+            if label is None:
+                raise KeyError(f"{category}: KB에 없는 B1 클래스 {cls!r}")
+        acc[label] = acc.get(label, 0.0) + float(p)
+    items = [(g, p) for g, p in acc.items() if allowed is None or g in allowed]
+    items.sort(key=lambda x: (-x[1], x[0]))
+    return [(g, round(p, 2)) for g, p in items[:k]]
+
+
+def load_hint_probs(path: Path) -> dict:
+    """crop_classifier --probs-out 파일(held-out)과 같은 이름의 .oof.jsonl(학습 측 OOF·드롭아웃) -> {id: probs}."""
+    out = {}
+    for p in (path, path.with_name(path.stem + ".oof.jsonl")):
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                r = json.loads(line)
+                out[r["id"]] = r["probs"]
+    return out
+
+
 def parse_excluded(spec: str, categories: list) -> set:
     """'all:contamination,breakfast_box:fruit_count' -> {(카테고리, 그룹ID)}. 없는 그룹이면 오류."""
     kb = load_kb()
@@ -189,6 +226,10 @@ def build_parser() -> argparse.ArgumentParser:
                     help="open-set 제외 그룹: '카테고리:그룹ID' 쉼표 구분, 카테고리 자리에 all 가능")
     ap.add_argument("--label-frac", type=float, default=1.0,
                     help="라벨 수 곡선(P2): 학습 측(train·val) 이미지를 층별로 이 비율만 사용")
+    ap.add_argument("--det-terms", action="store_true",
+                    help="P3 변형 A: 탐지기 줄에 SALAD 세 항(국소/전역/구성)의 정상 대비 백분위를 추가")
+    ap.add_argument("--b1-hints", default=None,
+                    help="P3 변형 B: crop_classifier --probs-out 파일. 상위 2그룹 후보와 확률을 프롬프트에 추가")
     return ap
 
 
@@ -231,6 +272,7 @@ def main():
         slot = 1  # 탐지기가 없으면 crop도 없다
     roles = tuple(r for i, r in enumerate(IMAGE_ROLES) if i != slot)
     rng = random.Random(args.seed * 100 + args.fold)
+    hint_probs = load_hint_probs(ROOT / args.b1_hints) if args.b1_hints else None
     crop_dir = CACHE / (f"crop_gt" if args.crop_source == "gt" else f"crop_{args.crop_source}_f{args.fold}")
     out_dir = ROOT / "data" / "sft" / f"{args.name}_f{args.fold}"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -256,6 +298,8 @@ def main():
         else:
             crop, cell = crop_detector(row, calibs[row.category], crop_out)
             det = {"percentile": calibs[row.category].percentile(row.image_id), "location": cell}
+            if args.det_terms:
+                det["terms"] = calibs[row.category].term_percentiles(row.image_id)
         ref_id = nearest_reference(emb, train_good, row.image_id, row.category)
         ref_path = df.loc[df["image_id"] == ref_id, "image_path"].iloc[0]
         images = [rel(cached_full(row.image_path)), rel(crop) if crop else None, rel(cached_full(ref_path))]
@@ -283,12 +327,17 @@ def main():
         # 모든 정답은 출력 명세 파서를 통과해야 한다 (잘못된 학습 목표 방지)
         if target != NORMAL and parse_report(target) is None:
             raise ValueError(f"{row.image_id}: 출력 명세에 맞지 않는 정답 {target!r}")
+        hints = None
+        if hint_probs is not None:
+            if row.image_id not in hint_probs:
+                raise KeyError(f"{row.image_id}: B1 확률 파일에 없음 ({args.b1_hints})")
+            hints = group_hints(kb, row.category, hint_probs[row.image_id], set(shown) | {NORMAL})
         rec = {
             "id": row.image_id, "category": row.category, "role": row.role, "label": row.label,
             "group": row.groups[0] if len(row.groups) else None, "dropped": dropped, "openset": is_open,
-            "images": images, "reference_id": ref_id, "detector": det,
+            "images": images, "reference_id": ref_id, "detector": det, "hints": hints,
             "prompt": user_text(kb, row.category, shown, None if args.no_detector_text else det, roles,
-                                spec=not args.no_spec),
+                                spec=not args.no_spec, hints=hints),
             "target": target,
             "gt_report": row.gt_report,
         }
@@ -302,7 +351,7 @@ def main():
             "dropout": args.dropout, "seed": args.seed, "counts": n, "hard_neg": args.hard_neg,
             "drop_image": args.drop_image, "no_spec": args.no_spec, "no_detector_text": args.no_detector_text,
             "excluded_groups": sorted(f"{c}:{g}" for c, g in excluded), "n_openset_heldout": n_open,
-            "label_frac": args.label_frac,
+            "label_frac": args.label_frac, "det_terms": args.det_terms, "b1_hints": args.b1_hints,
             "map_thresholds": {c: cb.map_thr for c, cb in calibs.items()}}
     (out_dir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"저장: {out_dir}")

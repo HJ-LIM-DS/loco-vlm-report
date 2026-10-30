@@ -1,7 +1,8 @@
 """Gradio 데모: held-out 갤러리 + 캐시 (계획 v5 Phase 4).
 
 기본(캐시 모드)은 GPU 없이 동작한다. 각 이미지는 그 이미지를 학습하지 않은 fold 모델(Ours 4B seed 0)의
-저장된 예측과 SALAD 캐스케이드 단계(tau_low 학습 측 재현율 0.95)를 보여 주고, 같은 이미지의 B1 출력과 정답을 함께 둔다.
+저장된 예측과 SALAD 캐스케이드 단계(tau_low 학습 측 재현율 0.95)를 보여 주고, 비-VLM 기준선 B1을 같은 캐스케이드에
+넣은 출력과 정답을 나란히 둔다(표1과 같은 비교). 세 칸 모두 그룹 정답 여부를 표시한다.
 --live를 주면 같은 어댑터를 올려 선택한 이미지를 실제로 생성한다(학습 대기열이 GPU를 쓰는 중에는 쓰지 않는다).
 
     python -m app.demo                 # 캐시 모드, http://127.0.0.1:7860 (?id=<image_id>로 특정 이미지를 바로 연다)
@@ -18,7 +19,7 @@ import gradio as gr
 import pandas as pd
 from PIL import Image
 
-from src.eval.cascade import cascade
+from src.eval.cascade import cascade, group_correct
 from src.kb import load_kb
 from src.report.m2_report import heldout
 from src.report.m4_figures import CAT_KO, overlay
@@ -28,10 +29,11 @@ ROOT = Path(__file__).resolve().parents[1]
 STAGE_KO = {"pass": "통과(점수 < τ_low): 무출력", "judge": "판정 구간: VLM이 정상/이상 판정",
             "describe": "설명 구간(점수 ≥ τ_high): VLM 설명, 거부 불가"}
 LABEL_KO = {"good": "정상", "logical": "논리 이상", "structural": "구조 이상"}
+NO_OUTPUT = "(무출력: 정상으로 판정)"
 
 
-def load_state() -> tuple[pd.DataFrame, dict, pd.Series]:
-    """이미지별 캐스케이드 결과(Ours 4B s0), SFT 레코드(VLM 입력), B1 예측."""
+def load_state() -> tuple[pd.DataFrame, dict, pd.DataFrame]:
+    """이미지별 캐스케이드 결과(Ours 4B s0), SFT 레코드(VLM 입력), B1을 같은 캐스케이드에 넣은 결과."""
     kb = load_kb()
     index = pd.read_parquet(ROOT / "data" / "index.parquet")
     splits = pd.read_csv(ROOT / "data" / "splits.csv")
@@ -41,8 +43,17 @@ def load_state() -> tuple[pd.DataFrame, dict, pd.Series]:
         for line in (ROOT / "data" / "sft" / f"m2_salad_f{f}" / "heldout.jsonl").read_text(encoding="utf-8").splitlines():
             r = json.loads(line)
             recs[r["id"]] = {**r, "model_fold": f}
-    b1 = pd.concat([pd.read_json(ROOT / "outputs" / "baselines" / f"b1_f{f}_heldout.jsonl", lines=True) for f in (0, 1)])
-    return df, recs, b1.set_index("id")["pred"]
+    b1 = cascade({f: ROOT / "outputs" / "baselines" / f"b1_f{f}_heldout.jsonl" for f in (0, 1)}, 0.95, kb, index, splits)
+    return df, recs, b1.set_index("id")
+
+
+def verdict(row: pd.Series) -> str:
+    """최종 출력의 정답 여부 한 줄: 정상 이미지는 무출력이 정답, 이상 이미지는 결함 그룹 일치가 정답."""
+    if row["label"] == "good":
+        return "정답 (무출력)" if row["final"] == "" else "오경보"
+    if row["final"] == "":
+        return "놓침 (무출력)"
+    return "그룹 정답" if group_correct(row["final"], row["gt_report"]) else "그룹 오답"
 
 
 class LiveModel:
@@ -86,16 +97,21 @@ def build(live: LiveModel | None) -> gr.Blocks:
 
     def show(iid: str):
         if not iid:
-            return None, [], "", "", "", ""
+            return None, [], "", "", "", "", "", ""
         r, rec = df.loc[iid], recs[iid]
         det = rec.get("detector") or {}
         info = (f"**{CAT_KO[r['category']]}** `{iid}` ({LABEL_KO[r['label']]})  \n"
                 f"SALAD 점수 백분위 {det.get('percentile', 0):.0f} (학습 측 정상 대비), 의심 위치 {det.get('location', '-')}  \n"
                 f"단계: {STAGE_KO[r['stage']]}  \n예측 모델: fold {rec['model_fold']} 학습 모델 (이 이미지는 학습에 쓰지 않음)")
         gallery = [(str(ROOT / p), role) for p, role in zip(rec["images"], IMAGE_ROLES)]
-        final = r["final"] or "(무출력: 정상으로 판정)"
         gt = r["gt_report"] if r["label"] != "good" else "정상 (출력 없음이 정답)"
-        return overlay(iid, fold_of, idx), gallery, info, final, r["pred"], f"{gt}\n\n[B1 비-VLM] {b1.get(iid, '-')}"
+        ours = f"{r['final'] or NO_OUTPUT}\n[{verdict(r)}]"
+        if iid in b1.index:
+            rb = b1.loc[iid]
+            b1_text = f"{rb['final'] or NO_OUTPUT}\n[{verdict(rb)}]"
+        else:
+            b1_text = "-"
+        return overlay(iid, fold_of, idx), gallery, info, ours, r["pred"], b1_text, gt, (b1.loc[iid, "pred"] if iid in b1.index else "-")
 
     def run_live(iid: str):
         if live is None or not iid:
@@ -113,7 +129,8 @@ def build(live: LiveModel | None) -> gr.Blocks:
     cats = sorted(df["category"].unique())
     with gr.Blocks(title="LOCO 이상 리포트 데모") as demo:
         gr.Markdown("## MVTec LOCO: SALAD 탐지기 + QLoRA VLM 2줄 이상 리포트\n"
-                    "held-out 이미지만 보여 준다. 주황 윤곽 = GT 결함, 파랑 상자 = 탐지기 crop 영역.")
+                    "held-out 이미지만 보여 준다. 주황 윤곽 = GT 결함, 파랑 상자 = 탐지기 crop 영역. "
+                    "가운데 줄은 같은 SALAD 캐스케이드에 넣은 Ours(VLM)와 B1(비-VLM 기준선)의 최종 출력을 정답과 나란히 둔 것이다.")
         with gr.Row():
             cat = gr.Dropdown(cats, value=cats[0], label="카테고리")
             lab = gr.Dropdown(["전체", "good", "logical", "structural"], value="logical", label="라벨")
@@ -121,11 +138,16 @@ def build(live: LiveModel | None) -> gr.Blocks:
             iid = gr.Dropdown(first, value=first[0], label="이미지")
         with gr.Row():
             img = gr.Image(label="검사 이미지", type="numpy", height=360)
+            info = gr.Markdown()
+        with gr.Row(equal_height=True):
             with gr.Column():
-                info = gr.Markdown()
-                final = gr.Textbox(label="시스템 출력 (캐스케이드 + Guard)", lines=3)
+                final = gr.Textbox(label="Ours: 캐스케이드 + 4B QLoRA VLM + Guard", lines=3)
                 raw = gr.Textbox(label="VLM 원출력", lines=2)
-                gt = gr.Textbox(label="정답 / B1 출력", lines=4)
+            with gr.Column():
+                b1_box = gr.Textbox(label="B1 비-VLM: DINOv2 + SALAD 점수 -> 로지스틱, 같은 캐스케이드", lines=3)
+                b1_raw = gr.Textbox(label="B1 원출력", lines=2)
+            with gr.Column():
+                gt = gr.Textbox(label="정답", lines=3)
         gal = gr.Gallery(label="VLM 입력 이미지 3장 (검사, 탐지기 crop, 최근접 정상 참조)", columns=3, height=300,
                          object_fit="contain")
         with gr.Row():
@@ -145,11 +167,12 @@ def build(live: LiveModel | None) -> gr.Blocks:
             return (c, lb, gr.Dropdown(choices=ids_for(c, lb), value=q), *show(q))
 
         # 카테고리·라벨은 사용자 입력에만 반응(.input): on_load가 값을 바꿀 때 이미지 목록이 다시 첫 장으로 돌아가지 않게
+        outs = [img, gal, info, final, raw, b1_box, gt, b1_raw]
         cat.input(refresh, [cat, lab], iid)
         lab.input(refresh, [cat, lab], iid)
-        iid.change(show, iid, [img, gal, info, final, raw, gt])
+        iid.change(show, iid, outs)
         btn.click(run_live, iid, live_out)
-        demo.load(on_load, None, [cat, lab, iid, img, gal, info, final, raw, gt])
+        demo.load(on_load, None, [cat, lab, iid, *outs])
     return demo
 
 

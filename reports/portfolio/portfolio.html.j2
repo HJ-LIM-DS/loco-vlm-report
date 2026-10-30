@@ -186,7 +186,11 @@
     캐스케이드는 {{ casm.cascade.recall|pct }} / {{ casm.cascade.fpr|pct }}로 오경보를 {{ casm.false_alarm_reduction|pct0 }}% 줄였지만
     재현율을 {{ casm.recall_loss_pp|f1 }}%p 잃어 가설(1%p 이하)을 충족하지 못했다. π=1%의 VLM 호출률은
     {{ casm.vlm_call_rate['pi=0.01']|pct }}%로 목표 10%를 넘는데, 원인은 탐지기 FPR이다. VLM 단독(B2) 대비 종단 정답 그룹 F1은
-    seed {{ e2e_seeds|length }}개 모두 높았다({{ e2e_seeds|join(', ') }}%p).</p>
+    seed {{ e2e_seeds|length }}개 모두 높았다({{ e2e_seeds|join(', ') }}%p).
+    {% if judge %}{% set j0 = judge.seeds['0'] %}{% set jd = j0.j1.vs_vlm[judge_key].f1_group %}
+    <b>후속(사전 등록)</b>: 판정 구간 거부를 B1의 정상 판정에 맡기면 오경보 감소 {{ j0.j1.summary.false_alarm_reduction|pct0 }}%,
+    호출률 {{ j0.j1.summary.vlm_call_rate['pi=0.01']|pct }}%로 목표를 넘지만 재현율 손실이 {{ j0.j1.summary.recall_loss_pp|f1 }}%p로 커져
+    여전히 미충족이다(seed {{ judge.seeds|length }}개, 종단 그룹 F1 {{ jd.diff|spct }}%p {{ jd|ci }}).{% endif %}</p>
 
   <table style="width: 100%">
     <tr><th>이상 {{ cas.by_recall_target['0.95'].n_anomaly }}장</th><th>장수</th><th>비율</th><th style="padding-left: 6mm; text-align: left">정상 {{ cas.by_recall_target['0.95'].n_normal }}장</th><th>장수</th><th>비율</th></tr>
@@ -246,7 +250,8 @@
     <li><b>논문 구현</b>: SALAD 점수 추출을 재구현해 공식 수치와 일치를 검증하고 배포 가중치 결함을 찾아 고쳤다.</li>
     <li><b>연구 주도</b>: 가설·판정 기준을 결과 전에 등록하고, 가설과 반대인 결과(B1 우세)를 숨기지 않고 원인을 분해했다.
       학습은 감독자·체크포인트 재개·자동 원복 장치로 운영했다(대기열 {{ ops.hours|f0 }}시간 동안 GPU 유휴 {{ ops.idle|f0 }}분,
-      그중 {{ ops.largest_gap|f0 }}분은 대기열 설정 오류 1건. 고장 주입 시험 9종).</li>
+      그중 {{ ops.largest_gap|f0 }}분은 대기열 설정 오류 1건. 고장 주입 시험 9종). 예측 원본·점수 캐시·어댑터를 공개해
+      GPU 없이 표를 다시 계산할 수 있고 CI가 이를 검사한다.</li>
     <li><b>한계</b>: 소표본 그룹(36개 중 다수가 10장 미만), fold 2개, 공개 데이터의 사전학습 노출 가능성, 가상 SOP 조치,
       위치는 point 결함만 채점. 의료 영상으로 옮길 때는 놓침 비용이 크므로 τ_low를 더 보수적으로 두고 단순 분류기 기준선을 먼저 확인해야 한다.</li>
   </ul>

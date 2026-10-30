@@ -1,0 +1,18 @@
+# GPU 없는 환경(CI, 표 재계산)용 최소 의존성. 학습·추론 패키지(transformers, peft, bitsandbytes, gradio)는 뺐다.
+--index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://pypi.org/simple
+torch==2.5.1+cpu
+pandas==3.0.3
+numpy==2.4.4
+scipy==1.17.1
+scikit-learn==1.9.0
+pyarrow==24.0.0
+matplotlib==3.11.0
+Jinja2==3.1.6
+opencv-python-headless==4.13.0.92
+pillow==12.2.0
+PyYAML==6.0.3
+psutil==7.2.2
+filelock==3.29.0
+rich==15.0.0
+pytest==9.1.1

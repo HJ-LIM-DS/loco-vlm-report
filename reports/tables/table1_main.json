@@ -468,5 +468,9 @@
  "detector": {
   "name": "SALAD",
   "latency_ms_median": 110.95
+ },
+ "gen_probe": {
+  "p2_8b_f0": 7.3,
+  "p2_8b_f1": 7.55
  }
 }

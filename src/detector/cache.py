@@ -41,17 +41,27 @@ def load_map(detector: str, image_id: str) -> np.ndarray:
 class FoldCalibration:
     """한 카테고리·한 fold의 학습 측 정상 이미지로 점수 백분위와 맵 기준을 정한다."""
 
+    TERMS = {"local": "s_local", "mah": "s_mah", "comp": "s_comp"}  # SALAD 세 항 (P3 변형 A)
+
     def __init__(self, detector: str, category: str, normal_ids: list):
         self.detector = detector
-        s = load_scores(detector, category).set_index("image_id")["score"]
+        table = load_scores(detector, category).set_index("image_id")
+        s = table["score"]
         self.normal_scores = np.sort(s.loc[normal_ids].to_numpy())
         self.scores = s
+        self.terms = {k: table[c] for k, c in self.TERMS.items() if c in table.columns}
+        self.normal_terms = {k: np.sort(v.loc[normal_ids].to_numpy()) for k, v in self.terms.items()}
         pix = np.concatenate([load_map(detector, i).ravel() for i in normal_ids])
         self.map_thr = float(np.quantile(pix, MAP_QUANTILE))
 
     def percentile(self, image_id: str) -> float:
         v = self.scores.loc[image_id]
         return 100.0 * np.searchsorted(self.normal_scores, v, side="right") / len(self.normal_scores)
+
+    def term_percentiles(self, image_id: str) -> dict:
+        """세 항 각각의 학습 측 정상 대비 백분위 {local, mah, comp} (탐지기에 그 항이 없으면 빈 dict)."""
+        return {k: 100.0 * np.searchsorted(self.normal_terms[k], self.terms[k].loc[image_id], side="right")
+                / len(self.normal_terms[k]) for k in self.terms}
 
     def region(self, image_id: str, out_hw: tuple[int, int]):
         """기준을 넘는 최대 연결 영역 마스크(out_hw 해상도)와 최댓값 위치의 3x3 칸. 없으면 (None, 칸)."""

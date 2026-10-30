@@ -1,0 +1,30 @@
+{
+ "fold": 0,
+ "categories": [
+  "breakfast_box",
+  "screw_bag"
+ ],
+ "crop_source": "gt",
+ "dropout": 0.12,
+ "seed": 0,
+ "counts": {
+  "train": {
+   "good": 95,
+   "anomaly": 166,
+   "dropped": 18
+  },
+  "val": {
+   "good": 17,
+   "anomaly": 30,
+   "dropped": 0
+  },
+  "heldout": {
+   "good": 112,
+   "anomaly": 196,
+   "dropped": 0
+  }
+ },
+ "hard_neg": null,
+ "drop_image": null,
+ "map_thresholds": {}
+}

@@ -27,20 +27,33 @@ def image_size_for(w: int, h: int, tokens: int = DEFAULT_TOKENS) -> tuple[int, i
     return W, H
 
 
+TERM_KO = (("local", "국소"), ("mah", "전역"), ("comp", "구성"))  # SALAD 세 항: 패치 국소 / Mahalanobis 전역 / 부품 구성
+
+
 def detector_line(det: dict | None) -> str | None:
+    """det["terms"]({local, mah, comp}: 학습 측 정상 대비 백분위)가 있으면 세 항도 적는다 (P3 변형 A)."""
     if not det:
         return None
     parts = [f"이상 점수 백분위 {det['percentile']:.0f} (정상 이미지 대비)"]
+    if det.get("terms"):
+        parts.append("세부 백분위 " + " / ".join(f"{ko} {det['terms'][k]:.0f}" for k, ko in TERM_KO))
     if det.get("location"):
         parts.append(f"의심 위치: {det['location']}")
     return "[탐지기] " + ", ".join(parts)
 
 
+def hint_line(hints: list | None) -> str | None:
+    """P3 변형 B: 비-VLM 분류기(B1)의 상위 그룹 후보와 확률. [(그룹 ko_label 또는 정상, 확률), ...]"""
+    if not hints:
+        return None
+    return "[분류기 후보] " + ", ".join(f"{g} {p:.2f}" for g, p in hints)
+
+
 def user_text(kb: dict, category: str, groups_shown: list, det: dict | None = None,
-              roles: tuple = IMAGE_ROLES, spec: bool = True) -> str:
+              roles: tuple = IMAGE_ROLES, spec: bool = True, hints: list | None = None) -> str:
     """사용자 프롬프트. groups_shown은 목록에 보일 그룹 ko_label (목록 드롭아웃이면 정답 그룹이 빠짐).
     roles는 실제로 넣는 이미지의 역할 (입력 ablation에서 정상 참조나 crop을 빼면 줄어듦).
-    spec=False면 정상 규격 줄을 뺀다 (규격 텍스트 ablation)."""
+    spec=False면 정상 규격 줄을 뺀다 (규격 텍스트 ablation). hints는 B1 후보 줄 (P3 변형 B)."""
     c = kb[category]
     lines = [f"[제품] {c['ko_name']}"]
     if spec:
@@ -49,6 +62,9 @@ def user_text(kb: dict, category: str, groups_shown: list, det: dict | None = No
     dl = detector_line(det)
     if dl:
         lines.append(dl)
+    hl = hint_line(hints)
+    if hl:
+        lines.append(hl)
     lines += [
         "[이미지] " + ", ".join(f"{i + 1}: {r}" for i, r in enumerate(roles)),
         "[출력 규칙]",

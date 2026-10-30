@@ -186,6 +186,11 @@ def current_panel(state: dict, gpu: dict, beep_state: dict) -> Panel:
     lines.append(Text.assemble("하트비트 경과 ", (fmt_dur(age), style),
                                ("  경고: 15분 이상 멈춤" if age >= ALERT_S else ""), style=""))
     lines.append(Text(f"GPU 메모리 점유: {gpu_hold}"))
+    if fresh and prog.get("vram_reserved_gb") is not None:
+        # 하트비트가 남긴 프로세스 VRAM과 GPU 전체 사용량: 전체가 한계에 닿으면 다른 프로세스와의 경합(생성 지연 원인)을 의심
+        lines.append(Text(f"VRAM 예약 {prog['vram_reserved_gb']:.2f} GB (할당 {prog.get('vram_allocated_gb', 0):.2f})"
+                          + (f"  GPU 전체 사용 {prog['gpu_used_gb']:.2f} / {prog['gpu_total_gb']:.2f} GB"
+                             if prog.get("gpu_used_gb") is not None else "")))
     return Panel(Group(*lines), title="현재 학습", border_style="cyan")
 
 

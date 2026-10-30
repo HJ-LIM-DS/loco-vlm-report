@@ -1,0 +1,39 @@
+{
+ "fold": 1,
+ "categories": [
+  "breakfast_box",
+  "juice_bottle",
+  "pushpins",
+  "screw_bag",
+  "splicing_connectors"
+ ],
+ "crop_source": "salad",
+ "dropout": 0.12,
+ "seed": 0,
+ "counts": {
+  "train": {
+   "good": 150,
+   "anomaly": 418,
+   "dropped": 57
+  },
+  "val": {
+   "good": 43,
+   "anomaly": 78,
+   "dropped": 0
+  },
+  "heldout": {
+   "good": 288,
+   "anomaly": 497,
+   "dropped": 0
+  }
+ },
+ "hard_neg": 150,
+ "drop_image": null,
+ "map_thresholds": {
+  "breakfast_box": -0.376953125,
+  "juice_bottle": -1.4833984375,
+  "pushpins": -3.1953125,
+  "screw_bag": -1.5390625,
+  "splicing_connectors": -0.986328125
+ }
+}

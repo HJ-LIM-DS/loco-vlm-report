@@ -16,6 +16,7 @@
 import math
 import os
 import shutil
+import subprocess
 import sys
 import time
 import traceback
@@ -26,6 +27,7 @@ from ops.paths import EXIT_ERROR, EXIT_NONFINITE, PROGRESS_DIR, RUNS, append_eve
 COMPLETE_MARKER = "COMPLETE"
 DONE_MARKER = "DONE"
 HEARTBEAT_MIN_INTERVAL_S = 5.0
+GPU_SAMPLE_EVERY_S = 60.0  # nvidia-smi(GPU 전체 사용 메모리)는 1분마다만 묻는다
 LOSS_EMA_DECAY = 0.98
 
 
@@ -54,6 +56,8 @@ class RunContext:
         self._last_beat = 0.0
         self._first_step = None
         self._first_step_time = None
+        self._last_gpu_sample = 0.0
+        self._gpu_used = {}
         fault_attempt = _env_int("LOCO_FAULT_ATTEMPT")
         armed = fault_attempt is None or fault_attempt == attempt
         self.fault_step = _env_int("LOCO_FAULT_AT_STEP") if armed else None
@@ -70,11 +74,37 @@ class RunContext:
 
     # --- 진행률·하트비트 ---
 
+    def gpu_fields(self) -> dict:
+        """프로세스 VRAM(torch 예약·할당)과 GPU 전체 사용 메모리(다른 프로세스 포함). 8B 생성 지연이 낮 시간대에
+        2.6배 느렸던 원인을 run 기록만으로 가릴 수 있게 하트비트에 남긴다(2차 개선). 실패하면 빈 dict."""
+        out = {}
+        torch = sys.modules.get("torch")
+        if torch is not None:
+            try:
+                if torch.cuda.is_available():
+                    out["vram_reserved_gb"] = round(torch.cuda.memory_reserved() / 1024**3, 2)
+                    out["vram_allocated_gb"] = round(torch.cuda.memory_allocated() / 1024**3, 2)
+            except Exception:  # noqa: BLE001
+                pass
+        now = time.time()
+        if now - self._last_gpu_sample >= GPU_SAMPLE_EVERY_S:
+            self._last_gpu_sample = now
+            try:
+                q = subprocess.run(["nvidia-smi", "--query-gpu=memory.used,memory.total", "--format=csv,noheader,nounits"],
+                                   capture_output=True, text=True, timeout=5)
+                used, total = (float(x) for x in q.stdout.strip().split(","))
+                self._gpu_used = {"gpu_used_gb": round(used / 1024, 2), "gpu_total_gb": round(total / 1024, 2)}
+            except Exception:  # noqa: BLE001
+                pass
+        out.update(self._gpu_used)
+        return out
+
     def heartbeat(self, step: int | None = None, force: bool = False, **fields) -> None:
         now = time.time()
         if not force and now - self._last_beat < HEARTBEAT_MIN_INTERVAL_S:
             return
         self._last_beat = now
+        fields = {**self.gpu_fields(), **fields}
         it_s = eta_s = None
         if step is not None:
             if self._first_step is None:

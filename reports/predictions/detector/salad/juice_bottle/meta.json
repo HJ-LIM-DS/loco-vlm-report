@@ -1,0 +1,37 @@
+{
+ "category": "juice_bottle",
+ "official_auroc": {
+  "auc": 99.72535530065863,
+  "auc_img": 97.43208003111471,
+  "auc_maha": 97.65635460567843,
+  "auc_comp": 86.68578924884756
+ },
+ "recomputed_auroc": {
+  "auc": 99.72535530065863,
+  "auc_img": 97.43208003111471,
+  "auc_maha": 97.65635460567843,
+  "auc_comp": 86.68578924884756
+ },
+ "recomputed_detail": {
+  "auc": {
+   "logical_anomalies": 99.7902307461792,
+   "structural_anomalies": 99.66047985513808
+  },
+  "auc_img": {
+   "logical_anomalies": 94.89811207671562,
+   "structural_anomalies": 99.96604798551381
+  },
+  "auc_maha": {
+   "logical_anomalies": 99.737788432724,
+   "structural_anomalies": 95.57492077863286
+  },
+  "auc_comp": {
+   "logical_anomalies": 88.11807012286485,
+   "structural_anomalies": 85.25350837483025
+  }
+ },
+ "max_abs_diff": 0.0,
+ "n_test": 330,
+ "latency_ms_median": 111.62,
+ "seed": 42
+}

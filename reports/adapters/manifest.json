@@ -1,0 +1,315 @@
+{
+ "license": "cc-by-nc-sa-4.0",
+ "runs": {
+  "m2_2b_f0_s0": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-2B-Instruct",
+   "fold": 0,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "7f3b922a06185d64151a0f400ad05bfa006b1a321196e03f63cd447a50bdca31"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 69788264,
+     "sha256": "756010366894bbb0102afa9e2693f003574fbbf776fd043e295cafa4ac07d782"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "m2_2b_f1_s0": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-2B-Instruct",
+   "fold": 1,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "7f3b922a06185d64151a0f400ad05bfa006b1a321196e03f63cd447a50bdca31"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 69788264,
+     "sha256": "47268b510ce1a47b3d610eaaba5ba7d246fc04703e472c5008127bc31801d0f0"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "m2_4b_f0_s0": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 0,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "6887e5e1c8c64fc680711eda4399d9def766b4c3c8e7397907cebf142ec43a9c"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "m2_4b_f1_s0": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 1,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "ab760026b1049766e3029a1dfe754d7ab4152dd16073240e9e380d668585cd89"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "m2_4b_f0_s1": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 0,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "f2839e20abe7779dbc3acccdd645374790abf3d1f225eb597502b9bc76dab270"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "m2_4b_f1_s1": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 1,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "d049480a704899a10cedcd7bd40d9b44dfe0383c86d8c237f4c3c27b1ddc63ae"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "m2_4b_f0_s2": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 0,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "ebc1be105492f41548c7a58b0f404f3b3589b7dd2757544b0e2b450e771f61ae"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "m2_4b_f1_s2": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 1,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "eb79aef07fc859ca2753b5ebdb4b83dcd644e6b34f357e0aed392afc612c4cb4"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "p2_8b_f0": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-8B-Instruct",
+   "fold": 0,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "ed7057736192d7b90c64bd56d1a299dc7855e22419644051ace39eb9704f12b6"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 174663096,
+     "sha256": "dd71ef96de703c583321831d95ba597534192a5ebf319585c24ba127d5dcf269"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "p2_8b_f1": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-8B-Instruct",
+   "fold": 1,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "ed7057736192d7b90c64bd56d1a299dc7855e22419644051ace39eb9704f12b6"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 174663096,
+     "sha256": "097a94bdcb1e7b64b07a968b087d0369496d9e9d3b3fa88c91bb7626cfacb785"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  }
+ }
+}

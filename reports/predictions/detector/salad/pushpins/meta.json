@@ -1,0 +1,37 @@
+{
+ "category": "pushpins",
+ "official_auroc": {
+  "auc": 99.5213812846663,
+  "auc_img": 96.72866049677644,
+  "auc_maha": 90.9611501398941,
+  "auc_comp": 88.05670085863322
+ },
+ "recomputed_auroc": {
+  "auc": 99.5213812846663,
+  "auc_img": 96.72866049677644,
+  "auc_maha": 90.9611501398941,
+  "auc_comp": 88.05670085863322
+ },
+ "recomputed_detail": {
+  "auc": {
+   "logical_anomalies": 100.0,
+   "structural_anomalies": 99.04276256933262
+  },
+  "auc_img": {
+   "logical_anomalies": 98.50294632903329,
+   "structural_anomalies": 94.9543746645196
+  },
+  "auc_maha": {
+   "logical_anomalies": 84.40038222646919,
+   "structural_anomalies": 97.52191805331903
+  },
+  "auc_comp": {
+   "logical_anomalies": 99.71333014811275,
+   "structural_anomalies": 76.4000715691537
+  }
+ },
+ "max_abs_diff": 0.0,
+ "n_test": 310,
+ "latency_ms_median": 111.22,
+ "seed": 42
+}

@@ -48,6 +48,9 @@ SYSTEMS = [
     ("Ours 2B", "2B bf16 LoRA", runs("m2_2b_f{f}_s0"), True, "m2_2b_f{f}_s0"),
     ("Ours 4B", "4B QLoRA (NF4)", runs("m2_4b_f{f}_s{s}", (0, 1, 2)), True, "m2_4b_f{f}_s{s}"),
     ("P2: 8B", "8B QLoRA (NF4)", runs("p2_8b_f{f}"), True, "p2_8b_f{f}"),
+    # 2차 개선 P3 (4B 2-fold 확인이 끝난 변형만 파일이 있어 자동으로 들어간다)
+    ("P3: 4B + 구성 신호", "4B QLoRA + SALAD 세 항 백분위 텍스트", runs("p3_4b_f{f}_terms"), True, "p3_4b_f{f}_terms"),
+    ("P3: 4B + B1 후보 힌트", "4B QLoRA + B1 상위 2그룹 확률 텍스트", runs("p3_4b_f{f}_hints"), True, "p3_4b_f{f}_hints"),
 ]
 
 
@@ -115,6 +118,14 @@ def main():
               "- 종단 그룹 F1: 정밀도 = 정답 그룹 출력 / 전체 출력, 재현율 = 정답 그룹 출력 / 이상 이미지, π 보정 정밀도 = "
               "π·R / (π·TPR + (1-π)·FPR). 같은 캐스케이드에 각 시스템의 예측을 넣어 계산한다(B2만 탐지기 없음).",
               "- RTX 3060 12GB. 생성 지연은 held-out 생성 시 배치 처리 기준(4B·8B 배치 2, 2B 배치 4)."]
+    probe = ROOT / "reports" / "ops" / "gen_probe_desktop.json"
+    if probe.exists():
+        # 2차 개선: 8B 생성 지연은 학습 프로세스 안 생성(예약 VRAM 11.5GB 유지)이라 과대 측정됐다. 별도 프로세스 재측정값을 각주로 둔다
+        pr = json.loads(probe.read_text(encoding="utf-8"))
+        parts = [f"fold {f['fold']} {f['sec_per_image']:.1f}초/장(예약 {f['torch_max_reserved_gb']:.1f}GB)" for f in pr["folds"]]
+        res["gen_probe"] = {f["run"]: f["sec_per_image"] for f in pr["folds"]}
+        lines.append("- 8B 생성 지연 재측정(`ops/gen_probe.py`, 별도 프로세스, 40장): " + ", ".join(parts)
+                     + ". 표의 8B 값은 학습 프로세스 안에서 예약 VRAM 11.5GB가 유지된 채 데스크톱 GPU 사용과 겹쳐 느려진 측정값이다.")
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "table1_main.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     (OUT / "table1_main.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
