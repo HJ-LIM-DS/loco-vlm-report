@@ -61,15 +61,32 @@ def ci_neg(d):
     return f"[{-100 * hi:.1f}, {-100 * lo:.1f}]"
 
 
+def idle_gaps(events: list) -> list:
+    """유휴 구간 각각의 길이(분). 합계 규칙은 ops.envctl.idle_metrics와 같다."""
+    gaps, start = [], None
+    for ev in events:
+        k = ev["kind"]
+        if k in ("run_done", "run_failed", "run_retry", "heartbeat_timeout", "run_paused"):
+            start = ev["ts"]
+        elif k == "run_start" and start is not None:
+            gaps.append((ev["ts"] - start) / 60)
+            start = None
+        elif k == "queue_finished":
+            start = None
+    return gaps
+
+
 def ops_metrics() -> dict:
-    """보관된 대기열 이벤트 로그 전체의 실행 시간과 유휴 시간."""
+    """보관된 대기열 이벤트 로그 전체의 실행 시간, 유휴 시간, 가장 긴 유휴 구간."""
     hours = idle = 0.0
+    gaps = []
     for p in sorted((ROOT / "reports" / "ops").glob("events_*.jsonl")):
         ev = [json.loads(x) for x in p.read_text(encoding="utf-8").splitlines() if x.strip()]
         if ev:
             hours += (ev[-1]["ts"] - ev[0]["ts"]) / 3600
             idle += idle_metrics(ev)["idle_minutes"]
-    return {"hours": hours, "idle": idle}
+            gaps += idle_gaps(ev)
+    return {"hours": hours, "idle": idle, "largest_gap": max(gaps, default=0.0)}
 
 
 def context() -> dict:
@@ -115,7 +132,7 @@ def context() -> dict:
                 "latency": t1["detector"]["latency_ms_median"]},
         "p2": p2, "ops": ops_metrics(),
         "figs": {"system": rel("system.png"), "pi": rel("pi_call_rate.png"), "ablation": rel("ablation_effects.png"),
-                 "cases": rel("cases.png")},
+                 "cases": rel("cases.png"), "curve": rel("label_curve.png")},
     }
 
 

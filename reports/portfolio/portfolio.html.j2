@@ -203,7 +203,7 @@
 <!-- 4쪽: 사례, 실패 분석, P2, 직무 연결과 한계 -->
 <section class="page">
   <figure>
-    <img src="{{ figs.cases }}">
+    <img src="{{ figs.cases }}" style="width: auto; max-height: 128mm; margin: 0 auto">
     <figcaption>그림 4. held-out 성공 3건과 실패 3건. 사례는 결과를 보고 고르지 않도록 규칙으로 정했다(세 seed에서 정오가 같은 이미지,
       카테고리 중복 없이 id 순, 실패는 유형 3종).</figcaption>
   </figure>
@@ -216,11 +216,24 @@
     B1이 쓰는 SALAD 구성 점수에 직접 드러나는 결함이다. 나사 길이와 부품 수량의 상호 혼동({{ conf0.n }}+{{ conf1.n }}장)도 컸다.
     crop이 결함을 다 담지 못하면 정확도가 떨어졌고(개수 계열 crop 포함률 100% {{ cover_full|pct }} vs 50% 미만 {{ cover_low|pct }}),
     참조 유사도와의 관계는 카테고리 안에서 다시 보면 사라졌다(카테고리 교란).</p>
-  {% if p2 and p2.get('size') %}
-  <p><b>추가 실험(P2, 결과 전 가설 등록).</b> 8B QLoRA는 4B 대비 {{ p2.size.vs_4b_s0.diff|spct }}%p({{ p2.size.vs_4b_s0.p|pfmt }}),
-    B1 대비 {{ p2.size.vs_b1.diff|spct }}%p로 {{ '4B seed 범위 안에 있어 모델 용량은 병목이 아니었다' if p2.size.within_4b_seed_range else '4B seed 범위를 벗어났다' }}.
-    {% if p2.get('curve_steps') %}라벨 수를 25 → 50 → 100%로 늘리면 VLM은 {% for k, d in p2.curve_steps['VLM 2B'].steps.items() %}{{ d.diff|spct }}{{ ', ' if not loop.last }}{% endfor %}%p,
-    B1은 {% for k, d in p2.curve_steps['B1'].steps.items() %}{{ d.diff|spct }}{{ ', ' if not loop.last }}{% endfor %}%p 변했다.{% endif %}</p>
+  {% if p2 and p2.get('size') and p2.get('curve_steps') %}
+  {% set sz, cs, cv = p2.size, p2.curve_steps, p2.curve %}
+  <div class="row">
+    <div style="flex: 1.55">
+      <h3>추가 실험 P2: 모델 용량을 늘려도, 라벨을 늘려도 격차는 그대로였다</h3>
+      <p>격차의 원인 후보 둘을 결과 전에 가설로 등록하고 확인했다. <b>모델 크기.</b> 8B QLoRA는 4B seed 0 대비
+        {{ sz.vs_4b_s0.diff|spct }}%p {{ sz.vs_4b_s0|ci }}({{ sz.vs_4b_s0.p|pfmt }})로 차이가 없었고 B1에는 {{ sz.vs_b1.diff|spct }}%p 뒤졌다.
+        비용은 fold당 학습 {{ sz.cost['p2_8b_f0'].hours|f1 }}h(4B {{ sz.cost['m2_4b_f0_s0'].hours|f1 }}h), 예약 VRAM
+        {{ sz.cost['p2_8b_f0'].vram_reserved|f1 }}GB로 12GB 한계에 닿았다. <b>라벨 수.</b> 학습 라벨 25 → 50 → 100%에서 2B VLM은
+        {% for f in ['0.25', '0.5', '1.0'] %}{{ cv[f]['VLM 2B'].all|pct }}{{ ' → ' if not loop.last }}{% endfor %}, B1은
+        {% for f in ['0.25', '0.5', '1.0'] %}{{ cv[f]['B1'].all|pct }}{{ ' → ' if not loop.last }}{% endfor %}로, 라벨 2배당 증가폭
+        (VLM {{ cs['VLM 2B'].gain_per_doubling|spct }} vs B1 {{ cs['B1'].gain_per_doubling|spct }}%p)이 비슷해 두 곡선은 평행하고
+        격차({{ p2.curve_gap_b1_minus_vlm['1.0']|pct }}%p)는 그대로다. VLM은 라벨 25%(이상 {{ cv['0.25'].train_counts.anomaly }}장)에서
+        정상 거부 {{ cv['0.25']['VLM 2B'].normal_correct|pct }}%로 사실상 학습되지 않았다.</p>
+    </div>
+    <figure style="flex: 0.72"><img src="{{ figs.curve }}">
+      <figcaption>그림 5. 라벨 수 곡선(fold 0 학습 측 라벨 비율 → fold 1 이상 이미지, 그룹 정확도).</figcaption></figure>
+  </div>
   {% else %}
   <p><b>추가 실험(P2, 진행 중).</b> 격차의 원인 후보인 모델 용량(8B QLoRA)과 라벨 수(25/50/100% 곡선, B1과 같은 부분집합)를
     결과 전에 가설을 등록하고 실행 중이다.</p>
@@ -228,11 +241,12 @@
 
   <h2>5. 직무 연결과 한계</h2>
   <ul>
-    <li><b>PEFT 도메인 적응</b>: 12GB GPU에서 4B QLoRA(정답 토큰 logits만 계산), 2B LoRA, 비전 인코더 LoRA를 비교하고
+    <li><b>PEFT 도메인 적응</b>: 12GB GPU에서 2B LoRA, 4B·8B QLoRA(정답 토큰 logits만 계산), 비전 인코더 LoRA를 비교하고
       정확도·VRAM·지연을 함께 보고했다. 적응 전후 망각(MMAD)도 측정했다.</li>
     <li><b>논문 구현</b>: SALAD 점수 추출을 재구현해 공식 수치와 일치를 검증하고 배포 가중치 결함을 찾아 고쳤다.</li>
     <li><b>연구 주도</b>: 가설·판정 기준을 결과 전에 등록하고, 가설과 반대인 결과(B1 우세)를 숨기지 않고 원인을 분해했다.
-      학습은 감독자·체크포인트 재개·자동 원복 장치로 운영했다(대기열 {{ ops.hours|f0 }}시간 동안 GPU 유휴 {{ ops.idle|f1 }}분, 고장 주입 시험 9종).</li>
+      학습은 감독자·체크포인트 재개·자동 원복 장치로 운영했다(대기열 {{ ops.hours|f0 }}시간 동안 GPU 유휴 {{ ops.idle|f0 }}분,
+      그중 {{ ops.largest_gap|f0 }}분은 대기열 설정 오류 1건. 고장 주입 시험 9종).</li>
     <li><b>한계</b>: 소표본 그룹(36개 중 다수가 10장 미만), fold 2개, 공개 데이터의 사전학습 노출 가능성, 가상 SOP 조치,
       위치는 point 결함만 채점. 의료 영상으로 옮길 때는 놓침 비용이 크므로 τ_low를 더 보수적으로 두고 단순 분류기 기준선을 먼저 확인해야 한다.</li>
   </ul>

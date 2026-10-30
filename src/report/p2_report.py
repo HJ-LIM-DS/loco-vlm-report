@@ -49,6 +49,16 @@ def compare(a: pd.Series, b: pd.Series) -> dict:
     return {**paired_bootstrap(a.values, b.values), **mcnemar(a.values, b.values), "n": len(a)}
 
 
+def range_note(eight: float, rng: list, in_range: bool, p: float) -> str:
+    """8B 그룹 정확도가 4B seed 범위에 드는지에 대한 판정 문구 (사전 등록: 범위 안이면 용량이 병목이 아님)."""
+    if in_range:
+        return "안에 있음 -> 용량이 병목이 아니라는 해석"
+    off = eight - (max(rng) if eight > max(rng) else min(rng))
+    if p >= 0.05:
+        return f"밖({pct(off, True)}%p)이지만 쌍대 차이의 95% CI가 0을 포함해 용량 2배의 이득은 확인되지 않음"
+    return f"밖({pct(off, True)}%p)이고 쌍대 차이도 유의함"
+
+
 def size_section(res: dict) -> list:
     lines = ["## P2-a 모델 크기: 8B QLoRA vs 4B (두 held-out fold 합산)", ""]
     if not all(p.exists() for p in EIGHT_B):
@@ -79,15 +89,22 @@ def size_section(res: dict) -> list:
                      f"{d['p']:.2g} | {d['n10']} / {d['n01']} |")
     lines += ["", "- 결함 종류별 8B - 4B s0: " + ", ".join(
         f"{kd} {pct(v['diff'], True)}(p={v['p']:.2g}, n={v['n']})" for kd, v in res["size"]["by_kind_vs_4b_s0"].items()),
-              f"- 가설(8B > 4B s0) 판정: {verdict(d4, d4['p'])}. 4B seed 범위 {pct(min(rng))}~{pct(max(rng))} 안"
-              f"{'에 있음 -> 용량이 병목이 아니라는 해석' if in_range else '을 벗어남'}."]
-    cost = []
+              f"- 가설(8B > 4B s0) 판정: {verdict(d4, d4['p'])}. 8B {pct(eight.mean())}는 4B seed 범위 "
+              f"{pct(min(rng))}~{pct(max(rng))} {range_note(float(eight.mean()), rng, in_range, d4['p'])}."]
+    res["size"]["offset_from_4b_range"] = 0.0 if in_range else float(eight.mean()) - (max(rng) if eight.mean() > max(rng) else min(rng))
+    cost, res["size"]["cost"] = [], {}
     for run in ("p2_8b_f0", "p2_8b_f1", "m2_4b_f0_s0", "m2_4b_f1_s0"):
         p = ROOT / "runs" / run / "final" / "summary.json"
         if p.exists():
             s = json.loads(p.read_text(encoding="utf-8"))
-            cost.append(f"| {run} | {(s.get('train_runtime') or 0) / 3600:.2f} | {s['peak_vram_alloc_gb']} / "
-                        f"{s['peak_vram_reserved_gb']} | {(s.get('heldout_generation') or {}).get('seconds_per_image', '-')} |")
+            rt = s.get("train_runtime") or 0
+            # 재개된 run의 train_runtime은 마지막 구간만 재므로(m4_tables.cost와 같은 600초 기준) 집계하지 않는다
+            hours = rt / 3600 if rt >= 600 else None
+            spi = (s.get("heldout_generation") or {}).get("seconds_per_image")
+            res["size"]["cost"][run] = {"hours": hours, "vram_alloc": s["peak_vram_alloc_gb"],
+                                        "vram_reserved": s["peak_vram_reserved_gb"], "seconds_per_image": spi}
+            cost.append(f"| {run} | {'재개(미집계)' if hours is None else f'{hours:.2f}'} | {s['peak_vram_alloc_gb']} / "
+                        f"{s['peak_vram_reserved_gb']} | {'-' if spi is None else f'{spi:.1f}'} |")
     if cost:
         lines += ["", "| run | 학습 시간(h) | 최대 VRAM 할당/예약(GB) | 생성 지연(초/장) |", "|---|---|---|---|"] + cost
     return lines
@@ -119,8 +136,9 @@ def curve_section(res: dict) -> list:
                 row[name] = {"all": float(v.mean()), **{kd: float(v[k == kd].mean()) for kd in KINDS}}
         if f in have["VLM 2B"]:
             row["VLM 2B"]["normal_correct"] = evaluate(have["VLM 2B"][f])["raw"]["normal_correct"]
-        res["curve"][str(f)] = row
         c = meta.get(f, {}).get("train", {})
+        row["train_counts"] = c
+        res["curve"][str(f)] = row
         g = lambda n, kk="all": pct(row[n][kk]) if n in row else "-"  # noqa: E731
         lines.append(f"| {int(100 * f)}% | {c.get('anomaly', '-')} / {c.get('good', '-')} | {g('VLM 2B')} | {g('B1')} | "
                      + " | ".join(f"{g('VLM 2B', kd)} / {g('B1', kd)}" for kd in KINDS)
@@ -137,12 +155,20 @@ def curve_section(res: dict) -> list:
         cell = lambda key: (f"{pct(steps[key]['diff'], True)} ({steps[key]['p']:.2g})" if key in steps else "-")  # noqa: E731
         lines.append(f"| {name} | {cell('0.25->0.5')} | {cell('0.5->1.0')} | {pct(slope, True)} |")
     s = res["curve_steps"]
+    # 비율별 B1 - VLM 격차: 기울기 비교만으로는 격차가 닫히는지 보이지 않으므로 함께 보고
+    gap = {str(f): res["curve"][str(f)]["B1"]["all"] - res["curve"][str(f)]["VLM 2B"]["all"]
+           for f in FRACS if {"B1", "VLM 2B"} <= res["curve"][str(f)].keys()}
+    res["curve_gap_b1_minus_vlm"] = gap
     if "0.5->1.0" in s["VLM 2B"]["steps"]:
         top = s["VLM 2B"]["steps"]["0.5->1.0"]
         sv, sb = s["VLM 2B"]["gain_per_doubling"], s["B1"]["gain_per_doubling"]
+        if sv is not None and sb is not None and sv > sb:
+            h2 = (f"VLM이 {pct(sv - sb, True)}%p 더 가파름(사전 기준 충족). 다만 B1 - VLM 격차는 "
+                  + " -> ".join(pct(v) for v in gap.values()) + "%p로 거의 일정해 라벨을 늘려도 격차가 닫힐 징후는 약함")
+        else:
+            h2 = "VLM이 더 가파르지 않음"
         lines += ["", f"- 가설 1(VLM은 50 -> 100%에서도 증가) 판정: {verdict(top, top['p'])}.",
-                  f"- 가설 2(VLM의 2배당 증가폭 > B1): VLM {pct(sv, True)} vs B1 {pct(sb, True)} -> "
-                  f"{'VLM이 더 가파름(데이터 부족이 격차의 한 원인이라는 해석과 일치)' if sv is not None and sb is not None and sv > sb else 'VLM이 더 가파르지 않음'}."]
+                  f"- 가설 2(VLM의 2배당 증가폭 > B1): VLM {pct(sv, True)} vs B1 {pct(sb, True)} -> {h2}."]
     return lines
 
 
