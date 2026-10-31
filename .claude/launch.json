@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "app.demo"],
       "port": 7860
+    },
+    {
+      "name": "api",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "app.api", "--port", "8008"],
+      "port": 8008
     }
   ]
 }

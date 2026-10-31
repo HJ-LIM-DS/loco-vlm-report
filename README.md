@@ -10,13 +10,14 @@
 
 > 진행 상태(2026-10-30): Phase 0, M1·M2(본 실험), M3(분석), P2(8B, 라벨 수 곡선), M4(표·그림·데모·PDF) 완료.
 > 학습 환경은 대기열 종료 후 자동 원복했다(잔여 변경 0건). 아래 수치는 모두 `reports/tables/`에서 자동 생성된 값이다.
-> 2차 개선(10-30): 예측 원본·어댑터 카드 공개와 CI, 캐스케이드 B1 심판 후속 실험(미충족) 반영. P3 입력 표현 실험은 대기열에 등록해 두었다.
+> 2차 개선(10-30): 예측 원본·어댑터 카드 공개와 CI, 캐스케이드 B1 심판 후속 실험(미충족), P3 입력 표현 실험(구성 신호 미지지,
+> B1 힌트는 4B에서 재현되나 출력의 77%가 힌트 복사) 반영.
 
 ![데모: held-out 성공 3건, 정상 1건, 실패 3건](reports/figures/demo.gif)
 
 데모 화면(`python -m app.demo`, 캐시 모드). 각 이미지는 그 이미지를 학습하지 않은 fold 모델의 출력이다. 가운데 줄은 같은 SALAD
 캐스케이드에 넣은 Ours(VLM)와 B1(비-VLM 기준선)의 최종 출력을 정답과 나란히 두고 정답 여부를 표시한다. 사례는 그림 4와 같은
-규칙으로 미리 정한 목록이며 실패 3건(수량 결함을 다른 그룹으로, crop이 결함을 놓침, 탐지기 놓침)을 함께 보여 준다.
+규칙으로 미리 정한 목록이며 실패 3건(수량 결함을 다른 그룹으로, crop이 결함을 놓침, 탐지기 놓침)을 함께 보여 준다. 면접장용으로는 같은 내용을 한 화면에 담은 FastAPI 시연 서버(`python -m app.api --open`, REST API와 `/docs` 포함)와 자막 영상 `reports/figures/demo.mp4`가 있고, 진행 순서와 예상 질문은 [`reports/demo_script.md`](reports/demo_script.md)에 적었다.
 
 ## 핵심 결과
 
@@ -286,13 +287,15 @@ python -m src.report.figures ablation # 그림3
 python -m app.demo                    # Gradio 데모 (held-out 갤러리 + 캐시, GPU 불필요, ?id=<image_id>로 바로 열기)
 python -m app.demo --live             # 4B QLoRA 어댑터로 실시간 생성
 python -m app.record_gif              # 데모 GIF reports/figures/demo.gif (Edge 헤드리스 + CDP, 새 설치 없음)
+python -m app.api --open              # FastAPI 시연 서버 (면접용 한 화면 + /docs, GPU 불필요; --live면 실시간 생성)
+python -m app.record_video            # 시연 영상 reports/figures/demo.mp4 (제목·사례 7개·결과 요약, 약 1분)
 python -m src.report.build_portfolio  # PDF reports/portfolio.pdf (Edge 헤드리스 인쇄, 4쪽 초과 시 실패)
 python -m src.report.publish_predictions export   # 예측 원본·점수 캐시 -> reports/predictions/ (MANIFEST sha256)
-python -m app.publish_adapters                    # LoRA 어댑터 10개의 모델 카드·manifest -> reports/adapters/
+python -m app.publish_adapters                    # LoRA 어댑터 12개의 모델 카드·manifest -> reports/adapters/
 python -m app.publish_adapters --upload --namespace <HF 계정>   # Hub 업로드 (HF_TOKEN 환경 변수, 사용자가 직접 실행)
 ```
 
-LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, 합계 약 1.3GB)는 `reports/adapters/<run>/README.md`의
+LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, P3 4B 힌트 fold 2개, 합계 약 1.7GB)는 `reports/adapters/<run>/README.md`의
 카드와 함께 `<계정>/loco-vlm-<run>`으로 올린다. 카드에는 학습 설정·표본 수·held-out 지표·비용·라이선스(CC BY-NC-SA 4.0,
 학습 데이터 조건 승계)를 적고, `reports/adapters/manifest.json`의 sha256으로 올린 가중치를 대조할 수 있다.
 
@@ -367,7 +370,7 @@ LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, 합계 약 
 ## 라이선스
 
 - MVTec LOCO AD: CC BY-NC-SA 4.0 (비상업, 동일 조건). 데이터셋 자체는 재배포하지 않는다.
-  `reports/figures/system.png`, `cases.png`, `demo.gif`와 데모 화면에는 데이터셋 이미지 일부가 들어 있어 같은 조건
+  `reports/figures/system.png`, `cases.png`, `demo.gif`, `demo.mp4`와 데모 화면에는 데이터셋 이미지 일부가 들어 있어 같은 조건
   (출처: MVTec LOCO AD, Bergmann et al., IJCV 2022)을 따른다.
 - MMAD 부가자료: 라이선스 미표기라 재배포하지 않고 인용만 한다.
 - Qwen3-VL: Apache-2.0. SALAD: MIT.

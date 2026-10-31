@@ -36,6 +36,8 @@ filelock==3.29.0
 rich==15.0.0
 nvidia-ml-py==13.610.43
 gradio==6.26.0
+fastapi==0.141.1            # 면접 시연 서버 app/api.py (gradio 의존성에도 포함)
+uvicorn==0.52.4
 websocket-client==1.9.2
 
 # 테스트

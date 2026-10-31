@@ -1,0 +1,73 @@
+{
+ "label": "demo4b_bf16",
+ "started": "2026-10-31 10:53:43",
+ "args": {
+  "run": "m2_4b_f{f}_s0",
+  "model": "Qwen/Qwen3-VL-4B-Instruct",
+  "quant": "none",
+  "folds": [
+   0
+  ],
+  "n": 4,
+  "batch_size": 1,
+  "label": "demo4b_bf16"
+ },
+ "gpu_before": "1113 MiB, 29 %",
+ "folds": [
+  {
+   "run": "m2_4b_f0_s0",
+   "fold": 0,
+   "n": 4,
+   "batch_size": 1,
+   "load_s": 18.7,
+   "total_s": 44.0,
+   "sec_per_image": 11.0,
+   "sec_per_image_excl_first_batch": 13.75,
+   "batch_seconds": [
+    2.8,
+    14.2,
+    16.1,
+    10.9
+   ],
+   "mean_output_chars": 54.0,
+   "labels": {
+    "good": 1,
+    "logical": 3,
+    "structural": 0
+   },
+   "torch_max_reserved_gb": 9.96,
+   "torch_max_allocated_gb": 9.28,
+   "gpu": {
+    "n_samples": 9,
+    "used_mb_median": 11407.0,
+    "used_mb_max": 11409.0,
+    "total_mb": 12288.0,
+    "util_median": 43.0,
+    "other_processes_mb": {
+     "1904": null,
+     "9236": null,
+     "9512": null,
+     "1812": null,
+     "10844": null,
+     "11040": null,
+     "13292": null,
+     "13404": null,
+     "15652": null,
+     "15608": null,
+     "16968": null,
+     "17820": null,
+     "18328": null,
+     "17412": null,
+     "17528": null,
+     "19272": null,
+     "11904": null,
+     "7536": null,
+     "10204": null,
+     "5212": null,
+     "5396": null
+    }
+   }
+  }
+ ],
+ "finished": "2026-10-31 10:54:56"
+}

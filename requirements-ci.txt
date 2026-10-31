@@ -16,3 +16,5 @@ psutil==7.2.2
 filelock==3.29.0
 rich==15.0.0
 pytest==9.1.1
+fastapi==0.141.1            # tests/test_api.py가 import 가능해야 한다(로컬 데이터가 없으면 건너뜀)
+httpx==0.28.1
