@@ -20,8 +20,8 @@ from src.report.publish_predictions import sha256
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "reports" / "adapters"
 RUNS = ["m2_2b_f0_s0", "m2_2b_f1_s0", "m2_4b_f0_s0", "m2_4b_f1_s0", "m2_4b_f0_s1", "m2_4b_f1_s1",
-        "m2_4b_f0_s2", "m2_4b_f1_s2", "p2_8b_f0", "p2_8b_f1"]
-FAMILY = {"m2_2b": "Ours 2B", "m2_4b": "Ours 4B", "p2_8b": "P2: 8B"}
+        "m2_4b_f0_s2", "m2_4b_f1_s2", "p2_8b_f0", "p2_8b_f1", "p3_4b_f0_hints", "p3_4b_f1_hints"]
+FAMILY = {"m2_2b": "Ours 2B", "m2_4b": "Ours 4B", "p2_8b": "P2: 8B", "p3_4b": "P3: 4B + B1 후보 힌트"}
 UPLOAD_FILES = ("adapter_config.json", "adapter_model.safetensors", "chat_template.jinja", "processor_config.json",
                 "tokenizer.json", "tokenizer_config.json")
 LICENSE = "cc-by-nc-sa-4.0"
@@ -111,6 +111,11 @@ def card(inp: dict, repo_url: str = "", hub_id: str = "") -> str:
     if run.startswith("p2_8b"):
         lines += ["", "생성 지연은 학습 프로세스 안에서 예약 VRAM 11.5GB가 유지된 채 잰 값이라 과대 측정이다. 별도 프로세스에서 다시 재면 "
                   "약 7.5초/장이다(저장소 `reports/ops/gen_probe_desktop.json`)."]
+    if run.startswith("p3_4b"):
+        lines += ["", "이 어댑터는 프롬프트의 탐지기 줄 뒤에 비-VLM 분류기(B1)의 상위 2그룹 확률 줄 `[분류기 후보] <그룹> p, <그룹> p`가 "
+                  "있어야 한다(저장소 `src/vlm/prompts.py`의 `hint_line`, 확률은 `src/baselines/crop_classifier.py --probs-out`). "
+                  "힌트 없이 쓰면 학습 분포와 다르다. held-out에서 출력의 77%가 힌트 1위와 같으므로 VLM 단독 진단기가 아니라 "
+                  "B1 판정의 검증·설명 계층으로 봐야 한다."]
     lines += [
         "",
         f"## 결과 (held-out fold {1 - fold}, 원출력, n={hg.get('n', '-')})",
@@ -130,8 +135,10 @@ def card(inp: dict, repo_url: str = "", hub_id: str = "") -> str:
             "",
         ]
     lines += [
-        "주의: 같은 입력을 쓰는 비-VLM 기준선(DINOv2 + SALAD 점수 -> 로지스틱 회귀)이 그룹 정확도 67.0으로 이 어댑터보다 높다. "
-        "자세한 비교와 한계는 저장소 README를 본다.",
+        ("주의: 이 어댑터의 그룹 정확도는 입력으로 받는 B1(67.0)보다 높지만 그 차이는 B1 판정을 VLM이 고친 몫이며 B1 없이는 동작하지 않는다. "
+         if run.startswith("p3_4b") else
+         "주의: 같은 입력을 쓰는 비-VLM 기준선(DINOv2 + SALAD 점수 -> 로지스틱 회귀)이 그룹 정확도 67.0으로 이 어댑터보다 높다. ")
+        + "자세한 비교와 한계는 저장소 README를 본다.",
         "",
         "## 사용법",
         "",

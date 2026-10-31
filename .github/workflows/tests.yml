@@ -36,5 +36,6 @@ jobs:
       - run: python -m src.eval.cascade
       - run: python -m src.eval.cascade_judge
       - run: python -m src.report.p2_report
+      - run: python -m src.report.p3_report
       - name: 표가 저장소의 파일과 같은지
-        run: git diff --exit-code -- reports/tables/table1_main.md reports/tables/m3_cascade.md reports/tables/m3_cascade_b1judge.md reports/tables/p2_summary.md
+        run: git diff --exit-code -- reports/tables/table1_main.md reports/tables/m3_cascade.md reports/tables/m3_cascade_b1judge.md reports/tables/p2_summary.md reports/tables/p3_summary.md

@@ -1,6 +1,6 @@
 {
- "exported_at": "2026-10-30 12:00:26",
- "commit": "3e320a11912da1bf20e57f695901ae33969efdfa",
+ "exported_at": "2026-10-30 23:06:21",
+ "commit": "db07da9af300e7bbd849c9cb2845e0a9704c4823",
  "files": [
   {
    "path": "runs/m2_2b_f0_nocrop/heldout_predictions.jsonl",
@@ -293,6 +293,46 @@
    "bytes": 3535
   },
   {
+   "path": "runs/p3_2b_f0_hints/heldout_predictions.jsonl",
+   "sha256": "72bf041370d4a1e7667fa7ea3d083bff1b6ddedd13bda98a4b275b43d899fc8f",
+   "bytes": 232276
+  },
+  {
+   "path": "runs/p3_2b_f0_hints/summary.json",
+   "sha256": "918936ce0e922d9861c2d57b32e1800624fcdc00eb80ae8ef071fc292b0f2024",
+   "bytes": 3449
+  },
+  {
+   "path": "runs/p3_2b_f0_terms/heldout_predictions.jsonl",
+   "sha256": "5079c08f2f26c478de2b8399c16d1b6b3311e2a2934148a4ae3c831ff8add243",
+   "bytes": 230868
+  },
+  {
+   "path": "runs/p3_2b_f0_terms/summary.json",
+   "sha256": "a84a19cb782d78f085d9bec6af0959b548f9b3a430835080369d6be72ca17686",
+   "bytes": 3452
+  },
+  {
+   "path": "runs/p3_4b_f0_hints/heldout_predictions.jsonl",
+   "sha256": "bcf6fa572e183ef6014683d3b59de956d935c9c5b405468e4e9d8069acf8e915",
+   "bytes": 228905
+  },
+  {
+   "path": "runs/p3_4b_f0_hints/summary.json",
+   "sha256": "dedba9f82e37994c161609b33f7a8c2f49ddbf18aa88980174ad175f96a2254b",
+   "bytes": 3494
+  },
+  {
+   "path": "runs/p3_4b_f1_hints/heldout_predictions.jsonl",
+   "sha256": "289da2134e32c928f74db9f5e7a761c3a6b96bb01f43b5b083348d1e3739dfcc",
+   "bytes": 235459
+  },
+  {
+   "path": "runs/p3_4b_f1_hints/summary.json",
+   "sha256": "153ad0d68ebdf26fca023ecdd22052b78f90d47b49e15f34b99a6bb0a6fb9b6e",
+   "bytes": 3511
+  },
+  {
    "path": "baselines/b0_f0_heldout.jsonl",
    "sha256": "933d93cde2dc985380e38663fa14ca22406c49f90eb5269c06951f84e872d40b",
    "bytes": 288185
@@ -563,9 +603,24 @@
    "bytes": 870
   },
   {
+   "path": "sft_meta/p3_hints_f1/meta.json",
+   "sha256": "d027d1d79f0d7ab1e58a91f6bb7831b3d2cfd57057d9b1a8dcbd98bbfcfb71d5",
+   "bytes": 857
+  },
+  {
    "path": "sft_meta/p3_terms_f0/meta.json",
    "sha256": "a44c955d567e0d949a3e53d3a4bc0d0094bfdbdb4912a95c2ee9bab6a887539d",
    "bytes": 836
+  },
+  {
+   "path": "sft_hints/p3_hints_f0/heldout_hints.jsonl",
+   "sha256": "08b295bd923f0ca1fa0f3de3c2d6927a64a519fe5f21df5f192dc66cae6420b9",
+   "bytes": 212559
+  },
+  {
+   "path": "sft_hints/p3_hints_f1/heldout_hints.jsonl",
+   "sha256": "14160109cddfd07c6e0fda9e150269619050a77123d14720b43ec89bf1a21fbf",
+   "bytes": 211945
   },
   {
    "path": "index_slim.parquet",
@@ -591,5 +646,5 @@
   "mask_dir",
   "gt_report"
  ],
- "total_bytes": 13208119
+ "total_bytes": 14574894
 }

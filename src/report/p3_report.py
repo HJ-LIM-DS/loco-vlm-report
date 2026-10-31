@@ -29,6 +29,7 @@ BASE = ROOT / "outputs" / "baselines"
 BASE_2B = "m2_2b_f0_s0"
 BASE_4B = "m2_4b_f{f}_s0"
 B1_F1 = BASE / "b1_f0_heldout.jsonl"  # fold 0 모델의 held-out = fold 1 이미지
+B1_BOTH = [BASE / f"b1_f{f}_heldout.jsonl" for f in (0, 1)]  # 4B 확인의 탐색적 B1 대비(두 fold 합산)
 # (표시 이름, 키, 2B 선별 run, 4B 확인 run 형식, SFT 이름)
 VARIANTS = [("구성 신호 (A)", "terms", "p3_2b_f0_terms", "p3_4b_f{f}_terms", "p3_terms"),
             ("B1 후보 힌트 (B)", "hints", "p3_2b_f0_hints", "p3_4b_f{f}_hints", "p3_hints")]
@@ -65,10 +66,13 @@ def effect(base_paths: list, var_paths: list) -> dict:
     return out
 
 
-def hint_diagnostics(sft_dir: Path, pred_path: Path) -> dict:
-    """변형 B 복사 여부: held-out 이상 이미지에서 힌트 1위와 출력 그룹의 일치율, 힌트 1위 정오별 정답률."""
+def hint_rows(sft_dir: Path, pred_path: Path) -> list:
+    """held-out 이상 이미지별 (힌트 1위 복사 여부, 힌트 1·2위 정오, 출력 정오, 출력 = 2위, 정상 출력) 행."""
     recs = {}
-    for line in (sft_dir / "heldout.jsonl").read_text(encoding="utf-8").splitlines():
+    src = sft_dir / "heldout.jsonl"
+    if not src.exists():  # 공개 사본(reports/predictions)에서 복원한 환경: 힌트 필드만 있는 슬림 기록
+        src = sft_dir / "heldout_hints.jsonl"
+    for line in src.read_text(encoding="utf-8").splitlines():
         if line.strip():
             r = json.loads(line)
             recs[r["id"]] = r
@@ -77,19 +81,41 @@ def hint_diagnostics(sft_dir: Path, pred_path: Path) -> dict:
     for iid, rec in recs.items():
         if rec["label"] == "good" or not rec.get("hints") or iid not in pr.index:
             continue
-        hint1 = rec["hints"][0][0]
+        hints = rec["hints"]
+        hint1, hint2 = hints[0][0], (hints[1][0] if len(hints) > 1 else None)
         gt = parse_report(rec["gt_report"]).group
         p = pr.loc[iid] or ""
         out_group = NORMAL if is_normal(p) else (parse_report(p).group if parse_report(p) else None)
-        rows.append({"copy": out_group == hint1, "hint_right": hint1 == gt, "correct": out_group == gt})
-    df = pd.DataFrame(rows)
+        rows.append({"copy": out_group == hint1, "hint_right": hint1 == gt, "hint2_right": hint2 == gt,
+                     "out_hint2": out_group == hint2, "correct": out_group == gt, "out_normal": out_group == NORMAL})
+    return rows
+
+
+def hint_diagnostics(pairs: list) -> dict:
+    """변형 B 복사 여부(사전 등록 지표): 힌트 1위와 출력 그룹의 일치율, 힌트 1위 정오별 정답률.
+    힌트 1위가 틀린 이미지는 (2위로 맞춤, 힌트 밖으로 맞춤, 틀린 1위 복사, 정상 출력=놓침)으로 나눈다. pairs = [(SFT 디렉터리, 예측)]."""
+    df = pd.DataFrame([r for sft_dir, pred_path in pairs for r in hint_rows(sft_dir, pred_path)])
     if df.empty:
         return {}
     hr = df["hint_right"]
+    w = df.loc[~hr]
     return {"n": int(len(df)), "copy_rate": float(df["copy"].mean()), "hint1_acc": float(hr.mean()),
             "acc_when_hint_right": float(df.loc[hr, "correct"].mean()) if hr.any() else None,
-            "acc_when_hint_wrong": float(df.loc[~hr, "correct"].mean()) if (~hr).any() else None,
-            "copy_when_hint_wrong": float(df.loc[~hr, "copy"].mean()) if (~hr).any() else None}
+            "acc_when_hint_wrong": float(w["correct"].mean()) if len(w) else None,
+            "copy_when_hint_wrong": float(w["copy"].mean()) if len(w) else None,
+            "n_hint_wrong": int(len(w)),
+            "hint2_right_when_wrong": float(w["hint2_right"].mean()) if len(w) else None,
+            "correct_via_hint2_when_wrong": float((w["correct"] & w["out_hint2"]).mean()) if len(w) else None,
+            "correct_outside_hints_when_wrong": float((w["correct"] & ~w["out_hint2"]).mean()) if len(w) else None,
+            "missed_when_wrong": float(w["out_normal"].mean()) if len(w) else None}
+
+
+def diag_line(label: str, d: dict) -> str:
+    return (f"- {label}(이상 {d['n']}장): 출력 그룹 = 힌트 1위 {pct(d['copy_rate'])}%, 힌트 1위 정확도 {pct(d['hint1_acc'])}%, "
+            f"힌트가 맞을 때 정답률 {pct(d['acc_when_hint_right'])}%, 틀릴 때 {pct(d['acc_when_hint_wrong'])}% "
+            f"(틀린 힌트를 그대로 복사 {pct(d['copy_when_hint_wrong'])}%). 힌트 1위가 틀린 {d['n_hint_wrong']}장의 분해: "
+            f"2위로 맞춤 {pct(d['correct_via_hint2_when_wrong'])}%(2위가 정답인 비율 {pct(d['hint2_right_when_wrong'])}%), "
+            f"힌트 밖으로 맞춤 {pct(d['correct_outside_hints_when_wrong'])}%, 정상으로 출력(놓침) {pct(d['missed_when_wrong'])}%")
 
 
 def screening_section(res: dict) -> list:
@@ -125,7 +151,7 @@ def screening_section(res: dict) -> list:
             verdict = f"H-B 격차 {pct(gap_base)} -> {pct(gap)}: {v}"
         diag = {}
         if key == "hints" and (ROOT / "data" / "sft" / f"{sft}_f0").exists():
-            diag = hint_diagnostics(ROOT / "data" / "sft" / f"{sft}_f0", heldout(run))
+            diag = hint_diagnostics([(ROOT / "data" / "sft" / f"{sft}_f0", heldout(run))])
         res["screening"]["variants"][key] = {**r, "p_holm": {kd: adj[f"{key}|{kd}"] for kd in KINDS}, "gap_b1": gap,
                                              "verdict": verdict, "selected_for_4b": key == selected, "hint_diagnostics": diag}
         a = r["all"]
@@ -137,17 +163,15 @@ def screening_section(res: dict) -> list:
               + ("" if selected else " 둘 다 0 이하라 4B 확인을 생략한다.")]
     d = res["screening"]["variants"].get("hints", {}).get("hint_diagnostics")
     if d:
-        lines += [f"- 변형 B 복사 진단(이상 {d['n']}장): 출력 그룹 = 힌트 1위 {pct(d['copy_rate'])}%, 힌트 1위 정확도 {pct(d['hint1_acc'])}%, "
-                  f"힌트가 맞을 때 정답률 {pct(d['acc_when_hint_right'])}%, 틀릴 때 {pct(d['acc_when_hint_wrong'])}% "
-                  f"(틀린 힌트를 그대로 복사 {pct(d['copy_when_hint_wrong'])}%)"]
+        lines.append(diag_line("변형 B 복사 진단", d))
     res["screening"]["selected"] = selected
     return lines
 
 
 def confirm_section(res: dict) -> list:
     base = [heldout(BASE_4B.format(f=f)) for f in (0, 1)]
-    lines = []
-    for name, key, _, fmt, _ in VARIANTS:
+    lines, extra = [], []
+    for name, key, _, fmt, sft in VARIANTS:
         paths = [heldout(fmt.format(f=f)) for f in (0, 1)]
         if not all(p.exists() for p in paths):
             continue
@@ -155,6 +179,22 @@ def confirm_section(res: dict) -> list:
         adj = holm({kd: r[kd]["p"] for kd in KINDS})
         rep = r["all"]["ci95"][0] > 0
         res.setdefault("confirm_4b", {})[key] = {**r, "p_holm": adj, "reproduced": rep}
+        if key == "hints":
+            # 사전 등록한 복사 진단을 4B 확인에도 같은 정의로 적용(두 fold 합산). B1 대비는 사전 등록 비교가 아닌 탐색적 수치.
+            sft_dirs = [ROOT / "data" / "sft" / f"{sft}_f{f}" for f in (0, 1)]
+            if all(d.exists() for d in sft_dirs):
+                d = hint_diagnostics(list(zip(sft_dirs, paths)))
+                res["confirm_4b"][key]["hint_diagnostics"] = d
+                extra.append(diag_line("4B 복사 진단(두 fold 합산)", d))
+            if all(p.exists() for p in B1_BOTH):
+                vb = effect(B1_BOTH, paths)
+                res["confirm_4b"][key]["vs_b1"] = vb
+                a = vb["all"]
+                extra.append(f"- 탐색적(사전 등록 비교 아님) B1 대비: 그룹 {pct(a['variant_acc'])} vs {pct(a['base_acc'])}, "
+                             f"{pct(a['diff'], True)} {ci(a)} p={a['p']:.2g}; "
+                             + ", ".join(f"{kd} {pct(vb[kd]['diff'], True)}" for kd in KINDS)
+                             + f"; 정상 거부 {pct(vb['normal']['diff'], True)} (p={vb['normal']['p']:.2g}). "
+                             "힌트는 B1의 그룹 합산 확률이므로 이 차이는 B1 판정을 VLM이 고친 몫이다.")
         if not lines:
             lines = ["", "## 2. 4B 2-fold 확인 (기준 Ours 4B seed 0, 두 held-out fold 합산)", "",
                      "| 변형 | 그룹 전체 [95% CI], p | 개수 계열 (Holm p) | 기타 논리 (Holm p) | 구조 (Holm p) | 정상 거부 (p) | 판정 |",
@@ -164,6 +204,8 @@ def confirm_section(res: dict) -> list:
                      + " | ".join(f"{pct(r[kd]['diff'], True)} ({adj[kd]:.2g})" for kd in KINDS)
                      + f" | {pct(r['normal']['diff'], True)} ({r['normal']['p']:.2g}) | "
                      f"{'재현(CI가 0을 제외하고 양수)' if rep else '재현 안 됨'} |")
+    if extra:
+        lines += [""] + extra
     return lines or ["", "## 2. 4B 2-fold 확인 (아직 결과 없음)"]
 
 

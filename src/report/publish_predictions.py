@@ -5,6 +5,8 @@
 - outputs/baselines/**  (B0·B1·B3, P2-b B1)                 -> reports/predictions/baselines/
 - outputs/detector/salad/<cat>/scores.csv, meta.json        -> reports/predictions/detector/salad/<cat>/
 - data/sft/<dir>/meta.json (학습 표본 수)                    -> reports/predictions/sft_meta/<dir>/
+- data/sft/<dir>/heldout.jsonl 중 B1 힌트가 있는 기록(id·라벨·정답 리포트·힌트만, P3 복사 진단용)
+                                                            -> reports/predictions/sft_hints/<dir>/heldout_hints.jsonl
 - data/index.parquet의 라벨 열(qa_*, caption_path 제외)      -> reports/predictions/index_slim.parquet
 MANIFEST.json에 파일별 sha256과 크기, 내보낸 커밋을 적는다.
 
@@ -12,7 +14,8 @@ MANIFEST.json에 파일별 sha256과 크기, 내보낸 커밋을 적는다.
     python -m src.report.publish_predictions restore   # reports/predictions/ -> runs/, outputs/, data/ (있는 파일은 건드리지 않음)
     python -m src.report.publish_predictions verify    # MANIFEST의 sha256 대조
 
-복원 뒤 `python -m src.report.m4_tables`, `python -m src.eval.cascade`, `python -m src.report.p2_report`가 GPU 없이 돈다.
+복원 뒤 `python -m src.report.m4_tables`, `python -m src.eval.cascade`, `python -m src.report.p2_report`,
+`python -m src.report.p3_report`가 GPU 없이 돈다.
 """
 
 import argparse
@@ -30,6 +33,8 @@ DETECTOR_FILES = ("scores.csv", "meta.json")
 INDEX_DROP_PREFIX = "qa_"
 INDEX_DROP = ("caption_path",)
 SKIP_RUN_PREFIX = ("_", "f1_", "f2_", "f3_", "f4_", "f5_")  # 스모크·고장 주입 시험
+HINT_KEYS = ("id", "label", "gt_report", "hints")  # P3 힌트 기록에서 공개하는 필드 (이미지 경로·프롬프트 제외)
+HINT_FILE = "heldout_hints.jsonl"
 
 
 def sha256(path: Path) -> str:
@@ -75,6 +80,20 @@ def collect(root: Path) -> list:
     return items
 
 
+def slim_hints(src: Path, dst: Path) -> int:
+    """SFT held-out 기록 중 B1 힌트가 있는 것만 HINT_KEYS 필드로 줄여 쓴다. 쓴 줄 수를 돌려준다(0이면 파일을 만들지 않는다)."""
+    rows = []
+    for line in src.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            r = json.loads(line)
+            if r.get("hints"):
+                rows.append({k: r.get(k) for k in HINT_KEYS})
+    if rows:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")
+    return len(rows)
+
+
 def target_of(root: Path, rel: str) -> Path:
     """공개 상대 경로 -> 로컬 원래 자리."""
     head, _, rest = rel.partition("/")
@@ -85,7 +104,7 @@ def target_of(root: Path, rel: str) -> Path:
         return root / "outputs" / "baselines" / rest
     if head == "detector":
         return root / "outputs" / "detector" / rest
-    if head == "sft_meta":
+    if head in ("sft_meta", "sft_hints"):
         return root / "data" / "sft" / rest
     if rel == "index_slim.parquet":
         return root / "data" / "index.parquet"
@@ -121,6 +140,15 @@ def export(root: Path = ROOT, dest: Path = DEST) -> dict:
         out.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, out)
         files.append({"path": rel, "sha256": sha256(out), "bytes": out.stat().st_size})
+    sft = root / "data" / "sft"
+    if sft.exists():
+        for d in sorted(sft.iterdir()):
+            src = d / "heldout.jsonl"
+            if src.exists():
+                out = dest / "sft_hints" / d.name / HINT_FILE
+                if slim_hints(src, out):
+                    files.append({"path": f"sft_hints/{d.name}/{HINT_FILE}", "sha256": sha256(out),
+                                  "bytes": out.stat().st_size})
     index = root / "data" / "index.parquet"
     manifest = {"exported_at": time.strftime("%Y-%m-%d %H:%M:%S"), "commit": git_head(root), "files": files}
     if index.exists():

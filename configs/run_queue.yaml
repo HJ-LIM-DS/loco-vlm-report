@@ -679,12 +679,12 @@ runs:
   # P3 2단계: 선정된 변형만 4B 2-fold 확인(기준 Ours 4B seed 0). 표식 파일이 생길 때까지 blocked, p3_select가 비선정 변형을 끈다.
   # 4B 스모크는 p3_4b_f0_terms 하나로 대표(설정 계열 동일: 4B QLoRA, 데이터 경로만 다름).
   - name: p3_4b_f0_terms
-    enabled: true   # p3_select:terms
+    enabled: false   # p3_select:terms
     requires: [data/sft/p3_terms_f0/meta.json, reports/tables/p3_selected_terms.ok]
     cmd: [python, -m, src.vlm.train_lora, --data, data/sft/p3_terms_f0, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]
     outputs: [runs/p3_4b_f0_terms/final/summary.json]
   - name: p3_4b_f1_terms
-    enabled: true   # p3_select:terms
+    enabled: false   # p3_select:terms
     smoke_as: p3_4b_f0_terms
     requires: [data/sft/p3_terms_f1/meta.json, reports/tables/p3_selected_terms.ok]
     cmd: [python, -m, src.vlm.train_lora, --data, data/sft/p3_terms_f1, --model, Qwen/Qwen3-VL-4B-Instruct, --quant, nf4, --epochs, "3", --seed, "0", --predict-heldout, --gen-batch-size, "2"]

@@ -207,7 +207,7 @@
 <!-- 4쪽: 사례, 실패 분석, P2, 직무 연결과 한계 -->
 <section class="page">
   <figure>
-    <img src="{{ figs.cases }}" style="width: auto; max-height: 128mm; margin: 0 auto">
+    <img src="{{ figs.cases }}" style="width: auto; max-height: 96mm; margin: 0 auto">
     <figcaption>그림 4. held-out 성공 3건과 실패 3건. 사례는 결과를 보고 고르지 않도록 규칙으로 정했다(세 seed에서 정오가 같은 이미지,
       카테고리 중복 없이 id 순, 실패는 유형 3종).</figcaption>
   </figure>
@@ -243,6 +243,20 @@
     결과 전에 가설을 등록하고 실행 중이다.</p>
   {% endif %}
 
+  {% if p3 %}{% set sc = p3.screening %}{% set tA, tB = sc.variants.terms, sc.variants.hints %}{% set hd = tB.hint_diagnostics %}
+  <h3>추가 실험 P3: 구성 점수를 글로 주어도 부족했고, B1의 판정을 주면 VLM은 대체로 받아 적었다</h3>
+  <p>남은 원인 후보인 입력 표현을 2B 선별 → 4B 확인 틀로 검증했다. <b>구성 신호.</b> SALAD 세 항의 백분위를 프롬프트에 넣어도
+    기타 논리 결함은 {{ tA['기타 논리'].diff|spct }}%p(Holm p={{ tA.p_holm['기타 논리']|p2 }}, 가설 미지지), 그룹 전체
+    {{ tA.all.diff|spct }}%p {{ tA.all|ci }}였다. <b>B1 후보 힌트.</b> B1 상위 2그룹의 확률을 넣으면 2B의 격차 {{ sc.gap_base|pct }}%p는
+    사라졌지만({{ tB.all.variant_acc|pct }} vs B1 {{ sc.b1_acc_fold1|pct }}) 출력의 {{ hd.copy_rate|pct }}%가 힌트 1위와 같고 틀린 힌트의
+    교정은 {{ hd.acc_when_hint_wrong|pct }}%였다.
+    {% if p3.get('confirm_4b') and p3.confirm_4b.get('hints') %}{% set c = p3.confirm_4b.hints %}{% set cd, vb = c.hint_diagnostics, c.vs_b1.all %}4B 확인에서도
+    {{ c.all.diff|spct }}%p {{ c.all|ci }}로 {{ '재현됐고' if c.reproduced else '재현되지 않았고' }} B1을 {{ vb.diff|spct }}%p {{ vb|ci }} 넘었다(탐색적).
+    4B는 복사율 {{ cd.copy_rate|pct }}%, 틀린 힌트 교정 {{ cd.acc_when_hint_wrong|pct }}%, 틀린 힌트 복사 {{ cd.copy_when_hint_wrong|pct }}%다.{% else %}4B 확인은 진행 중이다.{% endif %}
+    즉 점수 한 줄로는 격차가 메워지지 않았고, 힌트의 이득은 VLM 단독 진단의 개선이 아니라 판정은 B1, 검증·설명은 VLM인 계층
+    구성의 결과다.</p>
+  {% endif %}
+
   <h2>5. 직무 연결과 한계</h2>
   <ul>
     <li><b>PEFT 도메인 적응</b>: 12GB GPU에서 2B LoRA, 4B·8B QLoRA(정답 토큰 logits만 계산), 비전 인코더 LoRA를 비교하고
@@ -250,8 +264,8 @@
     <li><b>논문 구현</b>: SALAD 점수 추출을 재구현해 공식 수치와 일치를 검증하고 배포 가중치 결함을 찾아 고쳤다.</li>
     <li><b>연구 주도</b>: 가설·판정 기준을 결과 전에 등록하고, 가설과 반대인 결과(B1 우세)를 숨기지 않고 원인을 분해했다.
       학습은 감독자·체크포인트 재개·자동 원복 장치로 운영했다(대기열 {{ ops.hours|f0 }}시간 동안 GPU 유휴 {{ ops.idle|f0 }}분,
-      그중 {{ ops.largest_gap|f0 }}분은 대기열 설정 오류 1건. 고장 주입 시험 9종). 예측 원본·점수 캐시·어댑터를 공개해
-      GPU 없이 표를 다시 계산할 수 있고 CI가 이를 검사한다.</li>
+      그중 {{ ops.largest_gap|f0 }}분은 대기열 설정 오류 1건. 고장 주입 시험 9종). 예측 원본·어댑터를 공개해 GPU 없이
+      표를 재계산할 수 있고 CI가 검사한다.</li>
     <li><b>한계</b>: 소표본 그룹(36개 중 다수가 10장 미만), fold 2개, 공개 데이터의 사전학습 노출 가능성, 가상 SOP 조치,
       위치는 point 결함만 채점. 의료 영상으로 옮길 때는 놓침 비용이 크므로 τ_low를 더 보수적으로 두고 단순 분류기 기준선을 먼저 확인해야 한다.</li>
   </ul>

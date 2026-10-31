@@ -27,6 +27,14 @@ def fake_root(tmp_path):
     (root / "data" / "sft" / "m2_salad_f0").mkdir(parents=True)
     (root / "data" / "sft" / "m2_salad_f0" / "meta.json").write_text('{"counts": {}}', encoding="utf-8")
     (root / "data" / "sft" / "m2_salad_f0" / "train.jsonl").write_text("{}\n", encoding="utf-8")  # 프롬프트는 제외
+    (root / "data" / "sft" / "m2_salad_f0" / "heldout.jsonl").write_text(
+        '{"id": "a/test/good/000", "label": "good", "prompt": "p"}\n', encoding="utf-8")  # 힌트 없음 -> 공개 안 함
+    (root / "data" / "sft" / "p3_hints_f0").mkdir(parents=True)
+    (root / "data" / "sft" / "p3_hints_f0" / "heldout.jsonl").write_text(
+        '{"id": "a/test/good/000", "label": "good", "gt_report": "정상", "hints": [["정상", 0.9]], "prompt": "비공개", '
+        '"images": ["x.png"]}\n'
+        '{"id": "a/test/bad/000", "label": "logical_anomalies", "gt_report": "이상: x", "hints": null, "prompt": "비공개"}\n',
+        encoding="utf-8")
     pd.DataFrame({"image_id": ["a/test/good/000"], "category": ["a"], "label": ["good"], "gt_report": ["정상"],
                   "caption_path": ["a.txt"], "qa_anomaly": ["비밀 텍스트"], "qa_json": ["{}"]}).to_parquet(
         root / "data" / "index.parquet", index=False)
@@ -40,7 +48,11 @@ def test_export_restore_roundtrip(fake_root, tmp_path):
     assert paths == {"runs/m2_4b_f0_s0/heldout_predictions.jsonl", "runs/m2_4b_f0_s0/summary.json",
                      "baselines/b1_f0_heldout.jsonl", "baselines/b3_zero_f0/strict.jsonl",
                      "detector/salad/pushpins/scores.csv", "detector/salad/pushpins/meta.json",
-                     "sft_meta/m2_salad_f0/meta.json", "index_slim.parquet"}
+                     "sft_meta/m2_salad_f0/meta.json", "sft_hints/p3_hints_f0/heldout_hints.jsonl", "index_slim.parquet"}
+    # 힌트 기록은 id·라벨·정답·힌트만 남고(프롬프트·이미지 경로 제외), 힌트 없는 줄은 빠진다
+    hint_rows = [json.loads(x) for x in
+                 (dest / "sft_hints" / "p3_hints_f0" / "heldout_hints.jsonl").read_text(encoding="utf-8").splitlines()]
+    assert hint_rows == [{"id": "a/test/good/000", "label": "good", "gt_report": "정상", "hints": [["정상", 0.9]]}]
     # MMAD QA 텍스트와 캡션 경로는 빠지고 라벨 열은 남는다
     slim = pd.read_parquet(dest / "index_slim.parquet")
     assert list(slim.columns) == ["image_id", "category", "label", "gt_report"] == m["index_columns"]
@@ -49,7 +61,8 @@ def test_export_restore_roundtrip(fake_root, tmp_path):
 
     other = tmp_path / "other"
     r = pp.restore(other, dest)
-    assert len(r["copied"]) == 8 and r["skipped"] == []
+    assert len(r["copied"]) == 9 and r["skipped"] == []
+    assert (other / "data" / "sft" / "p3_hints_f0" / "heldout_hints.jsonl").exists()
     assert (other / "runs" / "m2_4b_f0_s0" / "final" / "heldout_predictions.jsonl").read_text(encoding="utf-8") \
         == (fake_root / "runs" / "m2_4b_f0_s0" / "final" / "heldout_predictions.jsonl").read_text(encoding="utf-8")
     assert (other / "outputs" / "detector" / "salad" / "pushpins" / "scores.csv").exists()

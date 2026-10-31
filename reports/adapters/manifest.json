@@ -310,6 +310,68 @@
      "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
     }
    }
+  },
+  "p3_4b_f0_hints": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 0,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "f9bec3f703abc85cbc27544540f845fa3f627761b3c36a1950743a0a5a14e64b"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
+  },
+  "p3_4b_f1_hints": {
+   "repo_id": null,
+   "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+   "fold": 1,
+   "files": {
+    "adapter_config.json": {
+     "bytes": 1114,
+     "sha256": "c01a3c2dc9fbeeac68d99f11ffcf38f356ad15c5ec05ad9564ec03e7868087c4"
+    },
+    "adapter_model.safetensors": {
+     "bytes": 132195448,
+     "sha256": "beef821d58227625c3f795ef0a1b70f8fae997216d0323895ecccf99edf38182"
+    },
+    "chat_template.jinja": {
+     "bytes": 5412,
+     "sha256": "24a1eb036569714fc3efe7908495159c19ac5138f652c9e524475e40ce87d716"
+    },
+    "processor_config.json": {
+     "bytes": 1251,
+     "sha256": "f196d5698d1771c734bb3a24bd658ba75536fc4feafc5b83c035b7693511a2db"
+    },
+    "tokenizer.json": {
+     "bytes": 11422650,
+     "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+    },
+    "tokenizer_config.json": {
+     "bytes": 766,
+     "sha256": "03dd96d9a0390cb51d06ffc3126233507389936317f3f069e38072e8bc763441"
+    }
+   }
   }
  }
 }
