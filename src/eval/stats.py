@@ -1,4 +1,4 @@
-"""쌍대 비교 통계: paired bootstrap 95% CI와 McNemar 정확 검정 (계획 v5 Phase 3 통계).
+"""쌍대(같은 이미지로 짝지은, paired) 비교 통계: paired bootstrap 95% CI와 McNemar 정확 검정.
 
 두 시스템이 같은 이미지 집합에서 낸 정오(0/1) 벡터를 비교한다. fold 2개라 fold 간 표준편차는 쓰지 않는다.
 """

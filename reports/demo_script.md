@@ -50,5 +50,5 @@
 
 ## 영상 다시 만들기
 
-`python -m app.record_video` (Edge 헤드리스 + CDP, 약 2분). 사례는 그림 4와 같은 규칙으로 고른 성공 3·정상 1·실패 3이고
+`python -m app.record_video` (Edge를 화면 없이 자동 조작, 약 2분). 사례는 그림 4와 같은 규칙으로 고른 성공 3·정상 1·실패 3이고
 `--hold`로 사례당 표시 시간을 바꾼다. GIF는 `python -m app.record_gif`.

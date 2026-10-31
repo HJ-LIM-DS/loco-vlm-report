@@ -44,7 +44,7 @@ English summary: a rank-16 LoRA adapter for `Qwen/Qwen3-VL-4B-Instruct` that tur
 
 두 fold 합산 표1 기준(`Ours 4B`, seed 3개 평균): 그룹 55.7, 유형 71.4, 세부 44.5, 위치 적중 69.0, 정상 거부 86.8, 종단 그룹 F1 55.6 (π=1%: 10.6).
 
-주의: 같은 입력을 쓰는 비-VLM 기준선(DINOv2 + SALAD 점수 -> 로지스틱 회귀)이 그룹 정확도 67.0으로 이 어댑터보다 높다. 자세한 비교와 한계는 저장소 README를 본다.
+주의: 같은 입력을 쓰는 비-VLM 기준선(DINOv2 특징과 SALAD 점수로 학습한 로지스틱 회귀)이 그룹 정확도 67.0으로 이 어댑터보다 높다. 자세한 비교와 한계는 저장소 README에 있다.
 
 ## 사용법
 
@@ -66,6 +66,6 @@ processor = AutoProcessor.from_pretrained("<namespace>/loco-vlm-m2_4b_f1_s0")
 ## 라이선스와 한계
 
 - 어댑터 가중치: CC BY-NC-SA 4.0. MVTec LOCO AD(Bergmann et al., IJCV 2022, CC BY-NC-SA 4.0)로 학습했으므로 비상업·동일 조건을 따른다. 기반 모델 Qwen3-VL은 Apache-2.0.
-- 조치 문장은 포트폴리오용 가상 SOP이며 실제 현장 절차가 아니다.
+- 조치 문장은 포트폴리오용 가상 SOP(표준 작업 절차)이며 실제 현장 절차가 아니다.
 - 결함 그룹 36개 중 여럿이 10장 미만이고, 공개 데이터셋이라 기반 모델의 사전학습 노출 가능성을 배제하지 못한다.
 - 대상 fold가 아닌 이미지(학습에 쓴 fold)에 대한 수치는 과대평가다.

@@ -1,4 +1,4 @@
-"""학습 스크립트 공용 훅: 진행률·하트비트, 원자적 체크포인트 + 완료 표식, NaN 감지, 재개, 고장 주입.
+"""학습 스크립트 공용 훅: 진행률·하트비트, 원자적 체크포인트(임시 이름으로 쓴 뒤 교체) + 완료 표식, NaN 감지, 재개, 고장 주입.
 
 감독자(ops.supervisor)가 넘기는 환경 변수
     LOCO_RUN_NAME, LOCO_RUN_DIR, LOCO_ATTEMPT, LOCO_RUNTIME_DIR
@@ -285,7 +285,7 @@ def hf_callback(ctx: RunContext, save_every_minutes: float | None = None):
 
 
 def lightning_callback(ctx: RunContext, every_n_steps: int, keep: int = 2):
-    """Lightning용 콜백: 진행률·하트비트·고장 주입과 원자적 체크포인트(임시 이름 -> 교체 -> 완료 표식)."""
+    """Lightning용 콜백: 진행률·하트비트·고장 주입과 원자적 체크포인트(임시 이름 → 교체 → 완료 표식)."""
     from lightning.pytorch.callbacks import Callback
 
     class _CB(Callback):

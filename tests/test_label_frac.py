@@ -1,4 +1,4 @@
-"""P2 라벨 수 곡선: 학습 측 층별 부분추출 (src.vlm.build_sft.subsample_labels)."""
+"""라벨 수 곡선: 학습 측 층별 부분추출 (src.vlm.build_sft.subsample_labels)."""
 
 import numpy as np
 import pandas as pd

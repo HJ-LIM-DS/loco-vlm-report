@@ -28,7 +28,7 @@ def fake_root(tmp_path):
     (root / "data" / "sft" / "m2_salad_f0" / "meta.json").write_text('{"counts": {}}', encoding="utf-8")
     (root / "data" / "sft" / "m2_salad_f0" / "train.jsonl").write_text("{}\n", encoding="utf-8")  # 프롬프트는 제외
     (root / "data" / "sft" / "m2_salad_f0" / "heldout.jsonl").write_text(
-        '{"id": "a/test/good/000", "label": "good", "prompt": "p"}\n', encoding="utf-8")  # 힌트 없음 -> 공개 안 함
+        '{"id": "a/test/good/000", "label": "good", "prompt": "p"}\n', encoding="utf-8")  # 힌트 없음 → 공개 안 함
     (root / "data" / "sft" / "p3_hints_f0").mkdir(parents=True)
     (root / "data" / "sft" / "p3_hints_f0" / "heldout.jsonl").write_text(
         '{"id": "a/test/good/000", "label": "good", "gt_report": "정상", "hints": [["정상", 0.9]], "prompt": "비공개", '
@@ -135,7 +135,7 @@ def test_target_of_rejects_unknown(tmp_path):
 
 def test_sha256_ignores_line_endings(tmp_path):
     """git text=auto 때문에 Windows 체크아웃은 CRLF, Linux 체크아웃은 LF다. 텍스트 파일의 MANIFEST 해시는 줄바꿈에 무관해야
-    양쪽에서 verify가 같은 결과를 낸다(첫 GitHub Actions에서 Linux 쪽 125개 중 124개 불일치로 드러난 문제)."""
+    양쪽에서 verify가 같은 결과를 낸다."""
     lf, crlf = tmp_path / "a.jsonl", tmp_path / "b.jsonl"
     lf.write_bytes(b'{"id": 1}\n{"id": 2}\n')
     crlf.write_bytes(b'{"id": 1}\r\n{"id": 2}\r\n')

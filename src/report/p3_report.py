@@ -1,9 +1,9 @@
-"""2차 개선 1: P3 입력 표현 실험 집계 (사전 등록: 계획 문서 "2차 개선 1", 결과 전 기록).
+"""추가 실험 2(입력 표현) 결과 집계. 가설과 판정 기준은 결과를 보기 전에 적어 두었다.
 
-1단계 선별: 2B fold 0 모델 -> fold 1 이미지. 기준 m2_2b_f0_s0 대비 변형의 쌍대 효과(적용 - 미적용).
-  변형 A(구성 신호): 탐지기 줄에 SALAD 세 항 백분위. 가설 H-A: 기타 논리에서 효과 > 0 (+5%p 이상이면 지지).
-  변형 B(B1 후보 힌트): 상위 2그룹 후보. 가설 H-B: B1과의 격차(fold 1 이미지)를 절반 이상 줄인다.
-  부가(사전 등록): 변형 B의 힌트 1위 복사율, 힌트 1위가 틀렸을 때/맞았을 때 정답률.
+1단계 선별: 2B fold 0 모델로 fold 1 이미지를 채점. 기준 m2_2b_f0_s0 대비 변형의 쌍대 효과(적용 - 미적용).
+  변형 A(구성 신호): 탐지기 줄에 SALAD 세 항 백분위. 가설 A: 기타 논리에서 효과 > 0 (+5%p 이상이면 지지).
+  변형 B(B1 후보 힌트): 상위 2그룹 후보. 가설 B: B1과의 격차(fold 1 이미지)를 절반 이상 줄인다.
+  부가 지표: 변형 B의 힌트 1위 복사율, 힌트 1위가 틀렸을 때/맞았을 때 정답률.
   4B 확인 대상: 그룹 전체 효과가 양수이고 가장 큰 변형 1개 (둘 다 0 이하이면 생략).
 2단계 확인: 4B 2-fold(기준 Ours 4B seed 0). 그룹 전체 쌍대 차이 95% CI가 0을 제외하고 양수면 재현.
 있는 결과만 집계하므로 대기열 중간에도 다시 실행할 수 있다.
@@ -33,7 +33,7 @@ B1_BOTH = [BASE / f"b1_f{f}_heldout.jsonl" for f in (0, 1)]  # 4B 확인의 탐�
 # (표시 이름, 키, 2B 선별 run, 4B 확인 run 형식, SFT 이름)
 VARIANTS = [("구성 신호 (A)", "terms", "p3_2b_f0_terms", "p3_4b_f{f}_terms", "p3_terms"),
             ("B1 후보 힌트 (B)", "hints", "p3_2b_f0_hints", "p3_4b_f{f}_hints", "p3_hints")]
-H_A_MIN = 0.05  # H-A 지지 기준: 기타 논리 +5%p 이상
+H_A_MIN = 0.05  # 가설 A 지지 기준: 기타 논리 +5%p 이상
 
 
 def pct(v, sign=False):
@@ -92,7 +92,7 @@ def hint_rows(sft_dir: Path, pred_path: Path) -> list:
 
 
 def hint_diagnostics(pairs: list) -> dict:
-    """변형 B 복사 여부(사전 등록 지표): 힌트 1위와 출력 그룹의 일치율, 힌트 1위 정오별 정답률.
+    """변형 B 복사 여부(결과 전에 정한 지표): 힌트 1위와 출력 그룹의 일치율, 힌트 1위 정오별 정답률.
     힌트 1위가 틀린 이미지는 (2위로 맞춤, 힌트 밖으로 맞춤, 틀린 1위 복사, 정상 출력=놓침)으로 나눈다. pairs = [(SFT 디렉터리, 예측)]."""
     df = pd.DataFrame([r for sft_dir, pred_path in pairs for r in hint_rows(sft_dir, pred_path)])
     if df.empty:
@@ -129,7 +129,7 @@ def screening_section(res: dict) -> list:
     b1_acc = float(b1.reindex(correct_vector(base).index).mean())
     gap_base = b1_acc - base_acc
     res["screening"] = {"base_run": BASE_2B, "b1_acc_fold1": b1_acc, "base_acc": base_acc, "gap_base": gap_base, "variants": {}}
-    lines = ["## 1. P3 선별 (2B, fold 0 모델 -> fold 1 이미지, 기준 m2_2b_f0_s0)", "",
+    lines = ["## 1. 선별 (2B, fold 0 모델로 fold 1 이미지 채점, 기준 m2_2b_f0_s0)", "",
              f"효과 = 변형 - 기준(%p). 결함 종류별 p는 Holm 보정({len(adj)}개 검정). 기준 그룹 정확도 {pct(base_acc)}, "
              f"같은 이미지에서 B1 {pct(b1_acc)} (격차 {pct(gap_base)}%p).", "",
              "| 변형 | 그룹 전체 [95% CI], p | 개수 계열 (Holm p) | 기타 논리 (Holm p) | 구조 (Holm p) | 정상 거부 (p) | "
@@ -145,10 +145,10 @@ def screening_section(res: dict) -> list:
             e, p = r["기타 논리"]["diff"], adj[f"{key}|기타 논리"]
             v = ("지지" if e >= H_A_MIN and p < 0.05 else "방향 일치, 기준(+5%p·p<0.05) 미달" if e > 0
                  else "효과 없음" if e == 0 else "반대 방향")
-            verdict = f"H-A 기타 논리 {pct(e, True)}: {v}"
+            verdict = f"가설 A 기타 논리 {pct(e, True)}: {v}"
         else:
             v = "지지" if gap <= gap_base / 2 else ("격차 축소" if gap < gap_base else "격차 유지·확대")
-            verdict = f"H-B 격차 {pct(gap_base)} -> {pct(gap)}: {v}"
+            verdict = f"가설 B 격차 {pct(gap_base)}에서 {pct(gap)}: {v}"
         diag = {}
         if key == "hints" and (ROOT / "data" / "sft" / f"{sft}_f0").exists():
             diag = hint_diagnostics([(ROOT / "data" / "sft" / f"{sft}_f0", heldout(run))])
@@ -180,7 +180,7 @@ def confirm_section(res: dict) -> list:
         rep = r["all"]["ci95"][0] > 0
         res.setdefault("confirm_4b", {})[key] = {**r, "p_holm": adj, "reproduced": rep}
         if key == "hints":
-            # 사전 등록한 복사 진단을 4B 확인에도 같은 정의로 적용(두 fold 합산). B1 대비는 사전 등록 비교가 아닌 탐색적 수치.
+            # 복사 진단을 4B 확인에도 같은 정의로 적용(두 fold 합산). B1 대비는 결과 전에 정한 비교가 아닌 사후 수치.
             sft_dirs = [ROOT / "data" / "sft" / f"{sft}_f{f}" for f in (0, 1)]
             if all(d.exists() for d in sft_dirs):
                 d = hint_diagnostics(list(zip(sft_dirs, paths)))
@@ -190,7 +190,7 @@ def confirm_section(res: dict) -> list:
                 vb = effect(B1_BOTH, paths)
                 res["confirm_4b"][key]["vs_b1"] = vb
                 a = vb["all"]
-                extra.append(f"- 탐색적(사전 등록 비교 아님) B1 대비: 그룹 {pct(a['variant_acc'])} vs {pct(a['base_acc'])}, "
+                extra.append(f"- 사후 비교(결과 전에 정한 비교 아님) B1 대비: 그룹 {pct(a['variant_acc'])} vs {pct(a['base_acc'])}, "
                              f"{pct(a['diff'], True)} {ci(a)} p={a['p']:.2g}; "
                              + ", ".join(f"{kd} {pct(vb[kd]['diff'], True)}" for kd in KINDS)
                              + f"; 정상 거부 {pct(vb['normal']['diff'], True)} (p={vb['normal']['p']:.2g}). "
@@ -211,7 +211,7 @@ def confirm_section(res: dict) -> list:
 
 def main():
     res = {}
-    lines = ["# P3 결과 요약 (입력 표현 실험, 가설·판정 기준은 계획 문서 '2차 개선 1', 결과 전 기록)", ""]
+    lines = ["# 추가 실험 2 결과 요약: 입력 표현 (가설·판정 기준은 결과 전 기록)", ""]
     lines += screening_section(res)
     lines += confirm_section(res)
     OUT.mkdir(parents=True, exist_ok=True)

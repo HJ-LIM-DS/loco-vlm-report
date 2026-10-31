@@ -1,6 +1,6 @@
 """2단계 임계값 (fold별, 카테고리별). 학습 측 test/good과 학습 측 이상만 쓴다.
 
-- validation/good은 탐지기 정규화에 쓰여 점수가 in-sample이므로 제외한다.
+- validation/good은 탐지기 정규화에 이미 쓰인 표본(in-sample)이라 점수가 낙관적이므로 제외한다.
 - tau_low : 학습 측 이상 재현율이 0.95가 되는 점수 (놓침 최소화, 오탐은 VLM이 거른다)
 - tau_high: 학습 측 정상 FPR 1% 지점. 정상 표본이 적어 1%를 만족할 수 없으면 정상 최댓값에
             정상 점수 표준편차의 10%를 더한다. 항상 tau_high >= tau_low.

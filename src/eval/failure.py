@@ -1,9 +1,9 @@
-"""M3 실패 분석: 개수 계열 논리 결함 혼동을 해상도·crop·참조 이미지 관점에서 분해 (계획 v5 Phase 3).
+"""실패 분석: 개수 계열 논리 결함 혼동을 해상도, crop, 참조 이미지의 세 방향으로 분해한다.
 
 개수 계열 = 부품 수가 규격과 다른 그룹 3개 (과일 구성 수량, 칸별 푸시핀 수량, 부품 구성 수량; test 169장).
 모든 수치는 held-out 예측(각 이미지는 자기를 학습하지 않은 모델의 예측)의 원출력 기준이다.
 
-1. 그룹별 정확도: Ours 4B(seed 3개 평균) vs B1, 차이가 큰 순. 주요 혼동 쌍(정답 그룹 -> 예측).
+1. 그룹별 정확도: Ours 4B(seed 3개 평균) vs B1, 차이가 큰 순. 주요 혼동 쌍(정답 그룹과 예측 그룹).
 2. 해상도: 결함 성분 크기를 검사 이미지 토큰 수로 환산(성분 면적 중앙값 / (이미지 면적 / 256)).
    수량 초과 계열은 GT가 같은 종류 부품을 모두 칠하므로 성분 1개 ~ 부품 1개 크기다.
 3. crop: 그 이미지를 예측한 모델 fold의 탐지기 기준으로 crop 상자를 다시 계산해 GT 마스크가 상자 안에
@@ -141,7 +141,7 @@ def main():
     acc = pd.DataFrame({"ours": np.mean([ok[s].to_numpy() for s in seeds], axis=0), "ours_s0": ok[0],
                         "b1": (b1.reindex(ids) == gt), "kind": kind, "category": anom_idx["category"], "group": gt},
                        index=ids)
-    res, lines = {}, ["# M3 실패 분석 (held-out 원출력, Ours 4B는 seed 3개 평균 정답률)", ""]
+    res, lines = {}, ["# 실패 분석 (held-out 원출력, Ours 4B는 seed 3개 평균 정답률)", ""]
 
     # 1. 결함 종류별·그룹별
     lines += ["## 1. 결함 종류별 정확도", "", "| 종류 | n | Ours 4B | B1 | 차이(Ours - B1, %p) |", "|---|---|---|---|---|"]
@@ -202,7 +202,7 @@ def main():
 
     # 4. 참조 유사도와 ablation
     acc["ref_sim"] = reference_similarity(idx, ids)
-    # 유사도 수준이 카테고리마다 달라(고정 배치 장면일수록 높음) 전체 분위는 카테고리 효과와 섞인다 -> 카테고리 안 분위
+    # 유사도 수준이 카테고리마다 달라(고정 배치 장면일수록 높음) 전체 분위는 카테고리 효과와 섞인다 → 카테고리 안 분위
     rank = acc.groupby("category")["ref_sim"].rank(pct=True)
     tert = pd.cut(rank, [0, 1 / 3, 2 / 3, 1], labels=["하", "중", "상"], include_lowest=True)
     res["ref_sim"] = {str(t): {k: float(acc[(tert == t) & (acc["kind"] == k)]["ours"].mean()) for k in ("개수 계열", "기타 논리", "구조")}
@@ -216,7 +216,7 @@ def main():
            "비전 인코더 LoRA": "m3_2b_f{f}_vislora"}
     f1_ids = pd.Index([i for i in ids if splits.set_index("image_id").loc[i, "fold"] == 1])
     res["ablation_2b_fold1"] = {}
-    lines += ["", "2B fold 0 모델 -> fold 1 이미지, 결함 종류별 정확도", "", "| 설정 | 개수 계열 | 기타 논리 | 구조 |", "|---|---|---|---|"]
+    lines += ["", "2B fold 0 모델 → fold 1 이미지, 결함 종류별 정확도", "", "| 설정 | 개수 계열 | 기타 논리 | 구조 |", "|---|---|---|---|"]
     for nm, run in abl.items():
         if not heldout(run, 0).exists():
             continue

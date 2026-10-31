@@ -3,9 +3,9 @@
 VLM은 학습 후 held-out의 모든 이미지에 원출력을 냈으므로(train_lora --predict-heldout), 캐스케이드를
 GPU 없이 다시 계산할 수 있다. fold f 모델의 held-out은 다른 fold 이미지이고, 임계값은 fold f 학습 측으로 정한다.
 
-    score <  tau_low             -> 무출력
-    tau_low <= score < tau_high  -> VLM이 "정상"이면 무출력(오탐 거부)
-    score >= tau_high            -> VLM 출력 (정상이라 해도 미분류 템플릿)
+    score <  tau_low             → 무출력
+    tau_low <= score < tau_high  → VLM이 "정상"이면 무출력(오탐 거부)
+    score >= tau_high            → VLM 출력 (정상이라 해도 미분류 템플릿)
 
 지표
 - 탐지기 단독(score >= tau_low)과 캐스케이드(최종 출력 있음)의 재현율·FPR, 오경보 감소율, 재현율 손실
@@ -20,7 +20,7 @@ GPU 없이 다시 계산할 수 있다. fold f 모델의 held-out은 다른 fold
     층화 paired bootstrap 95% CI (같은 이미지 집합).
 - 오류 분해(표2): 이상 이미지는 탐지기 놓침 / 판정 구간 VLM 오거부 / 그룹 오답(구간별) / 정답,
   정상 이미지는 통과 / VLM 거부 / 판정 구간 오경보 / 설명 구간 오경보. 탐지기 놓침 중 VLM 원출력이
-  맞았던 수(oracle 게이팅이었다면 맞혔을 이미지)도 센다.
+  맞았던 수(탐지기가 완벽했다면, 즉 oracle 게이팅이었다면 맞혔을 이미지)도 센다.
 - 점수 구간별 VLM "정상" 응답률: VLM은 held-out 전 이미지에 원출력을 냈으므로 통과 구간까지 볼 수 있다.
 
     python -m src.eval.cascade
@@ -64,7 +64,7 @@ def group_correct(final: str, gt_report: str) -> bool:
 
 
 def judge_final(stage: str, pred: str, kb: dict, cat: str, judge_normal: bool | None) -> str:
-    """판정 구간의 거부를 외부 심판(B1)에 맡길 때의 최종 출력 (2차 개선 J1·J2).
+    """판정 구간의 거부를 외부 심판(B1)에 맡길 때의 최종 출력 (심판 교체 실험 J1·J2).
     judge_normal=None이면 기존 규칙(VLM이 "정상"이면 거부). 심판이 이상이라 하면 설명 구간과 같은 규칙(거부 불가)."""
     if stage != "judge" or judge_normal is None:
         return finalize(stage, pred, kb, cat, None)[0]
@@ -72,13 +72,13 @@ def judge_final(stage: str, pred: str, kb: dict, cat: str, judge_normal: bool | 
 
 
 def load_judge(path: Path) -> pd.DataFrame:
-    """crop_classifier --probs-out 파일 -> id 인덱스, p_good·argmax."""
+    """crop_classifier --probs-out 파일 → id 인덱스, p_good·argmax."""
     df = pd.read_json(path, lines=True)
     return df.set_index("id")[["p_good", "argmax"]]
 
 
 def threshold_from_pgood(p_good: np.ndarray, pass_frac: float = 0.97) -> float:
-    """J2 임계값: 판정 구간 이상(학습 측 OOF)의 pass_frac이 거부되지 않도록 p(good) 상위 분위수. 비면 1.0(거부 없음)."""
+    """J2 임계값: 판정 구간 이상(학습 측 out-of-fold 확률)의 pass_frac이 거부되지 않도록 p(good) 상위 분위수. 비면 1.0(거부 없음)."""
     p = np.asarray(p_good, dtype=float)
     if len(p) == 0:
         return 1.0
@@ -87,7 +87,7 @@ def threshold_from_pgood(p_good: np.ndarray, pass_frac: float = 0.97) -> float:
 
 def oof_threshold(oof_path: Path, fold: int, recall: float, index: pd.DataFrame, splits: pd.DataFrame,
                   pass_frac: float = 0.97) -> dict:
-    """fold 학습 측 OOF 확률에서 판정 구간 이상만 골라 J2 임계값을 정한다 (held-out 미사용)."""
+    """fold 학습 측 out-of-fold 확률에서 판정 구간 이상만 골라 J2 임계값을 정한다 (held-out 미사용)."""
     scores = pd.concat([load_scores("salad", c) for c in CATS]).set_index("image_id")["score"]
     idx = index.set_index("image_id")
     th = {c: fold_thresholds("salad", c, index, splits, fold, recall) for c in CATS}
@@ -316,7 +316,7 @@ def main():
     jb = main_res["judge_band"]
     lines += ["", f"- 판정 구간(tau_low~tau_high): 정상 {jb['normal_n']}장 중 VLM이 정상으로 거부한 비율 "
               f"{100 * (jb['normal_rejected'] or 0):.1f}%, 이상 {jb['anomaly_n']}장 중 잘못 거부한 비율 {100 * (jb['anomaly_wrongly_rejected'] or 0):.1f}%",
-              "- VLM 호출률(π 보정, 목표 0.95): " + ", ".join(f"{k} {100 * v:.1f}%" for k, v in main_res["vlm_call_rate"].items()),
+              "- VLM 호출률(π 보정, 목표 0.95): " + ", ".join(f"π={100 * float(k[3:]):.3g}% {100 * v:.1f}%" for k, v in main_res["vlm_call_rate"].items()),
               f"- 종단 그룹 정확도(이상 이미지): {100 * main_res['end_to_end_group_acc']:.1f}%"]
     if "b2_vlm_only" in res:
         lines.append(f"- B2 VLM 단독: 재현율 {100 * res['b2_vlm_only']['recall']:.1f}, FPR {100 * res['b2_vlm_only']['fpr']:.1f}")
@@ -345,7 +345,7 @@ def main():
     lines += ["", "## 오류 분해: 탐지기 오류 vs VLM 오류 (tau_low 목표 0.95)", "",
               f"이상 {main_res['n_anomaly']}장: " + ", ".join(f"{k} {v}" for k, v in dc["anomaly"].items()),
               f"- 탐지기가 놓친 이상 중 VLM 원출력은 정답이었던 이미지 {dc['anomaly_missed_but_vlm_raw_correct']}장 "
-              f"(oracle 게이팅 그룹 정확도 {pct(dc['oracle_group_acc'])} -> 종단 {pct(main_res['end_to_end_group_acc'])})",
+              f"(oracle 게이팅 그룹 정확도 {pct(dc['oracle_group_acc'])}, 종단 {pct(main_res['end_to_end_group_acc'])})",
               f"정상 {main_res['n_normal']}장: " + ", ".join(f"{k} {v}" for k, v in dc["normal"].items()),
               f"- 설명 구간 오경보 중 VLM은 정상이라 답했던 이미지 {dc['normal_describe_vlm_said_normal']}장 (거부 불가 규칙 때문에 출력됨)"]
 

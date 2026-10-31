@@ -1,9 +1,9 @@
 """학습 감독자: 대기열(configs/run_queue.yaml)을 순서대로 실행하고 감시한다.
 
 작업 스케줄러(\\LOCO-Train\\Supervisor)가 로그온 시와 10분마다 pythonw로 실행한다.
-이미 다른 감독자가 돌고 있으면 바로 종료한다(잠금 파일). Claude Code 세션과 무관하게 동작한다.
+이미 다른 감독자가 돌고 있으면 바로 종료한다(잠금 파일). 터미널이나 IDE 세션과 무관하게 동작한다.
 
-run 상태: pending -> running -> done | retrying -> ... | failed, blocked(스모크·사전 점검 미통과)
+run 상태: pending → running → done | retrying → ... | failed, blocked(스모크·사전 점검 미통과)
 - 대기열 파일은 매 루프 다시 읽으므로 학습 중에도 추가·순서 변경이 가능하다.
 - ops/runtime/PAUSE가 있으면 실행 중인 run을 멈추고(체크포인트에서 재개 가능) 새 run을 시작하지 않는다.
 - 재시도는 같은 설정 그대로 최신 유효 체크포인트에서 재개한다(하이퍼파라미터 자동 변경 없음).
@@ -482,7 +482,7 @@ def main():
                     open_monitor()
             if result == "finished":
                 append_event("queue_finished", None)
-                toast("LOCO 학습 완료", "대기열의 모든 run이 끝났습니다")
+                toast("LOCO 학습 완료", "대기열의 모든 run 완료")
                 if settings["auto_teardown"]:
                     append_event("auto_teardown_start", None)
                     spawn_teardown()

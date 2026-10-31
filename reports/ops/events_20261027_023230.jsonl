@@ -54,7 +54,7 @@
 {"ts": 1792884120.478459, "time": "2026-10-25 08:22:00", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 28, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-28", "attempt": 1}
 {"ts": 1792885048.1025581, "time": "2026-10-25 08:37:28", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 58, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-58", "attempt": 1}
 {"ts": 1792885959.5056689, "time": "2026-10-25 08:52:39", "kind": "checkpoint", "run": "m2_4b_f0_s0", "step": 81, "path": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\checkpoints\\checkpoint-81", "attempt": 1}
-{"ts": 1792886574.894717, "time": "2026-10-25 09:02:54", "kind": "drill_claude_restart", "run": null, "note": "Claude Code 프로세스가 09:01:14에 새로 시작되는 동안 학습(PID 17728, 08:06 시작)과 감독자(PID 29240, 07:28 시작)가 같은 프로세스로 계속 실행, 재시도·하트비트 정지 0건, step 87(08:56) -> 98(09:01) 진행. 학습 프로세스 조상에 Claude 없음(python <- pythonw <- svchost(작업 스케줄러))", "ok": true}
+{"ts": 1792886574.894717, "time": "2026-10-25 09:02:54", "kind": "drill_ide_restart", "run": null, "note": "Claude Code 프로세스가 09:01:14에 새로 시작되는 동안 학습(PID 17728, 08:06 시작)과 감독자(PID 29240, 07:28 시작)가 같은 프로세스로 계속 실행, 재시도·하트비트 정지 0건, step 87(08:56) -> 98(09:01) 진행. 학습 프로세스 조상에 Claude 없음(python <- pythonw <- svchost(작업 스케줄러))", "ok": true}
 {"ts": 1792886747.9149249, "time": "2026-10-25 09:05:47", "kind": "run_retry", "run": "m2_4b_f0_s0", "attempt": 1, "reason": "감독자 부재 중 종료(종료 코드 미상)", "code": null}
 {"ts": 1792886748.2205875, "time": "2026-10-25 09:05:48", "kind": "run_start", "run": "m2_4b_f0_s0", "attempt": 2, "pid": 11272, "log": "E:\\VLM_MVTec LOCO AD\\runs\\m2_4b_f0_s0\\attempt_2.log"}
 {"ts": 1792886748.2268643, "time": "2026-10-25 09:05:48", "kind": "supervisor_start", "run": null, "pid": 9084}

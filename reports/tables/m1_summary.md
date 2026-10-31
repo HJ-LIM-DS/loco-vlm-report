@@ -1,4 +1,4 @@
-# M1 결과 요약
+# 선행 실험 결과 요약 (EfficientAD + 2B, 2개 카테고리)
 
 ## 탐지기 (EfficientAD-M, test 전체)
 

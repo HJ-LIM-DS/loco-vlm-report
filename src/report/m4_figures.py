@@ -170,13 +170,13 @@ def fig_system(df: pd.DataFrame, case: str):
 
     box(0.2, 7.3, 4.0, 2.4, "검사 이미지 + 카테고리", "카테고리별 탐지기·임계값\n(라인별 제품은 알려져 있다고 가정)", TEXT_2)
     box(0.2, 3.7, 4.0, 2.9, "Stage 1  SALAD 탐지기", "train/good만 학습, 공식 가중치 재현\n이미지 점수(국소+Mahalanobis+구성)\n"
-        "이상 맵 -> crop, 의심 칸\n지연 약 111ms/장", NORMAL_COLOR)
+        "이상 맵 → crop, 의심 칸\n지연 약 111ms/장", NORMAL_COLOR)
     box(0.2, 0.2, 4.0, 2.8, "2단계 임계값 (fold별)", "score < τ_low: 무출력\nτ_low ~ τ_high: VLM 판정\n  (\"정상\"이면 무출력 = 오탐 거부)\n"
         "score ≥ τ_high: VLM 설명(거부 불가)", TEXT_2)
     box(5.4, 4.5, 4.4, 5.2, "Stage 2  Qwen3-VL-4B + QLoRA", "NF4, LoRA r=16(q/k/v/o+MLP)\n입력 이미지 3장(각 약 256토큰)\n"
         " 1 검사 이미지  2 crop(윤곽선)\n 3 정상 참조(DINOv2 최근접)\n텍스트: 정상 규격, 결함 그룹 목록,\n"
         " 탐지기 백분위·의심 위치\n학습: 이상 2줄 + 정상 하드\n 네거티브 150, 목록 드롭아웃 12%", ANOMALY_COLOR)
-    box(5.4, 0.2, 4.4, 2.8, "Guard + 출력", "KB 대조: 세부 -> 그룹 -> 조치 교정\n파싱 실패 시 미분류 템플릿\n"
+    box(5.4, 0.2, 4.4, 2.8, "Guard + 출력", "KB 대조: 세부 → 그룹 → 조치 교정\n파싱 실패 시 미분류 템플릿\n"
         "이상: [유형] 그룹 - 세부 (위치)\n조치: KB 조치 문장", TEXT_2)
     arrow(2.2, 7.3, 2.2, 6.6)
     arrow(2.2, 3.7, 2.2, 3.0)

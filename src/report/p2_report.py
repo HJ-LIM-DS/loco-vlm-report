@@ -1,7 +1,7 @@
-"""P2 결과 집계 (계획 문서 "P2 사전 등록"의 가설·판정 기준을 그대로 적용).
+"""추가 실험 1(모델 크기와 라벨 수) 결과 집계. 가설과 판정 기준은 결과를 보기 전에 적어 둔 것을 그대로 적용한다.
 
-- P2-a 모델 크기: 8B QLoRA vs 4B seed 0 (두 held-out fold 합산 993장), 8B vs B1. 4B seed 3개 범위와 비교.
-- P2-b 라벨 수 곡선: 2B LoRA와 B1을 같은 학습 측 부분집합(25/50/100%)으로 학습해 fold 1 이미지(496장)에서 비교.
+- 모델 크기: 8B QLoRA vs 4B seed 0 (두 held-out fold 합산 993장), 8B vs B1. 4B seed 3개 범위와 비교.
+- 라벨 수 곡선: 2B LoRA와 B1을 같은 학습 측 부분집합(25/50/100%)으로 학습해 fold 1 이미지(496장)에서 비교.
   인접 비율 쌍대 차이(McNemar), 라벨 2배당 증가폭, 결함 종류별 분해. 그림 `reports/figures/label_curve.png`.
 - 있는 결과만 집계하므로 대기열 중간에도 실행할 수 있다.
 
@@ -50,9 +50,9 @@ def compare(a: pd.Series, b: pd.Series) -> dict:
 
 
 def range_note(eight: float, rng: list, in_range: bool, p: float) -> str:
-    """8B 그룹 정확도가 4B seed 범위에 드는지에 대한 판정 문구 (사전 등록: 범위 안이면 용량이 병목이 아님)."""
+    """8B 그룹 정확도가 4B seed 범위에 드는지에 대한 판정 문구 (결과 전에 정한 규칙: 범위 안이면 용량이 병목이 아님)."""
     if in_range:
-        return "안에 있음 -> 용량이 병목이 아니라는 해석"
+        return "안에 있음. 용량이 병목이 아니라는 해석"
     off = eight - (max(rng) if eight > max(rng) else min(rng))
     if p >= 0.05:
         return f"밖({pct(off, True)}%p)이지만 쌍대 차이의 95% CI가 0을 포함해 용량 2배의 이득은 확인되지 않음"
@@ -60,7 +60,7 @@ def range_note(eight: float, rng: list, in_range: bool, p: float) -> str:
 
 
 def size_section(res: dict) -> list:
-    lines = ["## P2-a 모델 크기: 8B QLoRA vs 4B (두 held-out fold 합산)", ""]
+    lines = ["## 1. 모델 크기: 8B QLoRA vs 4B (두 held-out fold 합산)", ""]
     if not all(p.exists() for p in EIGHT_B):
         return lines + ["- 대기열 진행 중: p2_8b_f0, p2_8b_f1"]
     four = {s: correct_vector(p) for s, p in FOUR_B.items() if all(x.exists() for x in p)}
@@ -111,7 +111,7 @@ def size_section(res: dict) -> list:
 
 
 def curve_section(res: dict) -> list:
-    lines = ["", "## P2-b 라벨 수 곡선 (fold 0 학습 측 라벨 비율 -> fold 1 이미지)", ""]
+    lines = ["", "## 2. 라벨 수 곡선 (fold 0 학습 측 라벨 비율로 학습, fold 1 이미지로 평가)", ""]
     have = {name: {f: p for f, p in curve.items() if all(x.exists() for x in p)}
             for name, curve in (("VLM 2B", VLM_CURVE), ("B1", B1_CURVE))}
     if any(len(v) < len(FRACS) for v in have.values()):
@@ -143,7 +143,7 @@ def curve_section(res: dict) -> list:
         lines.append(f"| {int(100 * f)}% | {c.get('anomaly', '-')} / {c.get('good', '-')} | {g('VLM 2B')} | {g('B1')} | "
                      + " | ".join(f"{g('VLM 2B', kd)} / {g('B1', kd)}" for kd in KINDS)
                      + f" | {pct(row.get('VLM 2B', {}).get('normal_correct'))} |")
-    lines += ["", "| 모델 | 25 -> 50% (%p, p) | 50 -> 100% (%p, p) | 라벨 2배당 평균 증가(%p) |", "|---|---|---|---|"]
+    lines += ["", "| 모델 | 25에서 50% (%p, p) | 50에서 100% (%p, p) | 라벨 2배당 평균 증가(%p) |", "|---|---|---|---|"]
     res["curve_steps"] = {}
     for name, v in vec.items():
         steps = {}
@@ -164,11 +164,11 @@ def curve_section(res: dict) -> list:
         sv, sb = s["VLM 2B"]["gain_per_doubling"], s["B1"]["gain_per_doubling"]
         if sv is not None and sb is not None and sv > sb:
             h2 = (f"VLM이 {pct(sv - sb, True)}%p 더 가파름(사전 기준 충족). 다만 B1 - VLM 격차는 "
-                  + " -> ".join(pct(v) for v in gap.values()) + "%p로 거의 일정해 라벨을 늘려도 격차가 닫힐 징후는 약함")
+                  + " → ".join(pct(v) for v in gap.values()) + "%p로 거의 일정해 라벨을 늘려도 격차가 닫힐 징후는 약함")
         else:
             h2 = "VLM이 더 가파르지 않음"
-        lines += ["", f"- 가설 1(VLM은 50 -> 100%에서도 증가) 판정: {verdict(top, top['p'])}.",
-                  f"- 가설 2(VLM의 2배당 증가폭 > B1): VLM {pct(sv, True)} vs B1 {pct(sb, True)} -> {h2}."]
+        lines += ["", f"- 가설 1(VLM은 50에서 100%로 늘려도 증가) 판정: {verdict(top, top['p'])}.",
+                  f"- 가설 2(VLM의 2배당 증가폭 > B1): VLM {pct(sv, True)} vs B1 {pct(sb, True)} → {h2}."]
     return lines
 
 
@@ -201,7 +201,7 @@ def fig_label_curve(res: dict):
 
 def main():
     res = {}
-    lines = ["# P2 결과 요약 (가설·판정 기준은 계획 문서 \"P2 사전 등록\", 결과 전 기록)", ""]
+    lines = ["# 추가 실험 1 결과 요약: 모델 크기와 라벨 수 (가설·판정 기준은 결과 전 기록)", ""]
     lines += size_section(res)
     lines += curve_section(res)
     if res.get("curve"):

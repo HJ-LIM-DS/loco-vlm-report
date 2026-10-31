@@ -11,7 +11,7 @@
 - 삭제: ['p3_2b_f0_terms (0.39 GB)', 'p3_2b_f0_hints (0.39 GB)', 'p3_4b_f0_hints (0.74 GB)', 'p3_4b_f1_hints (0.74 GB)']
 - 보존(done 아님): 없음
 ## 5. 이벤트 로그 보관과 운영 지표
-- 이벤트 56건 -> reports/ops/events_20261030_230142.jsonl
+- 이벤트 56건 → reports/ops/events_20261030_230142.jsonl
 - 유휴 0.0분, 시작 10회, 재시도 0회, 실패 0회, 하트비트 정지 0회
 - journal: ['snapshot_pre', 'register_task']
 ## 6. ops/runtime 삭제

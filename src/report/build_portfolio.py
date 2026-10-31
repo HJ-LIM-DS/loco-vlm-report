@@ -1,6 +1,6 @@
-"""PDF 포트폴리오 빌드: reports/portfolio/portfolio.html.j2 + 결과 JSON -> HTML -> Edge 헤드리스 인쇄 -> PDF.
+"""PDF 포트폴리오 빌드: reports/portfolio/portfolio.html.j2 + 결과 JSON → HTML → Edge 헤드리스 인쇄 → PDF.
 
-- 원고의 모든 수치는 reports/tables의 결과 파일에서 채운다(계획 v5 검증 5: PDF 수치 = reports/tables).
+- 원고의 모든 수치는 reports/tables의 결과 파일에서 채운다(규칙: PDF 수치 = reports/tables).
   템플릿에 직접 쓰는 숫자는 설정 상수(r=16, 256토큰, 하드 네거티브 150장 등)뿐이다.
 - 결과가 아직 없는 절(P2, 4B 확인)은 "진행 중" 문장으로 대신한다.
 - pandoc·LaTeX가 없고 weasyprint는 GTK 라이브러리가 없어, Windows 기본 Edge의 --print-to-pdf로 인쇄한다(새 설치 없음).

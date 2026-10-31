@@ -7,7 +7,7 @@ drive: 대기열의 f1~f5 run이 진행되는 동안 정해진 시점에 고장�
     F5  f5_corrupt의 checkpoint-50이 완료되면 프로세스를 멈추고 어댑터 파일을 잘라 손상시킨 뒤 강제 종료
     (F3·F4는 대기열 env의 고장 주입으로 자동 발생)
 check: 이벤트 로그·상태·요약 파일로 판정해 reports/ops/fault_tests.md를 쓴다.
-    F7(Claude Code 재시작), F8(로그오프·로그온)은 사용자 동작이 필요해 이벤트 증거만 확인한다.
+    F7(개발 도구 종료 후 재시작), F8(로그오프·로그온)은 수동 조작이 필요해 이벤트 증거만 확인한다.
     F9(원복)는 ops/env.ps1 -Action teardown 이후 verify 결과로 판정한다.
 
 사용법:
@@ -167,11 +167,11 @@ def check() -> int:
     retries = [e for e in evs("run_retry", "f2_supervisor") if cl and e["ts"] > cl[0]["ts"]]
     ok = bool(cl and ro and not retries and st.get("f2_supervisor", {}).get("status") == "done")
     rows.append(("F6", "모니터 창 닫기·다시 열기", ok, f"창 닫은 뒤 학습 재시도 {len(retries)}건"))
-    # F7, F8: 사용자 동작 증거
-    f7 = evs("drill_claude_restart")
-    rows.append(("F7", "Claude Code 종료 후 재시작", bool(f7), "사용자 동작 필요" if not f7 else f7[-1].get("note", "")))
+    # F7, F8: 수동 조작 증거
+    f7 = evs("drill_ide_restart")
+    rows.append(("F7", "개발 도구 종료 후 재시작", bool(f7), "수동 조작 필요" if not f7 else f7[-1].get("note", "")))
     f8 = evs("drill_logon")
-    rows.append(("F8", "로그오프·로그온", bool(f8), "사용자 동작 필요" if not f8 else f8[-1].get("note", "")))
+    rows.append(("F8", "로그오프·로그온", bool(f8), "수동 조작 필요" if not f8 else f8[-1].get("note", "")))
     # F9
     f9 = evs("drill_teardown_verify")
     rows.append(("F9", "원복 실행", bool(f9 and f9[-1].get("residual") == 0),
@@ -206,11 +206,11 @@ def f9() -> int:
 
 
 def mark(test: str, ok: bool, why: str, status: str | None = None) -> None:
-    """사용자 동작 시험(F7·F8) 판정을 보고서의 해당 줄에 기록하고 이벤트로도 남긴다.
+    """수동 조작 시험(F7·F8) 판정을 보고서의 해당 줄에 기록하고 이벤트로도 남긴다.
 
     원복 때 이전 이벤트 로그는 reports/ops/로 보관되므로, check()를 다시 돌리지 않고 줄만 갱신한다.
     """
-    kinds = {"F7": "drill_claude_restart", "F8": "drill_logon"}
+    kinds = {"F7": "drill_ide_restart", "F8": "drill_logon"}
     append_event(kinds.get(test, "drill_note"), None, note=why, ok=ok)
     lines = REPORT.read_text(encoding="utf-8").splitlines()
     out = []
@@ -230,7 +230,7 @@ def note(kind: str, text: str):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("action", choices=["drive", "check", "note", "f9", "mark"])
-    ap.add_argument("--kind", default=None, help="note: drill_claude_restart | drill_logon | drill_teardown_verify")
+    ap.add_argument("--kind", default=None, help="note: drill_ide_restart | drill_logon | drill_teardown_verify")
     ap.add_argument("--text", default="")
     ap.add_argument("--residual", type=int, default=None)
     ap.add_argument("--test", default=None, help="mark: F7 | F8")

@@ -1,15 +1,15 @@
-"""M3 결과 집계: P1 ablation(2B 선별 -> 상위 2개 4B 2-fold 확인), RQ3 open-set, RQ4·B2 종단 비교,
+"""분석 단계 결과 집계: 입력 ablation(2B로 선별한 뒤 상위 2개를 4B 2-fold로 확인), RQ3 open-set, RQ4·B2 종단 비교,
 사전학습 노출 점검, 실패 분석 요약, 성공 기준 점검.
 
 - ablation 효과는 "적용 - 미적용"으로 통일한다. 입력 제거 ablation은 기본 - 제거(그 입력의 기여),
   비전 인코더 LoRA는 추가 - 기본. 양수면 그 입력·기법이 정확도를 올린다.
-- 2B 선별은 fold 0 모델 -> fold 1 이미지, Holm 보정은 7종 x 논리/구조 14개 검정을 한 묶음으로 한다.
-- 계획 가설 열은 계획 v5(2026-10-24, 결과 전)에 적힌 내용만 옮긴다. 가설이 없으면 "-".
+- 2B 선별은 fold 0 모델로 fold 1 이미지를 채점하고, Holm 보정은 7종 x 논리/구조 14개 검정을 한 묶음으로 한다.
+- 가설 열은 결과를 보기 전(2026-10-24)에 적어 둔 내용만 옮긴다. 가설이 없으면 "-".
 - 선행 단계 산출물(src.eval.cascade, src.eval.failure)을 읽고, 있는 결과만 집계하므로 대기열 중간에도 다시 실행할 수 있다.
 
     python -m src.eval.cascade && python -m src.eval.failure && python -m src.report.m3_report --with-figures
 
-대기열 마지막 작업(m3_report)이 모든 M3 학습이 끝난 뒤 이 집계를 다시 실행한다.
+대기열 마지막 작업(m3_report)이 모든 분석 단계 학습이 끝난 뒤 이 집계를 다시 실행한다.
 """
 
 import json
@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "reports" / "tables"
 BASE = ROOT / "outputs" / "baselines"
 
-# (이름, run, 부호: +1 = 기본 - 변형(입력 제거), -1 = 변형 - 기본(기법 추가), 계획 v5 가설, 가설을 판정할 부분집합)
+# (이름, run, 부호: +1 = 기본 - 변형(입력 제거), -1 = 변형 - 기본(기법 추가), 결과 전 가설, 가설을 판정할 부분집합)
 ABLATIONS_2B = [
     ("정상 참조 제거", "m2_2b_f0_noref", 1, "RQ2: 참조는 논리 결함(개수·배치)에 기여", "logical"),
     ("crop 제거", "m2_2b_f0_nocrop", 1, "RQ2: crop은 작은 구조 결함에 기여", "structural"),
@@ -101,10 +101,10 @@ def ablation_section(res: dict) -> list:
     adj = holm(ps)
     top = sorted(rows, key=lambda n: -abs(rows[n][0]["all"]["diff"]))[:2]
     res["ablation_2b"] = {}
-    lines = ["## 1. P1 ablation 선별 (2B, fold 0 모델 -> fold 1 이미지, 이상 496 / 정상 287)", "",
+    lines = ["## 1. 입력 ablation 선별 (2B, fold 0 모델로 fold 1 이미지 채점, 이상 496 / 정상 287)", "",
              "효과 = 적용 - 미적용(%p). 그룹 정확도 쌍대 차이, 논리·구조 p는 Holm 보정(14개 검정). 정상 거부·개수 계열(83장)은 "
              "2차 지표(보정 없음). 가설 판정은 가설이 가리키는 부분집합의 효과로 한다.", "",
-             "| 설정 | 계획 가설(결과 전) | 그룹 전체 [95% CI], p | 논리 (Holm p) | 구조 (Holm p) | 개수 계열 (p) | 정상 거부 (p) | 위치 적중 기본 -> 변형 | 가설 판정 | 4B 확인 |",
+             "| 설정 | 계획 가설(결과 전) | 그룹 전체 [95% CI], p | 논리 (Holm p) | 구조 (Holm p) | 개수 계열 (p) | 정상 거부 (p) | 위치 적중 기본 → 변형 | 가설 판정 | 4B 확인 |",
              "|---|---|---|---|---|---|---|---|---|---|"]
     for n, (r, h, key) in rows.items():
         a = r["all"]
@@ -149,9 +149,9 @@ def confirm_section(res: dict) -> list:
 
 
 def openset_section(res: dict) -> list:
-    lines = ["", "## 3. RQ3 open-set (4B, fold 0 모델 -> fold 1 이미지)", "",
+    lines = ["", "## 3. RQ3 open-set (4B, fold 0 모델 → fold 1 이미지)", "",
              "가설: 목록 드롭아웃 없이 학습하면 미등록 결함을 기존 그룹으로 잘못 분류한다. 핵심어 일치는 사전에 정한 핵심어"
-             "(이물 혼입 -> \"이물\", 칸막이 누락 -> \"칸막이\" 등)가 미분류 서술에 들어간 비율.", "",
+             "(이물 혼입 → \"이물\", 칸막이 누락 → \"칸막이\" 등)가 미분류 서술에 들어간 비율.", "",
              "| 설정 | 드롭아웃 | 미등록 n | 미분류 응답 | 기존 그룹 오분류 | 정상 응답 | 핵심어 일치 | 알려진 결함 과잉 미분류 | 알려진 결함 그룹 정확도 | 정상 거부 |",
              "|---|---|---|---|---|---|---|---|---|---|"]
     res["openset"] = {}
@@ -173,7 +173,7 @@ def openset_section(res: dict) -> list:
             b = pd.DataFrame(got["없음"]["unseen_per_image"]).set_index("id").reindex(a.index)
             mc_unk = mcnemar(a["unknown"].to_numpy(), b["unknown"].to_numpy())
             mc_known = mcnemar(b["known_group"].to_numpy(), a["known_group"].to_numpy())
-            # 탐색(사전 등록 아님): 드롭아웃이 알려진 결함의 그룹 정확도를 깎는가
+            # 탐색(사후 분석): 드롭아웃이 알려진 결함의 그룹 정확도를 깎는가
             ka = pd.DataFrame(got["있음"]["known_per_image"]).set_index("id")
             kb = pd.DataFrame(got["없음"]["known_per_image"]).set_index("id").reindex(ka.index)
             mc_kacc = mcnemar(kb["correct"].to_numpy(), ka["correct"].to_numpy())
@@ -191,7 +191,7 @@ def openset_section(res: dict) -> list:
                          f"{p['unknown_drop_vs_nodrop']['n01']}장 (McNemar p={p['unknown_drop_vs_nodrop']['p']:.2g}). 그룹별 미분류 응답(있음/없음): "
                          + ", ".join(f"{g} {pct(v['drop'])}/{pct(v['nodrop'])} (n={v['n']})" for g, v in p["by_group"].items()))
             k = p["known_acc_nodrop_vs_drop"]
-            lines.append(f"  - 탐색(사전 등록 아님): 알려진 결함 그룹 정답이 드롭아웃 없음만 {k['n10']}장 / 있음만 {k['n01']}장 "
+            lines.append(f"  - 탐색(사후 분석): 알려진 결함 그룹 정답이 드롭아웃 없음만 {k['n10']}장 / 있음만 {k['n01']}장 "
                          f"(McNemar p={k['p']:.2g})")
     if pend:
         lines.append("- 대기열 진행 중: " + ", ".join(pend))
@@ -296,7 +296,7 @@ def main():
     ap.add_argument("--with-figures", action="store_true", help="그림3(ablation 효과)도 다시 그린다")
     a = ap.parse_args()
     res = {}
-    lines = ["# M3 결과 요약", ""]
+    lines = ["# 분석 단계 결과 요약", ""]
     for sec in (ablation_section, confirm_section, openset_section, cascade_section, exposure_section, failure_section,
                 criteria_section):
         lines += sec(res)

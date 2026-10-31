@@ -20,7 +20,7 @@ def _pct(v):
 
 
 def m1_tables() -> Path:
-    lines = ["# M1 결과 요약", "", "## 탐지기 (EfficientAD-M, test 전체)", "",
+    lines = ["# 선행 실험 결과 요약 (EfficientAD + 2B, 2개 카테고리)", "", "## 탐지기 (EfficientAD-M, test 전체)", "",
              "| 카테고리 | AUROC 전체 | 논리 | 구조 | 지연(ms/장) | 학습 step |", "|---|---|---|---|---|---|"]
     for cat in ("breakfast_box", "screw_bag"):
         s = _read(ROOT / "runs" / f"m1_effad_{cat}" / "final" / "summary.json")

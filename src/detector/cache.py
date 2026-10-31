@@ -3,7 +3,7 @@
     outputs/detector/<detector>/<category>/scores.csv   image_id, score (+ 탐지기별 부가 항)
     outputs/detector/<detector>/<category>/maps/<key>.npy   이상 맵 (float16, 탐지기 해상도)
 
-보정은 fold의 학습 측 test/good만 쓴다 (validation/good은 탐지기 정규화에 쓰여 점수가 in-sample).
+보정은 fold의 학습 측 test/good만 쓴다 (validation/good은 탐지기 정규화에 이미 쓰인 표본이라 점수가 낙관적, in-sample).
 - 점수 백분위: 학습 측 정상 점수 분포 대비
 - 맵 기준: 학습 측 정상 맵 픽셀값의 99.9 분위 (카테고리별 고정, 이미지별 min-max 금지)
 """

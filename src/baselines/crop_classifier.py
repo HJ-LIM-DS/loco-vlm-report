@@ -1,4 +1,4 @@
-"""B1 비-VLM 진단기: DINOv2 전역 특징 + crop DINOv2 특징 + SALAD 점수 3항 -> 로지스틱 회귀 -> KB 2줄.
+"""B1 비-VLM 진단기: DINOv2 전역 특징 + crop DINOv2 특징 + SALAD 점수 3항 → 로지스틱 회귀 → KB 2줄.
 
 - 카테고리별 다항 로지스틱 회귀. 클래스 = 세부 결함 조합(예: "1_additional_nut") + "good".
   학습 데이터는 fold의 학습 측 전체(train + inner-val), 평가는 held-out fold.
@@ -61,7 +61,7 @@ def class_probs(clf, X: np.ndarray) -> list:
 
 def oof_probs(Xa: np.ndarray, ya: list, C: float, n_splits: int = 5, seed: int = 0) -> list:
     """학습 측 out-of-fold 확률: 층화 K-fold로 각 행을 자기를 학습하지 않은 모델이 예측한다.
-    (2차 개선: 캐스케이드 B1 심판 J2의 임계값과 P3 변형 B의 학습 측 힌트는 in-sample 확률을 쓰면 안 되므로)"""
+    (캐스케이드 B1 심판 J2의 임계값과 B1 힌트 변형의 학습 측 힌트는 학습에 쓴 표본의 확률(in-sample)을 쓰면 안 되므로)"""
     import warnings
 
     from sklearn.model_selection import StratifiedKFold

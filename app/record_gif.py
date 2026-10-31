@@ -1,9 +1,9 @@
-"""데모 GIF 녹화 (계획 v5 Phase 4: README 상단 데모 GIF).
+"""데모 GIF 녹화 (README 상단).
 
 캐시 모드 데모를 이 프로세스 안에서 띄우고, Edge 헤드리스를 원격 디버깅 프로토콜(CDP)로 조종해 사례 페이지
 (`?id=<image_id>`)를 차례로 찍은 뒤 GIF로 묶는다. 새 설치 없이 Windows 기본 Edge와 websocket-client만 쓴다.
 
-사례는 결과를 보고 고르지 않도록 그림 4와 같은 목록(`reports/tables/figure_cases.json`: 성공 3, 실패 3)에
+사례는 그림 4와 같은 목록(`reports/tables/figure_cases.json`: 성공 3, 실패 3)에
 정상 1장(정상 held-out 중 카테고리 순·id 순으로 첫 무출력 이미지)을 더한다.
 
     python -m app.record_gif        # reports/figures/demo.gif
@@ -76,7 +76,7 @@ class CDP:
 
 
 def cases(df) -> list[tuple[str, str]]:
-    """(image_id, 띠 문구). 성공 3 -> 정상 1 -> 실패 3."""
+    """(image_id, 띠 문구). 성공 3 → 정상 1 → 실패 3."""
     fig = json.loads((ROOT / "reports" / "tables" / "figure_cases.json").read_text(encoding="utf-8"))
     good = df[(df["label"] == "good") & (df["stage"] == "pass")].index
     normal = sorted(good, key=lambda i: (df.loc[i, "category"], i))[0]

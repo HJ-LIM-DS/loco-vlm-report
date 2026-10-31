@@ -50,7 +50,7 @@
   "cost": {}
  },
  "B1 비-VLM": {
-  "how": "DINOv2 전역+crop + SALAD 3항 -> 로지스틱",
+  "how": "DINOv2 전역+crop + SALAD 3항 → 로지스틱",
   "n_seeds": 1,
   "metrics": {
    "group_acc": 0.6696878147029205,

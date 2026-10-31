@@ -72,7 +72,7 @@ class Collator:
         ids = torch.full((B, L), self.pad_id, dtype=torch.long)
         att = torch.zeros((B, L), dtype=torch.long)
         labels = torch.full((B, L), -100, dtype=torch.long)
-        # M-RoPE용 토큰 종류 (이미지 토큰 표시). 정답·패딩 위치는 텍스트(0)
+        # Qwen3-VL 위치 인코딩(M-RoPE)용 토큰 종류 (이미지 토큰 표시). 정답·패딩 위치는 텍스트(0)
         mm = torch.zeros((B, L), dtype=torch.long)
         for b, ((e, t), n) in enumerate(zip(encs, lens)):
             seq = torch.cat([e.input_ids[0], torch.tensor(t)])
@@ -94,7 +94,7 @@ def trusted_checkpoint(checkpoint, output_dir):
 
     transformers는 torch < 2.6에서 torch.load(weights_only=True)도 막는다(CVE-2025-32434: 조작된 파일 위험).
     또 torch 2.5의 weights_only 허용 목록에는 RNG 상태 파일의 numpy 배열이 없다.
-    이 환경은 torch 2.5.1이고, 읽는 파일은 같은 run의 출력 폴더 안에서 우리가 만든 optimizer·scheduler·RNG
+    이 환경은 torch 2.5.1이고, 읽는 파일은 같은 run의 출력 폴더 안에 이 run이 직접 저장한 optimizer·scheduler·RNG
     상태뿐이므로, 경로가 출력 폴더 안일 때 해당 호출 동안만 검사를 끄고 전체 로드를 허용한다.
     torch를 2.6 이상으로 올리면 검사 우회는 필요 없다.
     """
@@ -275,9 +275,9 @@ def train(args):
         "train_loss_by_step": {int(h["step"]): h["loss"] for h in trainer.state.log_history if "loss" in h},
         "args": vars(args),
     }
-    # 생성 전에 학습용 VRAM을 돌려준다. optimizer 상태·기울기·allocator 캐시가 남으면 예약 메모리가 학습 최고치(8B는 11.5GB)에
-    # 머물러 데스크톱의 GPU 사용(약 1GB)과 겹칠 때 WDDM 공유 메모리로 밀려 생성이 2~4배 느려졌다
-    # (P2 8B: 학습 프로세스 안 생성 32.5초/장 vs 별도 프로세스 7.3초/장, ops/gen_probe.py로 확인. 2차 개선).
+    # 생성 전에 학습용 VRAM을 돌려준다. optimizer 상태, 기울기, allocator 캐시가 남으면 예약 메모리가 학습 최고치(8B는 11.5GB)에
+    # 머문다. 그 상태에서 데스크톱의 GPU 사용(약 1GB)과 겹치면 Windows 그래픽 드라이버(WDDM)의 공유 메모리로 밀려 생성이
+    # 2~4배 느려졌다. 8B 실측: 학습 프로세스 안 32.5초/장, 별도 프로세스 7.3초/장(ops/gen_probe.py).
     import gc
 
     gstep = trainer.state.global_step
@@ -331,8 +331,8 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--gen-batch-size", type=int, default=4)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--seed", type=int, default=0)
-    # 설치된 MLflow 3.17이 파일 저장소를 거부하고, SQLite 백엔드는 패키지 모듈 누락
-    # (mlflow.tracing.otel.translation.claude_code)으로 실패해 기본값은 끈다. 학습 기록은 summary.json에 남는다.
+    # 설치된 MLflow 3.17이 파일 저장소를 거부하고, SQLite 백엔드는 패키지 안의 모듈 누락으로 import에 실패해 기본값은 끈다.
+    # 학습 기록은 summary.json에 남는다.
     ap.add_argument("--mlflow", action=argparse.BooleanOptionalAction, default=False)
     ap.add_argument("--eval-generate", action=argparse.BooleanOptionalAction, default=True)
     return ap

@@ -4,7 +4,8 @@
   학습 설정·표본 수·held-out 지표·비용을 채워 reports/adapters/<run>/README.md로 저장한다.
 - 라이선스: 학습 데이터(MVTec LOCO AD)가 CC BY-NC-SA 4.0이므로 어댑터도 같은 조건(비상업·동일 조건)으로 표기한다.
 - manifest: 어댑터 파일의 sha256·크기를 reports/adapters/manifest.json에 적어 올린 가중치를 대조할 수 있게 한다.
-- 업로드는 사용자가 직접 실행한다. 토큰은 환경 변수 HF_TOKEN(또는 huggingface-cli login 캐시)에서 읽고 출력하지 않는다.
+  텍스트 파일(.json)의 sha256은 줄바꿈을 LF로 정규화한 값이다(publish_predictions와 같은 규칙, 이진 파일은 바이트 그대로).
+- 업로드는 자동화하지 않고 --upload를 줄 때만 한다. 토큰은 환경 변수 HF_TOKEN(또는 huggingface-cli login 캐시)에서 읽고 출력하지 않는다.
 
     python -m app.publish_adapters                                  # 카드·manifest만 생성
     python -m app.publish_adapters --upload --namespace <hf_id>     # 각 run을 <hf_id>/loco-vlm-<run>으로 올림
@@ -137,8 +138,8 @@ def card(inp: dict, repo_url: str = "", hub_id: str = "") -> str:
     lines += [
         ("주의: 이 어댑터의 그룹 정확도는 입력으로 받는 B1(67.0)보다 높지만 그 차이는 B1 판정을 VLM이 고친 몫이며 B1 없이는 동작하지 않는다. "
          if run.startswith("p3_4b") else
-         "주의: 같은 입력을 쓰는 비-VLM 기준선(DINOv2 + SALAD 점수 -> 로지스틱 회귀)이 그룹 정확도 67.0으로 이 어댑터보다 높다. ")
-        + "자세한 비교와 한계는 저장소 README를 본다.",
+         "주의: 같은 입력을 쓰는 비-VLM 기준선(DINOv2 특징과 SALAD 점수로 학습한 로지스틱 회귀)이 그룹 정확도 67.0으로 이 어댑터보다 높다. ")
+        + "자세한 비교와 한계는 저장소 README에 있다.",
         "",
         "## 사용법",
         "",
@@ -158,7 +159,7 @@ def card(inp: dict, repo_url: str = "", hub_id: str = "") -> str:
         "",
         "- 어댑터 가중치: CC BY-NC-SA 4.0. MVTec LOCO AD(Bergmann et al., IJCV 2022, CC BY-NC-SA 4.0)로 학습했으므로 비상업·동일 조건을 따른다."
         " 기반 모델 Qwen3-VL은 Apache-2.0.",
-        "- 조치 문장은 포트폴리오용 가상 SOP이며 실제 현장 절차가 아니다.",
+        "- 조치 문장은 포트폴리오용 가상 SOP(표준 작업 절차)이며 실제 현장 절차가 아니다.",
         "- 결함 그룹 36개 중 여럿이 10장 미만이고, 공개 데이터셋이라 기반 모델의 사전학습 노출 가능성을 배제하지 못한다.",
         "- 대상 fold가 아닌 이미지(학습에 쓴 fold)에 대한 수치는 과대평가다.",
     ]
@@ -211,10 +212,10 @@ def main():
     ap.add_argument("--private", action="store_true")
     a = ap.parse_args()
     if a.upload and not a.namespace:
-        raise SystemExit("--upload에는 --namespace가 필요하다")
+        raise SystemExit("--upload에는 --namespace 필요")
     m = build(a.runs, repo_url=a.repo_url, namespace=a.namespace)
     total = sum(f["bytes"] for r in m["runs"].values() for f in r["files"].values())
-    print(f"카드 {len(m['runs'])}개 -> {OUT}, 올릴 파일 합계 {total / 1e9:.2f}GB")
+    print(f"카드 {len(m['runs'])}개 → {OUT}, 올릴 파일 합계 {total / 1e9:.2f}GB")
     if a.upload:
         upload(m, a.namespace, private=a.private)
 

@@ -50,13 +50,13 @@
   <div class="box">
     <ul>
       <li>SALAD 탐지기(공식 가중치 재현, image AUROC {{ det.mean|f1 }})가 이상을 거르고, QLoRA로 적응시킨 Qwen3-VL-4B가
-        결함 그룹·세부·위치·조치를 고정 템플릿 2줄로 출력한다. 정상이면 무출력.</li>
+        결함 그룹, 세부, 위치, 조치를 고정 템플릿 2줄로 출력한다. 정상이면 무출력.</li>
       <li>LoRA 적응: 같은 4B의 zero-shot 대비 결함 그룹 정확도 {{ zs_acc|pct }}% → {{ ours.metrics.group_acc|pct }}%
         (seed {{ ours.n_seeds }}개 평균), 형식 준수 {{ zs_fmt|pct }}% → {{ ours.metrics.format_ok|pct }}%.</li>
-      <li>캐스케이드는 VLM 단독(B2)보다 종단 정답 그룹 F1이 {{ e2e_b2.diff|spct }}%p {{ e2e_b2|ci }} 높다(사전 성공 기준 충족).</li>
+      <li>캐스케이드는 VLM 단독(B2)보다 종단 정답 그룹 F1이 {{ e2e_b2.diff|spct }}%p {{ e2e_b2|ci }} 높다(미리 정한 성공 기준 충족).</li>
       <li class="neg"><b class="o">음성 결과</b>: 같은 탐지기 특징을 쓰는 비-VLM 분류기(B1)가 그룹 정확도
         {{ b1.metrics.group_acc|pct }}%로 {{ (-m2.pairwise[b1_key].diff)|pct }}%p 앞서고, 같은 캐스케이드의 종단 F1도
-        {{ b1.end_to_end_group_f1.test|pct }} vs {{ ours.end_to_end_group_f1.test|pct }}. 사전 등록 원칙대로 그대로 보고하고 원인을 분해했다.</li>
+        {{ b1.end_to_end_group_f1.test|pct }} vs {{ ours.end_to_end_group_f1.test|pct }}. 결과를 그대로 보고하고 원인을 분해했다.</li>
     </ul>
   </div>
 
@@ -69,8 +69,8 @@
   <h2>1. 문제 설정</h2>
   <p>VLM으로 LOCO의 논리 이상을 직접 탐지한 선행연구(LogicAD 86.0, LogicQA 87.6 AUROC)는 전용 탐지기(SALAD 96.1)에 못 미친다.
     그래서 VLM을 탐지기가 아니라 <b>탐지 뒤의 진단기</b>로 두고, 이상 의심 이미지에만 결함 그룹(36개), 세부 결함(89종),
-    위치(3x3 칸), 조치(가상 SOP)를 2줄로 내게 했다. 핵심 질문은 "강한 탐지기가 있을 때 VLM이 비-VLM 진단기보다 나은가"이며,
-    결과 전에 네 가지 연구 질문과 가설·판정 기준을 계획 문서에 등록했다.</p>
+    위치(3x3 칸), 조치(가상 SOP, 표준 작업 절차)를 2줄로 내게 했다. 핵심 질문은 "강한 탐지기가 있을 때 VLM이 비-VLM 진단기보다 나은가"이며,
+    결과를 보기 전에 네 가지 연구 질문과 가설, 판정 기준을 적어 두었다.</p>
   <ul>
     <li><b>RQ1 진단 이득</b>: LoRA VLM이 비-VLM 진단기(B1)보다 결함 진단을 개선하는가.</li>
     <li><b>RQ2 입력 단서</b>: 정상 참조, 이상 영역 crop, 규격 텍스트는 각각 어떤 결함 유형에 기여하는가.</li>
@@ -133,7 +133,7 @@
       <td>{{ r.cost.get('sec_per_image')|f1 if r.cost.get('sec_per_image') else '-' }}</td><td>{{ r.cost.get('vram_gb') or '-' }}</td></tr>
     {% endfor %}
   </table>
-  <div class="tcap">표 1. 두 held-out fold 합산(이상 993, 정상 575), 원출력. 설명 지표는 정답 이상을 모두 넣은 oracle 게이팅.
+  <div class="tcap">표 1. 두 held-out fold 합산(이상 993, 정상 575), 원출력. 설명 지표는 탐지기 없이 정답 이상을 모두 넣은 조건(oracle 게이팅).
     종단 그룹 F1은 각 시스템의 예측을 같은 SALAD 캐스케이드에 넣은 최종 출력 기준(B2만 탐지기 없음), π 보정 정밀도 =
     π·R / (π·TPR + (1-π)·FPR). Ours 4B는 seed {{ ours.n_seeds }}개 평균(그룹 {{ ours.range.group_acc[0]|pct }}~{{ ours.range.group_acc[1]|pct }}).
     탐지기 지연 약 {{ det.latency|f0 }}ms/장.</div>
@@ -177,8 +177,7 @@
     기존 그룹으로 잘못 분류한 비율 {{ r['있음'].unseen_to_known_group|pct }}% vs {{ r['없음'].unseen_to_known_group|pct }}%. {% endfor %}
     두 실험 모두 방향은 가설과 같지만 유의하지 않았고 대부분 기존 그룹으로 흡수됐다. 드롭아웃 정답의 서술이 알려진 결함의 KB
     문구라 모델이 새 결함도 기존 어휘로 서술하는 한계가 있다(사전 정한 핵심어 일치는 지표를 사후에 바꾸지 않고 그대로 보고).
-    {% set lg = m3.openset['논리형(카테고리별 1그룹 제외)'] %}{% if lg.get('paired') and lg.paired.get('known_acc_nodrop_vs_drop') %}탐색 관찰(사전
-    등록 아님)로, 논리형에서는 드롭아웃 모델의 알려진 결함 정확도가 {{ lg['있음'].known_group_acc|pct }} vs {{ lg['없음'].known_group_acc|pct }}로
+    {% set lg = m3.openset['논리형(카테고리별 1그룹 제외)'] %}{% if lg.get('paired') and lg.paired.get('known_acc_nodrop_vs_drop') %}탐색 관찰(사후 분석)로, 논리형에서는 드롭아웃 모델의 알려진 결함 정확도가 {{ lg['있음'].known_group_acc|pct }} vs {{ lg['없음'].known_group_acc|pct }}로
     낮아({{ lg.paired.known_acc_nodrop_vs_drop.p|pfmt }}) 미분류 응답과 정확도 사이의 trade-off 가능성이 보였다.{% endif %}</p>
 
   <h3>RQ4. 오경보는 크게 줄지만 재현율도 잃는다</h3>
@@ -188,7 +187,7 @@
     {{ casm.vlm_call_rate['pi=0.01']|pct }}%로 목표 10%를 넘는데, 원인은 탐지기 FPR이다. VLM 단독(B2) 대비 종단 정답 그룹 F1은
     seed {{ e2e_seeds|length }}개 모두 높았다({{ e2e_seeds|join(', ') }}%p).
     {% if judge %}{% set j0 = judge.seeds['0'] %}{% set jd = j0.j1.vs_vlm[judge_key].f1_group %}
-    <b>후속(사전 등록)</b>: 판정 구간 거부를 B1의 정상 판정에 맡기면 오경보 감소 {{ j0.j1.summary.false_alarm_reduction|pct0 }}%,
+    <b>후속 실험</b>: 판정 구간 거부를 B1의 정상 판정에 맡기면 오경보 감소 {{ j0.j1.summary.false_alarm_reduction|pct0 }}%,
     호출률 {{ j0.j1.summary.vlm_call_rate['pi=0.01']|pct }}%로 목표를 넘지만 재현율 손실이 {{ j0.j1.summary.recall_loss_pp|f1 }}%p로 커져
     여전히 미충족이다(seed {{ judge.seeds|length }}개, 종단 그룹 F1 {{ jd.diff|spct }}%p {{ jd|ci }}).{% endif %}</p>
 
@@ -224,7 +223,7 @@
   {% set sz, cs, cv = p2.size, p2.curve_steps, p2.curve %}
   <div class="row">
     <div style="flex: 1.55">
-      <h3>추가 실험 P2: 모델 용량을 늘려도, 라벨을 늘려도 격차는 그대로였다</h3>
+      <h3>추가 실험 1: 모델 용량을 늘려도, 라벨을 늘려도 격차는 그대로였다</h3>
       <p>격차의 원인 후보 둘을 결과 전에 가설로 등록하고 확인했다. <b>모델 크기.</b> 8B QLoRA는 4B seed 0 대비
         {{ sz.vs_4b_s0.diff|spct }}%p {{ sz.vs_4b_s0|ci }}({{ sz.vs_4b_s0.p|pfmt }})로 차이가 없었고 B1에는 {{ sz.vs_b1.diff|spct }}%p 뒤졌다.
         비용은 fold당 학습 {{ sz.cost['p2_8b_f0'].hours|f1 }}h(4B {{ sz.cost['m2_4b_f0_s0'].hours|f1 }}h), 예약 VRAM
@@ -239,12 +238,12 @@
       <figcaption>그림 5. 라벨 수 곡선(fold 0 학습 측 라벨 비율 → fold 1 이상 이미지, 그룹 정확도).</figcaption></figure>
   </div>
   {% else %}
-  <p><b>추가 실험(P2, 진행 중).</b> 격차의 원인 후보인 모델 용량(8B QLoRA)과 라벨 수(25/50/100% 곡선, B1과 같은 부분집합)를
+  <p><b>추가 실험 1(진행 중).</b> 격차의 원인 후보인 모델 용량(8B QLoRA)과 라벨 수(25/50/100% 곡선, B1과 같은 부분집합)를
     결과 전에 가설을 등록하고 실행 중이다.</p>
   {% endif %}
 
   {% if p3 %}{% set sc = p3.screening %}{% set tA, tB = sc.variants.terms, sc.variants.hints %}{% set hd = tB.hint_diagnostics %}
-  <h3>추가 실험 P3: 구성 점수를 글로 주어도 부족했고, B1의 판정을 주면 VLM은 대체로 받아 적었다</h3>
+  <h3>추가 실험 2: 구성 점수를 글로 주어도 부족했고, B1의 판정을 주면 VLM은 대체로 받아 적었다</h3>
   <p>남은 원인 후보인 입력 표현을 2B 선별 → 4B 확인 틀로 검증했다. <b>구성 신호.</b> SALAD 세 항의 백분위를 프롬프트에 넣어도
     기타 논리 결함은 {{ tA['기타 논리'].diff|spct }}%p(Holm p={{ tA.p_holm['기타 논리']|p2 }}, 가설 미지지), 그룹 전체
     {{ tA.all.diff|spct }}%p {{ tA.all|ci }}였다. <b>B1 후보 힌트.</b> B1 상위 2그룹의 확률을 넣으면 2B의 격차 {{ sc.gap_base|pct }}%p는
@@ -257,17 +256,17 @@
     구성의 결과다.</p>
   {% endif %}
 
-  <h2>5. 직무 연결과 한계</h2>
+  <h2>5. 이 프로젝트에서 한 일과 한계</h2>
   <ul>
-    <li><b>PEFT 도메인 적응</b>: 12GB GPU에서 2B LoRA, 4B·8B QLoRA(정답 토큰 logits만 계산), 비전 인코더 LoRA를 비교하고
-      정확도·VRAM·지연을 함께 보고했다. 적응 전후 망각(MMAD)도 측정했다.</li>
-    <li><b>논문 구현</b>: SALAD 점수 추출을 재구현해 공식 수치와 일치를 검증하고 배포 가중치 결함을 찾아 고쳤다.</li>
-    <li><b>연구 주도</b>: 가설·판정 기준을 결과 전에 등록하고, 가설과 반대인 결과(B1 우세)를 숨기지 않고 원인을 분해했다.
-      학습은 감독자·체크포인트 재개·자동 원복 장치로 운영했다(대기열 {{ ops.hours|f0 }}시간 동안 GPU 유휴 {{ ops.idle|f0 }}분,
-      그중 {{ ops.largest_gap|f0 }}분은 대기열 설정 오류 1건. 고장 주입 시험 9종). 예측 원본·어댑터를 공개해 GPU 없이
+    <li>12GB GPU 한 장에서 2B LoRA, 4B와 8B QLoRA(정답 토큰 logits만 계산), 비전 인코더 LoRA를 비교하고
+      정확도, VRAM, 지연을 함께 보고했다(PEFT 도메인 적응). 적응 전후 망각(MMAD)도 측정했다.</li>
+    <li>SALAD 점수 추출을 재구현해 공식 수치와 일치하는지 검증했고, 배포 가중치의 결함을 찾아 고쳤다(논문 구현).</li>
+    <li>가설과 판정 기준을 결과 전에 적어 두었고, 가설과 반대인 결과(B1 우세)를 숨기지 않고 원인을 분해했다(연구 주도).
+      학습은 감독자, 체크포인트 재개, 자동 원복 스크립트로 운영했다(대기열 {{ ops.hours|f0 }}시간 동안 GPU 유휴 {{ ops.idle|f0 }}분,
+      그중 {{ ops.largest_gap|f0 }}분은 대기열 설정 오류 1건. 고장 주입 시험 9종). 예측 원본과 어댑터를 공개해 GPU 없이
       표를 재계산할 수 있고 CI가 검사한다.</li>
-    <li><b>한계</b>: 소표본 그룹(36개 중 다수가 10장 미만), fold 2개, 공개 데이터의 사전학습 노출 가능성, 가상 SOP 조치,
-      위치는 point 결함만 채점. 의료 영상으로 옮길 때는 놓침 비용이 크므로 τ_low를 더 보수적으로 두고 단순 분류기 기준선을 먼저 확인해야 한다.</li>
+    <li>남은 한계는 소표본 그룹(36개 중 다수가 10장 미만), fold 2개, 공개 데이터의 사전학습 노출 가능성, 가상 SOP 조치,
+      point 결함만 채점한 위치다. 의료 영상으로 옮길 때는 놓침 비용이 크므로 τ_low를 더 보수적으로 두고 단순 분류기 기준선을 먼저 확인해야 한다.</li>
   </ul>
   <p class="small">코드·재현 절차: 저장소 README. 데이터: MVTec LOCO AD(CC BY-NC-SA 4.0, Bergmann et al., IJCV 2022), 그림 속 이미지도 같은 조건.
     모든 수치는 reports/tables의 결과 파일에서 빌드 시 채워 넣었다(빌드 {{ build_time }}).</p>

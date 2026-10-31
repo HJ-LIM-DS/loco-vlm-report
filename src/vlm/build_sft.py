@@ -6,7 +6,7 @@
 
 이미지 3장(검사, crop, 정상 참조)은 약 256토큰 크기로 줄여 data/vlm_cache/에 캐시한다.
 crop 출처
-- gt       : GT bbox를 1.5배 확장 (탐지 캐시가 생기기 전 스모크·고장 주입 시험용, oracle)
+- gt       : GT bbox를 1.5배 확장 (탐지 캐시가 생기기 전 스모크·고장 주입 시험용. 정답 위치를 쓰므로 oracle)
 - <탐지기> : 탐지 맵에서 기준을 넘는 최대 영역의 bbox를 1.5배 확장, 영역 윤곽선 표시.
              기준을 넘는 영역이 없으면 축소한 전체 이미지. 탐지기 점수 백분위·의심 위치를 프롬프트에 넣는다.
 정상 참조: train/good에서 DINOv2 CLS 최근접 1장 (data/emb_dinov2_base_cls.npz).
@@ -18,7 +18,7 @@ open-set(--exclude-groups): 지정 그룹 이미지를 train·val에서 빼고 �
   held-out의 해당 이미지는 정답을 미분류 템플릿으로 두고 openset=true로 표시한다 (RQ3).
 B2 VLM 단독(--crop-source none): 탐지기 없이 검사 이미지 + 정상 참조 2장, 탐지기 줄 없음, 학습 측 정상 전부 사용.
 라벨 수 곡선(--label-frac): 하드 네거티브 선택 뒤 train·val을 (역할, 카테고리, 정상/그룹) 층별로 줄인다
-  (층마다 최소 1장, 비율 간 중첩). B1도 같은 SFT 폴더로 학습하므로 같은 부분집합을 쓴다 (P2).
+  (층마다 최소 1장, 비율 간 중첩). B1도 같은 SFT 폴더로 학습하므로 같은 부분집합을 쓴다 (라벨 수 곡선 실험).
 
 사용법:
     python -m src.vlm.build_sft --fold 0 --categories breakfast_box screw_bag --crop-source gt --name m1_gt
@@ -56,7 +56,7 @@ def save_resized(img: Image.Image, path: Path) -> None:
     """임시 파일에 쓴 뒤 교체한다. 쓰는 도중 프로세스가 종료돼도(일시 정지 등) 빈 파일이 캐시에 남지 않는다.
 
     캐시는 "파일이 있으면 건너뛴다" 방식이라, 반쯤 쓴 파일이 남으면 이후 실행이 계속 그 파일을 쓴다
-    (2026-10-25 일시 정지로 0바이트 PNG가 남아 4B 학습의 held-out 생성이 실패한 사례).
+    (일시 정지로 0바이트 PNG가 남아 4B 학습의 held-out 생성이 실패한 적이 있다).
     """
     W, H = image_size_for(*img.size)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -127,7 +127,7 @@ def free_text(kb, category, defects) -> str:
 def select_hard_negatives(test: pd.DataFrame, calibs: dict, total: int) -> set:
     """학습 측(inner-val 제외) 정상 중 탐지 점수 백분위 상위를 카테고리 정상 수 비율대로 고른다.
 
-    validation/good과 train/good은 탐지기에 in-sample이라 후보에서 제외된다 (test/good만 대상).
+    validation/good과 train/good은 탐지기 학습·정규화에 쓰인 표본(in-sample)이라 후보에서 제외된다 (test/good만 대상).
     """
     cand = test[(test["role"] == "train") & (test["label"] == "good")]
     n_all = len(cand)
@@ -160,7 +160,7 @@ def subsample_labels(pool: pd.DataFrame, frac: float, seed: int = 0) -> set | No
 
 
 def group_hints(kb: dict, category: str, probs: dict, allowed: set | None = None, k: int = 2) -> list:
-    """P3 변형 B: B1 클래스 확률({'good' 또는 'a+b': p})을 결함 그룹으로 합산해 상위 k개 [(그룹 ko_label|정상, p)].
+    """B1 후보 힌트: B1 클래스 확률({'good' 또는 'a+b': p})을 결함 그룹으로 합산해 상위 k개 [(그룹 ko_label|정상, p)].
 
     allowed가 있으면 그 그룹(프롬프트 목록에 보이는 그룹 + 정상)만 후보로 둔다: 목록 드롭아웃으로 목록에서 뺀 그룹을
     힌트가 다시 알려 주지 않게 해 학습·held-out의 힌트 분포를 같게 유지한다. 확률은 다시 정규화하지 않는다."""
@@ -186,7 +186,7 @@ def group_hints(kb: dict, category: str, probs: dict, allowed: set | None = None
 
 
 def load_hint_probs(path: Path) -> dict:
-    """crop_classifier --probs-out 파일(held-out)과 같은 이름의 .oof.jsonl(학습 측 OOF·드롭아웃) -> {id: probs}."""
+    """crop_classifier --probs-out 파일(held-out)과 같은 이름의 .oof.jsonl(학습 측 out-of-fold 확률·드롭아웃) → {id: probs}."""
     out = {}
     for p in (path, path.with_name(path.stem + ".oof.jsonl")):
         for line in p.read_text(encoding="utf-8").splitlines():
@@ -197,7 +197,7 @@ def load_hint_probs(path: Path) -> dict:
 
 
 def parse_excluded(spec: str, categories: list) -> set:
-    """'all:contamination,breakfast_box:fruit_count' -> {(카테고리, 그룹ID)}. 없는 그룹이면 오류."""
+    """'all:contamination,breakfast_box:fruit_count' → {(카테고리, 그룹ID)}. 없는 그룹이면 오류."""
     kb = load_kb()
     out = set()
     for item in filter(None, (x.strip() for x in spec.split(","))):

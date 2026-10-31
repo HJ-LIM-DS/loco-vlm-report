@@ -1,7 +1,7 @@
 """EfficientAD-M (anomalib 2.7) 학습과 탐지 캐시 내보내기. 감독자(ops.supervisor) 규약을 따른다.
 
 - 학습: train/good, 256x256 입력, batch 1, 70k step (원 논문 설정). validation/good은 마지막 epoch에서
-  맵 정규화 분위수 계산에만 쓰인다(그래서 validation 점수는 in-sample, 임계값 추정에서 제외).
+  맵 정규화 분위수 계산에만 쓰인다(그래서 validation 점수는 정규화에 이미 쓰인 표본의 값(in-sample)이라 임계값 추정에서 제외).
 - 체크포인트: every_n_steps마다 원자적 저장 + 완료 표식, 최근 2개 유지, 재개는 Lightning ckpt_path.
 - 내보내기: 모델 원출력(이미지 점수 = 맵 최댓값, 맵 256x256)을 outputs/detector/efficientad/<category>/에
   저장한다 (src.detector.cache 형식). anomalib 후처리 정규화는 쓰지 않는다(보정은 fold별로 따로 함).
@@ -101,7 +101,7 @@ def train(args):
         max_steps=max_steps, max_epochs=epochs, check_val_every_n_epoch=epochs,
         num_sanity_val_steps=0, logger=False, default_root_dir=ctx.run_dir / "lightning",
         callbacks=[
-            # Engine이 매 epoch 저장하는 ModelCheckpoint를 붙이지 않도록 저장하지 않는 것을 넘긴다
+            # Engine이 기본으로 붙이는 매 epoch 저장을 막으려고 저장을 끈 ModelCheckpoint를 넘긴다
             ModelCheckpoint(dirpath=ctx.run_dir / "lightning", save_top_k=0, save_last=False),
             lightning_callback(ctx, every_n_steps=10 if ctx.smoke else args.save_every_steps),
         ],

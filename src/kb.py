@@ -11,7 +11,7 @@ LOC_MODES = ("point", "global", "instances")
 DISPOSITIONS = ("폐기", "재작업", "격리")
 SEVERITIES = ("라인정지", "일반")
 ROOT_CAUSES = ("설비", "자재", "방법")
-# 폴더 이름 -> KB 유형
+# 폴더 이름 → KB 유형
 FOLDER_TYPE = {"logical": "논리", "structural": "구조"}
 
 
@@ -21,7 +21,7 @@ def load_kb(path: Path = KB_PATH) -> dict:
 
 
 def defect_table(kb: dict, category: str) -> dict:
-    """세부 결함명 -> {group, ko, type, loc_mode, order}. order는 KB 안의 선언 순서."""
+    """세부 결함명 → {group, ko, type, loc_mode, order}. order는 KB 안의 선언 순서."""
     table = {}
     for gid, g in kb[category]["groups"].items():
         for i, (name, d) in enumerate(g["defects"].items()):

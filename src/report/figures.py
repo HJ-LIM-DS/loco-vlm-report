@@ -139,7 +139,7 @@ def fig_ablation(summary: Path = ROOT / "reports" / "tables" / "m3_summary.json"
     import matplotlib.pyplot as plt
 
     s = json.loads(Path(summary).read_text(encoding="utf-8"))
-    panels = [(k, t) for k, t in (("ablation_2b", "2B 선별 (fold 0 모델 -> fold 1 이미지)"),
+    panels = [(k, t) for k, t in (("ablation_2b", "2B 선별 (fold 0 모델 → fold 1 이미지)"),
                                   ("confirm_4b", "4B 확인 (두 held-out fold)")) if s.get(k)]
     heights = [len(s[k]) for k, _ in panels]
     fig, axes = plt.subplots(len(panels), 1, figsize=(6.4, 0.42 * sum(heights) + 1.2 * len(panels)), sharex=True,

@@ -10,10 +10,8 @@
 조치: 칸당 1개로 수량을 보정해 재포장하고, 투입 피더의 계수 센서를 점검
 ```
 
-> 진행 상태(2026-10-30): Phase 0, M1·M2(본 실험), M3(분석), P2(8B, 라벨 수 곡선), M4(표·그림·데모·PDF) 완료.
+> 상태(2026-10-31): 본 실험, 분석, 추가 실험 둘(모델 크기와 라벨 수, 입력 표현), 산출물(표, 그림, 데모, PDF)까지 끝났다.
 > 학습 환경은 대기열 종료 후 자동 원복했다(잔여 변경 0건). 아래 수치는 모두 `reports/tables/`에서 자동 생성된 값이다.
-> 2차 개선(10-30): 예측 원본·어댑터 카드 공개와 CI, 캐스케이드 B1 심판 후속 실험(미충족), P3 입력 표현 실험(구성 신호 미지지,
-> B1 힌트는 4B에서 재현되나 출력의 77%가 힌트 복사) 반영.
 
 바로 보기: [포트폴리오 PDF(4쪽)](reports/portfolio.pdf) · [표1 전체](reports/tables/table1_main.md) · [시연 영상 MP4](reports/figures/demo.mp4) · [시연 시나리오](reports/demo_script.md) · [어댑터 카드](reports/adapters/) · [예측 원본](reports/predictions/) · [GPU 없이 표 다시 계산하기](#gpu데이터셋-없이-표-다시-계산하기)
 
@@ -25,13 +23,14 @@
 
 ## 핵심 결과
 
-두 held-out fold 예측 합산(이상 993장, 정상 575장). 각 이미지는 자기를 학습하지 않은 fold 모델의 예측이다.
-설명 지표는 정답 이상 이미지를 모두 넣은 oracle 게이팅, 종단 그룹 F1은 SALAD 캐스케이드를 거친 최종 출력 기준이다.
+두 held-out fold의 예측을 합쳐 채점했다(이상 993장, 정상 575장). held-out은 평가에만 쓰는 절반이고, 각 이미지는 자기를 학습하지 않은 fold 모델의 예측이다.
+설명 지표(그룹부터 정상 거부까지)는 탐지기를 거치지 않고 정답 이상 이미지를 모두 넣은 조건(oracle 게이팅)에서 잰 값이고,
+종단 그룹 F1은 탐지기부터 리포트까지 전체 파이프라인(SALAD 캐스케이드)의 최종 출력으로 잰 값이다.
 
-| 시스템 | 그룹 | 유형 | 세부 | 위치 적중 | 정상 거부 | 종단 그룹 F1 (test 비율 / π=1%) | 생성(초/장) | 최대 VRAM(GB) |
+| 시스템 | 그룹 | 유형 | 세부 | 위치 적중 | 정상 거부 | 종단 그룹 F1 (test 비율 / 이상 비율 1%) | 생성(초/장) | 최대 VRAM(GB) |
 |---|---|---|---|---|---|---|---|---|
 | B0 최빈값 | 28.7 | 56.5 | 10.0 | 24.3 | 0.0 | 25.4 / 2.2 | - | - |
-| B1 비-VLM (DINOv2 + SALAD 점수 -> 로지스틱) | 67.0 | 76.0 | **61.9** | 70.8 | 86.6 | 68.7 / **19.7** | - | - |
+| B1 비-VLM (DINOv2 특징과 SALAD 점수로 학습한 로지스틱 회귀) | 67.0 | 76.0 | **61.9** | 70.8 | 86.6 | 68.7 / **19.7** | - | - |
 | B2 VLM 단독 (4B QLoRA, 탐지기 없음) | 44.0 | 56.1 | 33.2 | 44.0 | 66.4 | 45.5 / 2.5 | 5.8 | 5.92 |
 | B3 4B zero-shot (엄격 파싱) | 6.0 | 5.3 | 0.2 | 0.3 | 0.2 | 5.6 / 0.5 | - | - |
 | Ours 2B bf16 LoRA | 43.7 | 64.8 | 27.7 | 66.0 | 82.1 | 44.0 / 9.3 | 2.4 | 7.4 |
@@ -39,42 +38,64 @@
 | P2: 8B QLoRA (seed 1개) | 56.4 | 70.3 | 43.2 | 70.7 | 90.6 | 57.7 / 14.3 | 22.4 | 11.57 |
 | P3: 4B QLoRA + B1 후보 힌트 (B1 확률을 프롬프트에 넣음, seed 1개) | **70.1** | **79.7** | 54.8 | **75.0** | **91.8** | **71.1** / 19.5 | 6.0 | 6.23 |
 
+열 정의(이상 이미지 기준 %, Guard 전 원출력): 그룹 = 결함 그룹 정답률, 유형 = 논리/구조 정답률, 세부 = 세부 결함 집합 일치율,
+위치 적중 = 예측한 3x3 칸에 정답 마스크가 10% 이상 들어간 비율(point 결함만), 정상 거부 = 정상 이미지에 "정상"이라 답한 비율.
+종단 그룹 F1은 test의 이상 비율(63%)과 현장에 가까운 이상 비율 1%를 가정한 값 두 가지다.
 전체 표(macro-F1, 형식, 학습 시간 포함): [`reports/tables/table1_main.md`](reports/tables/table1_main.md).
-P3 행은 B1의 확률을 입력으로 받는 결합 시스템이라 B1과 독립인 비교가 아니다(출력의 77%가 힌트 1위와 같다, 아래 P3 절).
+P3 행은 B1의 확률을 입력으로 받는 결합 시스템이라 B1과 독립인 비교가 아니다(출력의 77%가 힌트 1위와 같다. 아래 추가 실험 2 절).
 
-무엇을 보여 주었고 무엇을 보여 주지 못했는가
-- **LoRA 적응은 크게 효과가 있다.** 같은 4B 모델의 zero-shot은 형식을 14%만 지키고 그룹 정확도 6.0%였지만
-  (그룹 이름만 찾아 교정하는 관대 파싱으로도 29.0%, few-shot 29.2%), QLoRA 후 형식 99.9%, 그룹 55.7%
-  (seed 0 기준 엄격 zero-shot 대비 +50.2%p, McNemar p=1e-132). 학습 전후 MMAD 객관식 정확도는 fold별
-  56.5 -> 56.6, 56.4 -> 56.1로 망각도 전이도 없었다.
-- **그러나 비-VLM 진단기 B1이 더 낫다(RQ1 가설 기각).** 같은 SALAD 점수와 DINOv2 특징을 쓰는 로지스틱 회귀가
-  그룹 정확도에서 +10.8%p [7.3, 14.2] 앞서고, 같은 캐스케이드에 넣어도 종단 그룹 F1이 68.7 vs 55.6이다.
-  사전 등록한 원칙대로 이 결과를 그대로 보고한다.
-- **캐스케이드는 VLM 단독보다 낫다(성공 기준 충족).** 종단 정답 그룹 F1 +10.5%p [7.2, 13.9] (seed 3개 모두 같은 결론),
-  탐지기 단독 대비 오경보 65% 감소. 다만 재현율을 4.0%p 잃어 RQ4 가설(손실 1%p 이하)은 충족하지 못했고,
-  π=1%에서 VLM 호출률은 22.6%로 목표(10%)를 넘는다(탐지기 FPR 21.9%가 원인).
-  후속(사전 등록, `reports/tables/m3_cascade_b1judge.md`): 판정 구간의 거부를 VLM 대신 B1의 정상 판정에 맡기면 오경보 감소 78%,
-  VLM 호출률 5.7%로 목표를 넘기지만 재현율 손실이 5.3%p로 더 커져 RQ4 기준은 여전히 미충족이다(seed 3개 모두).
-  종단 정답 그룹 F1은 test 비율에서 -0.7%p [-1.5, +0.0], π=1%에서 +4.3%p [+0.9, +8.7]로 운영점에 따라 갈린다.
-- **격차가 어디서 생기는가.** 개수 계열 결함(과일·푸시핀·부품 수량, 169장)은 Ours 64.3 vs B1 64.5로 같다.
-  격차는 칸막이 누락(2.6 vs 100), 케이블 길이(47 vs 100) 같은 장면 전체의 구성 결함과 나사 길이↔부품 수량 혼동에서 나온다.
-  오류 분해에서 종단 오류의 79%가 VLM의 그룹 오답이고 탐지기 놓침은 12%다.
-- **입력 기여(RQ2).** 이상 영역 crop을 빼면 2B 선별에서 그룹 -8.7%p(구조 결함 -10.6%p, Holm p=0.025), 4B 두 fold
-  확인에서도 -4.7%p [-8.0, -1.5] (p=0.0049)로 재현됐다. 정상 참조 이미지와 정상 규격 텍스트는 효과가 없었고(가설 미지지),
-  2B에서 +3.4%p였던 비전 인코더 LoRA는 4B에서 재현되지 않아(-0.1%p, 정상 거부 -4.9%p) 비전 인코더는 동결했다.
-- **미등록 결함(RQ3).** 목록 드롭아웃은 처음 보는 결함에 "미분류"로 답하는 비율을 0%에서 4~8%로 올렸을 뿐 유의하지 않았고
-  (p=0.062, 0.25), 대부분은 기존 그룹으로 흡수됐다.
-- **더 큰 모델도, 더 많은 라벨도 격차를 닫지 못했다(P2, 결과 전 가설 등록).** 8B QLoRA는 4B seed 0 대비 +0.2%p
-  [-2.9, +3.2] (p=0.95)로 차이가 없었고 fold당 학습 시간은 6배(8.1h vs 1.4h), 예약 VRAM 11.6GB로 12GB 한계에 닿았다.
-  학습 라벨을 25 → 50 → 100%로 늘리면 2B VLM은 23.0 → 33.7 → 43.3, B1은 46.6 → 56.9 → 65.5로 두 곡선이 평행하고
-  (라벨 2배당 +10.2 vs +9.5%p) 격차 약 23%p가 그대로다. 8B는 정상 거부가 90.6%로 높아 종단 그룹 F1은 57.7(4B 55.6)이다.
-- **구성 점수를 글로 주어도 부족했고, B1의 판정을 주면 VLM은 대체로 받아 적었다(P3, 결과 전 가설 등록).** SALAD 세 항의
-  백분위를 프롬프트에 넣는 변형은 2B 선별에서 기타 논리 +0.5%p로 가설 미지지(그룹 전체 +3.0%p [-0.4, +6.5]). B1 상위 2그룹의
-  확률을 넣는 변형은 2B에서 격차 22.2%p를 없앴고(+22.4%p) 4B 2-fold 확인에서도 +13.9%p [+10.9, +17.0]로 재현되어 B1보다
-  3.1%p [+0.8, +5.4] 높다(70.1 vs 67.0, 탐색적 비교). 그러나 출력이 힌트 1위와 같은 비율이 2B 87%, 4B 77%이고 틀린 힌트를
-  바로잡는 비율은 9%·25%라, 이 이득은 VLM 단독 진단의 개선이 아니라 판정은 B1, 검증·설명은 VLM인 계층 구성의 결과다.
+### LoRA 적응의 효과는 크다
 
-## 연구 질문과 판정 (사전 등록, `reports/tables/m3_summary.md`)
+같은 4B 모델이라도 학습 없이 쓰면(zero-shot) 출력 형식을 14%만 지키고 결함 그룹 정확도는 6.0%다. 그룹 이름만 찾아 교정하는
+관대한 파싱으로도 29.0%, few-shot은 29.2%다. QLoRA로 적응시키면 형식 99.9%, 그룹 55.7%가 된다(seed 0 기준 엄격 zero-shot 대비
++50.2%p, McNemar p<0.001). 학습 전후 MMAD 객관식 정확도는 fold별로 56.5에서 56.6, 56.4에서 56.1로 거의 같아 망각도 전이도 없었다.
+
+### 그러나 비-VLM 진단기 B1이 더 낫다 (RQ1 가설 기각)
+
+같은 SALAD 점수와 DINOv2 특징으로 학습한 로지스틱 회귀(B1)가 그룹 정확도에서 +10.8%p [7.3, 14.2] 앞선다.
+같은 캐스케이드에 넣어도 종단 그룹 F1은 B1 68.7, Ours 55.6이다. 결과를 보기 전에 정한 원칙대로 이 결과를 그대로 보고한다.
+
+### 캐스케이드는 VLM 단독보다 낫다 (성공 기준 충족)
+
+탐지기 뒤에 VLM을 두면 VLM 단독(B2)보다 종단 정답 그룹 F1이 +10.5%p [7.2, 13.9] 높고, seed 3개 모두 같은 결론이다.
+탐지기 단독과 비교하면 오경보가 65% 줄었다. 대신 재현율을 4.0%p 잃어 RQ4 가설(손실 1%p 이하)은 충족하지 못했고,
+이상 비율 1%를 가정하면 VLM 호출률이 22.6%로 목표 10%를 넘는다(탐지기 FPR 21.9%가 원인).
+
+후속 실험(`reports/tables/m3_cascade_b1judge.md`): 판정 구간의 거부를 VLM 대신 B1의 정상 판정에 맡기면 오경보 감소 78%,
+VLM 호출률 5.7%로 목표를 넘기지만 재현율 손실이 5.3%p로 더 커져 RQ4 기준에는 여전히 못 미친다(seed 3개 모두).
+종단 정답 그룹 F1은 test 비율에서 -0.7%p [-1.5, +0.0], 이상 비율 1%에서 +4.3%p [+0.9, +8.7]로 운영점에 따라 갈린다.
+
+### 격차가 어디서 생기는가
+
+개수 계열 결함(과일, 푸시핀, 부품의 수량 결함 169장)은 Ours 64.3, B1 64.5로 같다. 격차는 칸막이 누락(2.6 vs 100),
+케이블 길이(47 vs 100)처럼 장면 전체의 구성을 봐야 하는 결함과, 나사 길이와 부품 수량을 서로 혼동하는 데서 나온다.
+오류를 분해하면 종단 오류의 79%가 VLM의 그룹 오답이고 탐지기가 놓친 것은 12%다.
+
+### 입력 기여 (RQ2)
+
+이상 영역 crop을 빼면 2B 선별에서 그룹 정확도가 -8.7%p(구조 결함 -10.6%p, Holm 보정 p=0.025), 4B 두 fold 확인에서도
+-4.7%p [-8.0, -1.5] (p=0.0049)로 재현됐다. 정상 참조 이미지와 정상 규격 텍스트는 효과가 없었다(가설 지지 안 됨).
+2B에서 +3.4%p였던 비전 인코더 LoRA는 4B에서 재현되지 않아(-0.1%p, 정상 거부 -4.9%p) 비전 인코더는 동결했다.
+
+### 미등록 결함 (RQ3)
+
+학습 때 결함 목록 일부를 숨기는 목록 드롭아웃은 처음 보는 결함에 "미분류"로 답하는 비율을 0%에서 4~8%로 올렸을 뿐
+유의하지 않았고(p=0.062, 0.25), 대부분은 기존 그룹으로 흡수됐다.
+
+### 더 큰 모델도, 더 많은 라벨도 격차를 닫지 못했다 (추가 실험 1, 결과 전 가설 등록)
+
+8B QLoRA는 4B seed 0 대비 +0.2%p [-2.9, +3.2] (p=0.95)로 차이가 없었고, fold당 학습 시간은 6배(8.1h vs 1.4h),
+예약 VRAM 11.6GB로 12GB 한계에 닿았다. 학습 라벨을 25, 50, 100%로 늘리면 2B VLM은 23.0, 33.7, 43.3, B1은 46.6, 56.9, 65.5로
+두 곡선이 평행하다(라벨 2배당 +10.2 vs +9.5%p). 격차 약 23%p는 그대로다. 8B는 정상 거부가 90.6%로 높아 종단 그룹 F1은 57.7이다(4B 55.6).
+
+### 구성 점수를 글로 주어도 부족했고, B1의 판정을 주면 VLM은 대체로 받아 적었다 (추가 실험 2, 결과 전 가설 등록)
+
+SALAD 세 항의 백분위를 프롬프트에 넣는 변형은 2B 선별에서 기타 논리 결함 +0.5%p로 가설을 지지하지 못했다(그룹 전체 +3.0%p [-0.4, +6.5]).
+B1 상위 2그룹의 확률을 넣는 변형은 2B에서 격차 22.2%p를 없앴고(+22.4%p), 4B 2-fold 확인에서도 +13.9%p [+10.9, +17.0]로 재현되어
+B1보다 3.1%p [+0.8, +5.4] 높다(70.1 vs 67.0, 사후 비교). 그러나 출력이 힌트 1위와 같은 비율이 2B 87%, 4B 77%이고 틀린 힌트를
+바로잡는 비율은 9%와 25%다. 이 이득은 VLM 단독 진단의 개선이 아니라, 판정은 B1이 하고 검증과 설명은 VLM이 하는 계층 구성의 결과다.
+
+## 연구 질문과 판정 (결과를 보기 전에 적어 둔 가설, `reports/tables/m3_summary.md`)
 
 | RQ | 가설 (결과 전 기록) | 결과 | 판정 |
 |---|---|---|---|
@@ -83,10 +104,10 @@ P3 행은 B1의 확률을 입력으로 받는 결합 시스템이라 B1과 독�
 | RQ3 미등록 결함 | 목록 드롭아웃 없이는 미등록 결함을 기존 그룹으로 오분류 | 미분류 응답 드롭아웃 있음 vs 없음: 이물 혼입 제외 7.9% vs 0%(p=0.062), 논리 그룹 제외 4.1% vs 0%(p=0.25). 기존 그룹 오분류 81.0 vs 88.9, 90.5 vs 95.9 | 방향 일치, 효과 작음 |
 | RQ4 거부 단계 | 재현율 손실 1%p 이하로 오경보 절반 이상 감소 | 오경보 -65%, 재현율 -4.0%p. 후속: B1 심판으로 바꾸면 오경보 -78%, 재현율 -5.3%p | 미충족 |
 
-탐색 관찰(사전 등록 아님): 논리형 open-set에서는 드롭아웃 모델의 알려진 결함 그룹 정확도가 53.3 vs 58.3으로 낮았다
-(쌍대 12:33, p=0.0025, 구조형에서는 차이 없음). 미분류 응답을 늘리는 대가로 알려진 결함 정확도를 깎을 수 있다는 가능성으로만 기록한다.
+탐색 관찰(사후 분석): 논리형 open-set에서는 드롭아웃 모델의 알려진 결함 그룹 정확도가 53.3 vs 58.3으로 낮았다
+(불일치 쌍 12:33, McNemar p=0.0025, 구조형에서는 차이 없음). 미분류 응답을 늘리는 대가로 알려진 결함 정확도를 깎을 수 있다는 가능성으로만 기록한다.
 
-ablation 효과(위: 2B 선별, 아래: 상위 2개의 4B 2-fold 확인, 95% CI, 논리/구조 분리):
+입력 제거 실험(ablation) 효과(위: 2B 선별, 아래: 상위 2개의 4B 2-fold 확인, 95% CI, 논리/구조 분리):
 
 ![ablation 효과](reports/figures/ablation_effects.png)
 
@@ -101,7 +122,7 @@ ablation 효과(위: 2B 선별, 아래: 상위 2개의 4B 2-fold 확인, 95% CI,
   τ_low~τ_high는 VLM이 정상/이상 판정(오탐 거부), τ_high(정상 FPR 1%) 이상은 VLM 설명(거부 불가).
 - Stage 2 Qwen3-VL-4B-Instruct + QLoRA(NF4, r=16, q/k/v/o + MLP), 이미지 3장(검사, 탐지기 crop, DINOv2 최근접 정상 참조,
   각 약 256토큰) + 정상 규격·결함 그룹 목록·탐지기 백분위 텍스트. 정상 하드 네거티브 150장, 목록 드롭아웃 12%, epoch 3 고정.
-- Guard: KB와 대조해 세부 -> 그룹 -> 조치 순으로 교정, 파싱 실패 시 미분류 템플릿. 지표는 Guard 전후를 모두 보고한다.
+- Guard: 결함 KB와 대조해 세부, 그룹, 조치 순으로 교정하고, 파싱에 실패하면 미분류 템플릿을 낸다. 지표는 Guard 전후를 모두 보고한다.
 
 ## 출력 명세
 
@@ -127,22 +148,23 @@ held-out 성공 3건과 실패 3건(선택 규칙은 `src/report/m4_figures.py` 
 
 held-out 예측 원본(33개 run), 기준선 출력, SALAD 점수 캐시, 학습 표본 수, P3 힌트 기록(id·라벨·정답·힌트만), 인덱스의 라벨 열을
 `reports/predictions/`에 넣어 두었다(이미지 ID·라벨·모델 출력 텍스트·수치만 14.6MB, 데이터셋 이미지와 MMAD QA 텍스트는 없음).
-새 클론에서 아래를 실행하면 표1·캐스케이드·P2·P3 표가 저장소의 파일과 바이트 단위로 같게 다시 나온다(검증 완료).
+새 클론에서 아래를 실행하면 표1, 캐스케이드, 추가 실험 1·2의 표가 저장소의 파일과 바이트 단위로 같게 다시 나온다(새 클론과 CI에서 확인).
 
 ```bash
 pip install -r requirements.txt
-python -m src.report.publish_predictions restore   # reports/predictions -> runs/, outputs/, data/ (있는 파일은 건드리지 않음)
+python -m src.report.publish_predictions restore   # reports/predictions의 파일을 runs/, outputs/, data/로 (있는 파일은 건드리지 않음)
 python -m src.report.m4_tables                     # 표1 reports/tables/table1_main.md
 python -m src.eval.cascade                         # RQ4 캐스케이드 reports/tables/m3_cascade.md
-python -m src.report.p2_report                     # P2 reports/tables/p2_summary.md, 라벨 수 곡선
-python -m src.report.p3_report                     # P3 reports/tables/p3_summary.md (힌트 기록은 sft_hints/ 슬림 사본으로 진단)
+python -m src.report.p2_report                     # 추가 실험 1 reports/tables/p2_summary.md, 라벨 수 곡선
+python -m src.report.p3_report                     # 추가 실험 2 reports/tables/p3_summary.md (힌트 기록은 sft_hints/ 슬림 사본으로 진단)
 ```
 
 `python -m src.report.publish_predictions verify`는 `MANIFEST.json`의 sha256과 대조한다. ablation·open-set·실패 분석 표는
 SFT 프롬프트와 마스크가 더 필요하므로 아래 전체 절차를 따른다. GitHub Actions(`.github/workflows/tests.yml`)는 push마다
 테스트 전체(Windows, CPU)와 위 표 재계산(Linux)을 돌려 저장소의 표와 다르면 실패한다.
+결과 표 파일 이름의 접두어 m1, m2, m3, p2, p3는 실험 단계 순서다(선행 실험, 본 실험, 분석, 추가 실험 1, 추가 실험 2).
 
-### Phase 0. 데이터 인덱스와 택소노미
+### 데이터 인덱스와 택소노미
 
 ```bash
 python -m src.data.mask_stats        # 세부 결함별 마스크 통계 + 확인용 시트
@@ -163,9 +185,9 @@ python -m pytest
   대신 같은 위치 패치 토큰의 평균 코사인을 쓰고, 카테고리마다 최근접 유사도의 중앙값 + 6 x MAD(정규 환산)를
   임계값으로 둔다. 결과는 핀이 모두 빠진 빈 케이스 5장(pushpins 논리 057~061) 한 묶음이며 같은 fold로 모았다.
 
-### M1. MVP (EfficientAD + Qwen3-VL-2B LoRA, breakfast_box·screw_bag)
+### 선행 실험 (EfficientAD + Qwen3-VL-2B LoRA, breakfast_box와 screw_bag)
 
-모든 학습은 대기열(`configs/run_queue.yaml`)에 넣고 감독자가 실행한다. Claude Code나 터미널의 자식 프로세스로
+모든 학습은 대기열(`configs/run_queue.yaml`)에 넣고 감독자가 실행한다. 터미널이나 IDE의 자식 프로세스로
 직접 띄우지 않는다.
 
 ```bash
@@ -177,11 +199,11 @@ python -m ops.smoke m1_vlm2b_f0
 .\ops\env.ps1 -Action setup
 ```
 
-대기열 순서: EfficientAD 학습·탐지 캐시 내보내기(카테고리별) -> 탐지기 crop으로 SFT 데이터 재생성 ->
-2B LoRA 학습(시간·VRAM 실측, inner-val 생성 평가) -> 4B QLoRA 30 step 실측 -> 종단 실행(`src.pipeline`).
+대기열 순서: EfficientAD 학습과 탐지 캐시 내보내기(카테고리별), 탐지기 crop으로 SFT 데이터 재생성,
+2B LoRA 학습(시간과 VRAM 실측, inner-val 생성 평가), 4B QLoRA 30 step 실측, 전체 파이프라인 실행(`src.pipeline`) 순이다.
 결과 표는 `python -m src.report.tables m1`, 그림은 `python -m src.report.figures ...`로 다시 만든다.
 
-### M2. 본 실험 (SALAD 캐시 동결, 5개 카테고리 2-fold)
+### 본 실험 (SALAD 캐시 동결, 5개 카테고리 2-fold)
 
 SALAD는 `imgaug`(numpy 2 비호환) 때문에 별도 가상환경에서 공식 사전학습 가중치로 점수만 추출한다.
 
@@ -202,9 +224,9 @@ E:\venvs\loco_salad\Scripts\python.exe -m pip install numpy==1.26.4 opencv-pytho
 - 기준선: B0 최빈값(`src.baselines.majority`), B1 비-VLM 진단기(`src.baselines.crop_classifier`),
   B3 프롬프트만 쓰는 VLM(`src.baselines.vlm_prompt`, zero/few-shot, 엄격·관대 파싱).
 - MMAD 객관식(학습 전후, 전이·망각): `src.eval.mmad_eval`.
-- 집계: `python -m src.report.m2_report` -> `reports/tables/m2_summary.md`.
+- 집계: `python -m src.report.m2_report`가 `reports/tables/m2_summary.md`를 만든다.
 
-### M3. 분석 (P1 ablation, open-set, B2, 캐스케이드, 실패 분석)
+### 분석 (입력 ablation, open-set, VLM 단독, 캐스케이드, 실패 분석)
 
 - 대기열: 2B fold 0 ablation 5종(정상 네거티브, 규격 텍스트, 탐지기 텍스트, 목록 드롭아웃 제거, 비전 인코더 LoRA),
   4B open-set 4종(이물 혼입 제외 / 카테고리별 논리 그룹 1개 제외, 각각 드롭아웃 유무, `build_sft --exclude-groups`),
@@ -215,15 +237,15 @@ E:\venvs\loco_salad\Scripts\python.exe -m pip install numpy==1.26.4 opencv-pytho
 python -m src.eval.cascade            # RQ4, 종단 F1(Ours vs B2, π 보정, 층화 paired bootstrap), 오류 분해
 python -m src.eval.failure            # 결함 종류·해상도·crop 포함률·참조 유사도별 분해, 사례 후보
 python -m src.report.m3_report --with-figures
-python -m src.baselines.crop_classifier --sft data/sft/m2_salad_f0 --out outputs/baselines/b1_f0_rerun.jsonl --probs-out outputs/baselines/b1_f0_probs.jsonl   # B1 확률(+학습 측 OOF), fold 1도 같게
-python -m src.eval.cascade_judge      # 2차 개선: 판정 구간 심판을 B1로 바꾼 캐스케이드 (reports/tables/m3_cascade_b1judge.md)
+python -m src.baselines.crop_classifier --sft data/sft/m2_salad_f0 --out outputs/baselines/b1_f0_rerun.jsonl --probs-out outputs/baselines/b1_f0_probs.jsonl   # B1 확률(+학습 측 out-of-fold), fold 1도 같게
+python -m src.eval.cascade_judge      # 후속 실험: 판정 구간 심판을 B1로 바꾼 캐스케이드 (reports/tables/m3_cascade_b1judge.md)
 ```
 
-### P2. 추가 실험 (결과 전 가설 등록, `reports/tables/p2_summary.md`)
+### 추가 실험 1. 모델 크기와 라벨 수 (결과 전 가설 등록, `reports/tables/p2_summary.md`)
 
 - 모델 크기: Qwen3-VL-8B QLoRA, 4B 주력과 같은 설정(m2_salad 데이터, r=16, epoch 3, seed 0), 2 fold.
   가설 "8B > 4B seed 0"은 방향 일치·유의하지 않음(+0.2%p, p=0.95). 8B 56.4%는 4B seed 범위 55.4~56.2의 바로 위라
-  사전 규칙 "범위 안이면 용량이 병목이 아님"을 문자 그대로 충족하지는 않지만, 쌍대 차이가 0과 구분되지 않아 용량 2배의
+  미리 정한 규칙 "범위 안이면 용량이 병목이 아님"을 문자 그대로 충족하지는 않지만, 쌍대 차이가 0과 구분되지 않아 용량 2배의
   이득은 확인되지 않았다. 결함 종류별(개수 계열 0.0, 기타 논리 -2.0, 구조 +2.3)도 모두 유의하지 않다.
   생성 지연은 fold 0 32.5초/장, fold 1 12.3초/장으로 fold 간 차이가 컸다. 원인은 학습 프로세스 안에서 생성해 예약 VRAM 11.5GB가
   유지된 채 데스크톱의 GPU 사용(약 1GB)과 겹쳐 12GB를 넘은 것이다(`python -m ops.gen_probe`: 같은 두 어댑터를 별도 프로세스에서
@@ -231,24 +253,24 @@ python -m src.eval.cascade_judge      # 2차 개선: 판정 구간 심판을 B1�
   하트비트에 VRAM을 기록한다. 표1의 8B 22.4초/장은 과대 측정값이다.
 - 라벨 수 곡선: `build_sft --label-frac 0.25|0.5`(학습 측을 역할·카테고리·그룹 층별로 줄임, 층마다 최소 1장,
   25 ⊂ 50 ⊂ 100 중첩, 실제 비율은 최소 1장 규칙 때문에 27%·52%). 2B LoRA와 B1을 같은 부분집합으로 학습했다.
-  가설 1(50 -> 100%에서도 증가)은 지지(+9.7%p, p=4e-4). 가설 2(라벨 2배당 증가폭 VLM > B1)는 +10.2 vs +9.5로 문자 그대로는
-  충족했지만 차이가 0.7%p뿐이고 B1 - VLM 격차가 23.6 -> 23.2 -> 22.2%p로 일정해, "데이터 부족이 격차의 한 원인"이라는 해석은
+  가설 1(50에서 100%로 늘려도 증가)은 지지(+9.7%p, p<0.001). 가설 2(라벨 2배당 증가폭 VLM > B1)는 +10.2 vs +9.5로 문자 그대로는
+  충족했지만 차이가 0.7%p뿐이고 B1 - VLM 격차가 23.6, 23.2, 22.2%p로 일정해, "데이터 부족이 격차의 한 원인"이라는 해석은
   약하게만 지지된다. 라벨 25%(이상 107장) 2B 모델은 정상 출력이 0장이고 카테고리마다 한 그룹만 답하는 퇴화 상태였다
   (개수 계열 정확도 79.5%는 그 착시).
-- 집계: `python -m src.report.p2_report` -> `reports/tables/p2_summary.md`, `reports/figures/label_curve.png`.
+- 집계: `python -m src.report.p2_report`가 `reports/tables/p2_summary.md`와 `reports/figures/label_curve.png`를 만든다.
 
 ![라벨 수 곡선](reports/figures/label_curve.png)
 
-### P3. 입력 표현 실험 (결과 전 가설 등록, `reports/tables/p3_summary.md`)
+### 추가 실험 2. 입력 표현 (결과 전 가설 등록, `reports/tables/p3_summary.md`)
 
-P2에서 용량·라벨 수가 배제된 뒤 남은 격차 후보는 장면 전체 구성 결함의 입력 표현이었다(VLM은 B1이 쓰는 SALAD 구성 점수를
-보지 못한다). 두 변형을 P1과 같은 2단계 틀로 검증했다. 2B fold 0 학습 -> fold 1 이미지 선별(기준 `m2_2b_f0_s0`, 쌍대
-bootstrap·McNemar, 결함 종류별 Holm), 그룹 전체 효과가 양수인 변형 중 가장 큰 1개를 4B 2-fold로 확인(기준 Ours 4B seed 0,
-95% CI가 0을 제외하고 양수면 재현). 선정, fold 1 SFT 생성, 대기열 전환은 `src/report/p3_select.py`가 규칙대로 무인 수행했다.
+추가 실험 1에서 용량과 라벨 수가 배제된 뒤 남은 격차 후보는 장면 전체 구성 결함의 입력 표현이었다(VLM은 B1이 쓰는 SALAD 구성 점수를
+보지 못한다). 두 변형을 입력 ablation과 같은 2단계 틀로 검증했다. 먼저 2B를 fold 0으로 학습해 fold 1 이미지에서 선별하고(기준 `m2_2b_f0_s0`,
+같은 이미지로 짝지은 paired bootstrap과 McNemar, 결함 종류별 Holm 보정), 그룹 전체 효과가 양수인 변형 중 가장 큰 1개를 4B 2-fold로
+확인했다(기준 Ours 4B seed 0, 95% CI가 0을 제외하고 양수면 재현). 선정, fold 1 SFT 생성, 대기열 전환은 `src/report/p3_select.py`가 규칙대로 자동 수행했다.
 
 - 변형 A(구성 신호): 탐지기 줄에 SALAD 세 항(국소/전역/구성)의 학습 측 정상 대비 백분위를 덧붙인다(`build_sft --det-terms`).
 - 변형 B(B1 후보 힌트): "[분류기 후보] <그룹> p, <그룹> p" 상위 2그룹(B1 클래스 확률을 그룹으로 합산, 정상 포함,
-  `build_sft --b1-hints`). 학습 측 힌트는 B1의 5-fold OOF 확률, held-out은 학습 측 전체로 학습한 B1 확률
+  `build_sft --b1-hints`). 학습 측 힌트는 B1의 5-fold 교차 예측(out-of-fold) 확률, held-out은 학습 측 전체로 학습한 B1 확률
   (`crop_classifier --probs-out`)이라 정답 누설이 없다. 결과가 좋아도 "VLM 단독 진단"의 개선으로 쓰지 않기로 결과 전에 적었다.
 
 ```bash
@@ -261,10 +283,10 @@ python -m src.report.p3_select    # 선정 변형의 fold 1 SFT 생성과 대기
 
 | 변형 (2B 선별, fold 1 이상 496장, 효과 %p) | 그룹 전체 | 개수 계열 | 기타 논리 | 구조 | 정상 거부 | 판정 |
 |---|---|---|---|---|---|---|
-| A 구성 신호 | +3.0 [-0.4, +6.5], p=0.11 | -2.4 | +0.5 (Holm p=1) | +7.4 (Holm p=0.0075) | +0.3 | H-A(기타 논리 +5%p 이상) 미지지 |
-| B B1 후보 힌트 | +22.4 [+17.5, +27.2], p=1e-17 | +21.7 | +26.4 | +19.0 | -3.1 | H-B(격차 절반 이하) 지지: 22.2 -> -0.2%p, 4B 확인 선정 |
+| A 구성 신호 | +3.0 [-0.4, +6.5], p=0.11 | -2.4 | +0.5 (Holm p=1) | +7.4 (Holm p=0.0075) | +0.3 | 가설 A(기타 논리 +5%p 이상) 지지 안 됨 |
+| B B1 후보 힌트 | +22.4 [+17.5, +27.2], p<0.001 | +21.7 | +26.4 | +19.0 | -3.1 | 가설 B(격차 절반 이하) 지지: 22.2에서 -0.2%p, 4B 확인 선정 |
 
-4B 2-fold 확인(이상 993장): 변형 B는 Ours 4B seed 0 대비 +13.9%p [+10.9, +17.0] (p=8e-18; 개수 +8.3, 기타 논리 +16.6,
+4B 2-fold 확인(이상 993장): 변형 B는 Ours 4B seed 0 대비 +13.9%p [+10.9, +17.0] (p<0.001; 개수 +8.3, 기타 논리 +16.6,
 구조 +13.7 모두 Holm 유의), 정상 거부 +4.0%p(p=0.008)로 재현됐다. 표1에서는 그룹 70.1, 종단 그룹 F1 71.1 / 19.5다.
 
 | 복사 진단 (힌트 1위와 출력 비교, 이상 이미지) | 2B 선별 (496장) | 4B 확인 (993장) |
@@ -277,11 +299,11 @@ python -m src.report.p3_select    # 선정 변형의 fold 1 SFT 생성과 대기
 
 해석. 구성 점수를 숫자로 보여 주는 것(A)은 기타 논리 결함에 거의 효과가 없었고, 격차는 VLM이 장면 구성 정보를 스스로 뽑지
 못하는 데 있다. B1의 판정을 글로 주면(B) 격차는 사라지지만 2B는 거의 그대로 복사했고, 4B는 틀린 힌트의 4분의 1을 바로잡아
-B1보다 3.1%p [+0.8, +5.4] (p=0.011, 탐색적 비교; 개수 계열 +11.2, 구조 +5.1, 기타 논리 -2.6, 정상 거부 +5.2) 높아졌다.
+B1보다 3.1%p [+0.8, +5.4] (p=0.011, 사후 비교; 개수 계열 +11.2, 구조 +5.1, 기타 논리 -2.6, 정상 거부 +5.2) 높아졌다.
 이 차이는 B1 판정을 VLM이 고친 몫이고 B1 없이는 동작하지 않으므로, 실용 구성은 "판정은 단순 분류기, 검증·설명은 VLM"인
-계층이다. Ours 수치는 그대로 두고 P3는 표1에 별도 행으로 적었다.
+계층이다. Ours 수치는 그대로 두고 이 변형은 표1에 별도 행(P3)으로 적었다.
 
-### M4. 산출물
+### 산출물
 
 ```bash
 python -m src.report.m4_tables        # 표1 reports/tables/table1_main.md
@@ -294,12 +316,12 @@ python -m app.record_gif              # 데모 GIF reports/figures/demo.gif (Edg
 python -m app.api --open              # FastAPI 시연 서버 (면접용 한 화면 + /docs, GPU 불필요; --live면 실시간 생성)
 python -m app.record_video            # 시연 영상 reports/figures/demo.mp4 (제목·사례 7개·결과 요약, 약 1분)
 python -m src.report.build_portfolio  # PDF reports/portfolio.pdf (Edge 헤드리스 인쇄, 4쪽 초과 시 실패)
-python -m src.report.publish_predictions export   # 예측 원본·점수 캐시 -> reports/predictions/ (MANIFEST sha256)
-python -m app.publish_adapters                    # LoRA 어댑터 12개의 모델 카드·manifest -> reports/adapters/
-python -m app.publish_adapters --upload --namespace <HF 계정>   # Hub 업로드 (HF_TOKEN 환경 변수, 사용자가 직접 실행)
+python -m src.report.publish_predictions export   # 예측 원본과 점수 캐시를 reports/predictions/로 (MANIFEST sha256)
+python -m app.publish_adapters                    # LoRA 어댑터 12개의 모델 카드와 manifest를 reports/adapters/로
+python -m app.publish_adapters --upload --namespace <HF 계정>   # Hub 업로드 (HF_TOKEN이 있는 셸에서 실행)
 ```
 
-LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, P3 4B 힌트 fold 2개, 합계 약 1.7GB)는 `reports/adapters/<run>/README.md`의
+LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, B1 힌트 4B fold 2개, 합계 약 1.7GB)는 `reports/adapters/<run>/README.md`의
 카드와 함께 `<계정>/loco-vlm-<run>`으로 올린다. 카드에는 학습 설정·표본 수·held-out 지표·비용·라이선스(CC BY-NC-SA 4.0,
 학습 데이터 조건 승계)를 적고, `reports/adapters/manifest.json`의 sha256으로 올린 가중치를 대조할 수 있다.
 
@@ -308,7 +330,7 @@ LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, P3 4B 힌�
 | 파일 | 역할 |
 |---|---|
 | `ops/supervisor.py` | 대기열 실행, 종료 코드·하트비트 감시, 오류 서명 기반 재시도(같은 오류 2회면 failed 후 다음 run), 재시작 시 실행 중 학습 이어받기, 완료 시 자동 원복 |
-| `ops/train_hooks.py` | 학습 스크립트 공용: 진행률·하트비트, 원자적 체크포인트 + 완료 표식, NaN 감지, 손상 체크포인트를 건너뛰는 재개, 고장 주입 |
+| `ops/train_hooks.py` | 학습 스크립트 공용: 진행률·하트비트, 원자적 체크포인트(임시 이름으로 쓴 뒤 교체) + 완료 표식, NaN 감지, 손상 체크포인트를 건너뛰는 재개, 고장 주입 |
 | `ops/monitor.py` | 모니터 창(진행 막대, GPU, 하트비트 경과, 최근 이벤트). 닫아도 학습은 계속되며 `ops\open_monitor.cmd`로 다시 연다. 실행 중인 run의 비고 칸 "직전 시도 오류"는 지금 오류가 아니라 이전 시도의 실패 이유다 |
 | `ops/smoke.py` | 대기열에 넣을 때 20 step + 저장·재개 1회 스모크 관문 |
 | `ops/envctl.py`, `ops/env.ps1` | 예약 작업 `\LOCO-Train\Supervisor` 등록·해제, 사전·사후 스냅샷, journal, 원복 검증 |
@@ -319,13 +341,13 @@ LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, P3 4B 힌�
   이벤트 로그 보관(`reports/ops/`), `ops/runtime/` 삭제, 사전 스냅샷과 비교(`reports/ops/teardown_report.md`).
 - 수동: `.\ops\env.ps1 -Action teardown`(즉시 원복), `-Action verify`(잔여 변경 확인),
   `ops/runtime/PAUSE` 파일을 만들면 실행 중인 run을 멈추고 새 run을 시작하지 않는다.
-- 운영 기록: M1·M2 대기열 43시간(37 run) 동안 유휴 6.1분, 재시도 4회, 하트비트 정지 0회. 고장 주입 시험 F1~F7·F9 통과,
+- 운영 기록: 선행 실험과 본 실험 대기열 43시간(37 run) 동안 유휴 6.1분, 재시도 4회, 하트비트 정지 0회. 고장 주입 시험 F1~F7·F9 통과,
   F8(재부팅)은 Smart App Control의 일회성 DLL 차단 때문에 조건부 통과 후 부팅 대기 시간을 추가했다.
-  M3·P2 대기열 72시간(run 시작 42회)은 유휴 140분(그중 135분은 아래 YAML 쉼표 오류로 SFT 2개가 실패한 뒤 멈춘 구간,
+  분석과 추가 실험 1 대기열 72시간(run 시작 42회)은 유휴 140분(그중 135분은 아래 YAML 쉼표 오류로 SFT 2개가 실패한 뒤 멈춘 구간,
   5분은 스모크 삽입을 위한 PAUSE), 재시도 2회, 실패 2회(같은 오류), 하트비트 정지 0회였고 끝난 뒤 자동 원복했다
   (`-Action verify` 잔여 변경 0건, `reports/ops/teardown_report.md`).
 - 대기열 명령은 `tests/test_ops.py`가 실제 argparse로 검사한다(YAML 흐름 시퀀스 안의 쉼표가 인자를 쪼개
-  데이터 생성이 실패한 M3 사건 이후 추가).
+  데이터 생성이 실패한 일 이후 추가).
 
 환경 메모 (Windows, torch 2.5.1)
 - torch를 먼저 불러온 뒤 `pyarrow.dataset`을 불러오면 DLL 충돌로 traceback 없이 접근 위반으로 죽는다.
@@ -347,13 +369,13 @@ LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, P3 4B 힌�
   전용 탐지기 SALAD(96.1)보다 낮다(실험 설정은 다름). 그래서 VLM을 탐지기가 아니라 탐지 뒤의 진단기로 두었다.
 - 정상 참조 비교는 AD-Copilot과, 탐지기 맵을 LMM 입력으로 쓰는 구조는 Myriad와 겹친다. 논리 이상 중심이라는 점은 차별점이 아니다.
 - 이 프로젝트의 초점: 상용 대형 모델의 무학습 설명이 아니라 로컬 4B QLoRA로 세부 결함 89종을 구조화된 2줄로 출력하고,
-  비-VLM 기준선·VLM 단독·입력 ablation과 쌍대 통계로 정량 비교한다. 이상 비율(π) 보정 비용 분석을 더했다.
+  비-VLM 기준선, VLM 단독, 입력 ablation과 같은 이미지로 짝지은 통계(paired bootstrap, McNemar)로 정량 비교한다. 이상 비율(π) 보정 비용 분석을 더했다.
 
 ## 한계
 
 - 비-VLM 진단기(B1)가 그룹·세부·종단 지표 모두에서 앞선다. 이 데이터 규모(fold당 학습 이상 약 420장)에서는
-  SALAD의 구성 점수를 직접 쓰는 단순 분류기가 더 강하다. P2에서 모델 용량(8B)과 라벨 수(25~100%)는 격차를 줄이지 못했고,
-  P3에서 구성 점수를 글로 주는 것도 효과가 없었다. B1의 확률을 프롬프트에 넣으면 4B가 B1을 3.1%p 넘지만 출력의 77%가
+  SALAD의 구성 점수를 직접 쓰는 단순 분류기가 더 강하다. 추가 실험에서 모델 용량(8B)과 라벨 수(25~100%)는 격차를 줄이지 못했고,
+  구성 점수를 글로 주는 것도 효과가 없었다. B1의 확률을 프롬프트에 넣으면 4B가 B1을 3.1%p 넘지만 출력의 77%가
   힌트 1위와 같아 VLM 단독 진단의 개선은 아니다.
 - 결함 그룹 36개 중 여럿이 10장 미만이고 세부 결함 89종 중 19종은 한 fold에 1장 이하다. macro-F1은 10장 이상 그룹만 쓴다.
 - fold 2개라 fold 간 분산을 보고하지 않는다. 4B는 seed 3개로 학습 변동(그룹 55.4~56.2)을 보였다.
@@ -389,5 +411,5 @@ LoRA 어댑터(2B fold 2개, 4B seed 3개 x fold 2개, 8B fold 2개, P3 4B 힌�
 둔다. 다만 의료에서는 오경보 거부보다 놓침 비용이 훨씬 크므로 τ_low를 더 보수적으로 두고, 이번 실험에서 본
 "단순 분류기가 더 강할 수 있다"는 점을 기준선 비교로 먼저 확인해야 한다.
 
-실용 구성은 P3가 보인 대로 판정은 단순 분류기, 검증·설명은 VLM인 계층이다. 다음 실험은 힌트가 틀린 학습 표본을 늘리거나
-힌트 확률을 낮춰 VLM이 틀린 힌트를 더 자주 바로잡게 하는 것이고, 지표는 P3의 복사 진단(틀린 힌트 복사율)을 그대로 쓴다.
+실용 구성은 입력 표현 실험이 보인 대로 판정은 단순 분류기, 검증과 설명은 VLM인 계층이다. 다음 실험은 힌트가 틀린 학습 표본을 늘리거나
+힌트 확률을 낮춰 VLM이 틀린 힌트를 더 자주 바로잡게 하는 것이고, 지표는 그 실험의 복사 진단(틀린 힌트 복사율)을 그대로 쓴다.

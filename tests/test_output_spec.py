@@ -71,7 +71,7 @@ def test_all_combinations_roundtrip(cat, names):
     types = {table[n]["type"] for n in names}
     exclusive = KB[cat]["groups"][table[names[0]]["group"]].get("exclusive", False)
     if len(types) > 1 or (exclusive and len(names) > 1):
-        # 논리·구조가 섞이거나 배타적 그룹의 2종 조합은 한 이미지에 나올 수 없음 -> 생성 거부 확인
+        # 논리·구조가 섞이거나 배타적 그룹의 2종 조합은 한 이미지에 나올 수 없음 → 생성 거부 확인
         with pytest.raises(ValueError):
             gt_report(KB, cat, names, None)
         return

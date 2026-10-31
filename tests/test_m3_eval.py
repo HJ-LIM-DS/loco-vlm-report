@@ -19,9 +19,9 @@ GT = "이상: [구조] 이물 혼입 (중앙)\n조치: 해당 봉투를 격리�
 def test_judge_final_b1_judge():
     """2차 개선 J1: 판정 구간 거부를 B1에 맡기면 VLM의 "정상"은 더 이상 거부가 아니다."""
     kb = load_kb()
-    assert judge_final("judge", "정상", kb, "screw_bag", None) == ""  # 기존 규칙: VLM 정상 -> 거부
-    assert judge_final("judge", "정상", kb, "screw_bag", True) == ""  # B1 정상 -> 거부
-    forced = judge_final("judge", "정상", kb, "screw_bag", False)  # B1 이상 + VLM 정상 -> 미분류 템플릿
+    assert judge_final("judge", "정상", kb, "screw_bag", None) == ""  # 기존 규칙: VLM 정상 → 거부
+    assert judge_final("judge", "정상", kb, "screw_bag", True) == ""  # B1 정상 → 거부
+    forced = judge_final("judge", "정상", kb, "screw_bag", False)  # B1 이상 + VLM 정상 → 미분류 템플릿
     assert forced.startswith("이상: [미상]")
     assert judge_final("judge", GT, kb, "screw_bag", False) == GT
     assert judge_final("judge", GT, kb, "screw_bag", True) == ""  # B1이 정상이라 하면 VLM 출력이 있어도 거부

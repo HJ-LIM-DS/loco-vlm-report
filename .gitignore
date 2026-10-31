@@ -32,3 +32,6 @@ __pycache__/
 
 # 포트폴리오 빌드 중간 산출물 (템플릿 + reports/tables에서 다시 만든다)
 reports/portfolio/portfolio.html
+
+# Claude Code 로컬 실행 설정(데모 서버 미리보기). 저장소에는 넣지 않는다
+.claude/

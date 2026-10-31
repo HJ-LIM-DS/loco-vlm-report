@@ -1,4 +1,4 @@
-"""VLM 입력 구성: 이미지 크기 예산과 사용자 프롬프트 (계획 v5 Phase 2 입력 명세).
+"""VLM 입력 구성: 이미지 크기 예산과 user 턴 프롬프트.
 
 이미지 3장: 검사 이미지, 의심 영역 확대(crop), 정상 참조. 각 이미지는 종횡비를 유지해 약 256토큰
 (Qwen3-VL: 16px 패치 x 2x2 병합 = 토큰당 32px)으로 미리 줄여 캐시한다.
@@ -51,9 +51,9 @@ def hint_line(hints: list | None) -> str | None:
 
 def user_text(kb: dict, category: str, groups_shown: list, det: dict | None = None,
               roles: tuple = IMAGE_ROLES, spec: bool = True, hints: list | None = None) -> str:
-    """사용자 프롬프트. groups_shown은 목록에 보일 그룹 ko_label (목록 드롭아웃이면 정답 그룹이 빠짐).
+    """user 턴 프롬프트. groups_shown은 목록에 보일 그룹 ko_label (목록 드롭아웃이면 정답 그룹이 빠짐).
     roles는 실제로 넣는 이미지의 역할 (입력 ablation에서 정상 참조나 crop을 빼면 줄어듦).
-    spec=False면 정상 규격 줄을 뺀다 (규격 텍스트 ablation). hints는 B1 후보 줄 (P3 변형 B)."""
+    spec=False면 정상 규격 줄을 뺀다 (규격 텍스트 ablation). hints는 B1 후보 줄 (B1 힌트 변형)."""
     c = kb[category]
     lines = [f"[제품] {c['ko_name']}"]
     if spec:

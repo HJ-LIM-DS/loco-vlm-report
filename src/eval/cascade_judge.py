@@ -1,4 +1,4 @@
-"""2차 개선 2: 캐스케이드 판정 구간의 심판을 VLM에서 B1(비-VLM 진단기)로 바꿨을 때의 RQ4 지표 (사전 등록: 계획 문서 "2차 개선 2").
+"""캐스케이드 심판 교체 실험: 판정 구간의 심판을 VLM에서 B1(비-VLM 진단기)로 바꿨을 때의 RQ4 지표. 가설과 판정 기준은 결과를 보기 전에 적어 두었다.
 
     J1 (주): 판정 구간에서 B1 argmax가 "good"이면 거부. 매개변수 없음.
     J2 (부, 탐색): B1 p(good) >= t면 거부. t는 fold 학습 측 5-fold OOF에서 판정 구간 이상의 97%가 통과하도록 정함.
@@ -81,12 +81,12 @@ def main():
                 r[name]["vs_vlm"] = compare_e2e(df, base, pis)
                 r[name]["agreement"] = agreement(df)
         res["seeds"][str(s)] = r
-        print(f"seed {s}: VLM 손실 {r['vlm']['summary']['recall_loss_pp']:.1f}%p -> J1 {r['j1']['summary']['recall_loss_pp']:.1f}%p, "
-              f"오경보 감소 {r['vlm']['summary']['false_alarm_reduction']:.0%} -> {r['j1']['summary']['false_alarm_reduction']:.0%}")
+        print(f"seed {s}: VLM 손실 {r['vlm']['summary']['recall_loss_pp']:.1f}%p → J1 {r['j1']['summary']['recall_loss_pp']:.1f}%p, "
+              f"오경보 감소 {r['vlm']['summary']['false_alarm_reduction']:.0%} → {r['j1']['summary']['false_alarm_reduction']:.0%}")
 
-    lines = [f"# 2차 개선 2: 캐스케이드 심판 교체 (판정 구간 거부를 B1에 맡김, tau_low 재현율 목표 {RECALL}, 두 held-out fold 합산)", "",
-             "사전 등록(계획 문서 '2차 개선 2'): J1 = B1 argmax가 정상이면 거부(매개변수 없음), J2 = p(good) 임계값(학습 측 OOF에서 "
-             "판정 구간 이상 97% 통과, 탐색). 가설 H-J: J1은 재현율 손실 1%p 이하·오경보 감소 50% 이상(RQ4 기준)을 충족하고 "
+    lines = [f"# 캐스케이드 심판 교체 실험 (판정 구간 거부를 B1에 맡김, τ_low 재현율 목표 {RECALL}, 두 held-out fold 합산)", "",
+             "결과를 보기 전에 적어 둔 규칙: J1 = B1 argmax가 정상이면 거부(매개변수 없음), J2 = p(good) 임계값(학습 측 out-of-fold 확률에서 "
+             "판정 구간 이상 97% 통과, 탐색). 가설 J: J1은 재현율 손실 1%p 이하·오경보 감소 50% 이상(RQ4 기준)을 충족하고 "
              "종단 정답 그룹 F1이 VLM 심판 이상이다.", "",
              f"- J2 임계값 p(good) >= t: fold 0 t={thr[0]['threshold']:.3f} (OOF 판정 구간 이상 {thr[0]['n_judge_anomaly']}장), "
              f"fold 1 t={thr[1]['threshold']:.3f} ({thr[1]['n_judge_anomaly']}장)",
@@ -117,9 +117,9 @@ def main():
             lines.append(f"- {ko} {g['n']}장: 둘 다 거부 {g['both_reject']}, VLM만 {g['vlm_only']}, B1만 {g['b1_only']}, 둘 다 아님 {g['neither']}")
         jb = s0["vlm"]["summary"]["judge_band"]
         jb1 = s0["j1"]["summary"]["judge_band"]
-        lines.append(f"- 판정 구간 정상 거부율 {pct(jb['normal_rejected'])} -> {pct(jb1['normal_rejected'])}, "
-                     f"이상 오거부율 {pct(jb['anomaly_wrongly_rejected'])} -> {pct(jb1['anomaly_wrongly_rejected'])}")
-        # 탐색(사전 등록 아님, 결과를 본 뒤의 산술): 둘 다 정상이라 할 때만 거부(AND)하면 어떻게 되는지 일치표에서 계산
+        lines.append(f"- 판정 구간 정상 거부율 {pct(jb['normal_rejected'])} → {pct(jb1['normal_rejected'])}, "
+                     f"이상 오거부율 {pct(jb['anomaly_wrongly_rejected'])} → {pct(jb1['anomaly_wrongly_rejected'])}")
+        # 탐색(사후 산술): 둘 다 정상이라 할 때만 거부(AND)하면 어떻게 되는지 일치표에서 계산
         sm = s0["vlm"]["summary"]
         ag = s0["j1"]["agreement"]
         n_a, n_n = sm["n_anomaly"], sm["n_normal"]
@@ -129,14 +129,14 @@ def main():
         red_and = 1 - fpr_and / sm["detector_only"]["fpr"]
         res["exploratory_and_rule_seed0"] = {"recall_loss_pp": 100 * loss_and, "fpr": fpr_and, "false_alarm_reduction": red_and,
                                              "rq4_met": loss_and * 100 <= 1.0 and red_and >= 0.5}
-        lines.append(f"- 탐색(사전 등록 아님): VLM과 B1이 둘 다 정상이라 할 때만 거부(AND)하면 seed 0 기준 재현율 손실 {100 * loss_and:.1f}%p, "
-                     f"FPR {pct(fpr_and)}, 오경보 감소 {red_and:.0%} -> RQ4 기준 {'충족' if res['exploratory_and_rule_seed0']['rq4_met'] else '미충족'}"
+        lines.append(f"- 탐색(사후 비교): VLM과 B1이 둘 다 정상이라 할 때만 거부(AND)하면 seed 0 기준 재현율 손실 {100 * loss_and:.1f}%p, "
+                     f"FPR {pct(fpr_and)}, 오경보 감소 {red_and:.0%} → RQ4 기준 {'충족' if res['exploratory_and_rule_seed0']['rq4_met'] else '미충족'}"
                      "(일치표의 산술값이며 새 설정으로 채택하지 않는다)")
         met = [bool(res["seeds"][k]["j1"]["summary"]["rq4_hypothesis_met"]) for k in res["seeds"]]
         ci_pos = [res["seeds"][k]["j1"]["vs_vlm"][f"pi={res['seeds'][k]['test_pi']:g}"]["f1_group"]["ci95"][0] > 0 for k in res["seeds"]]
         res["verdict"] = {"rq4_met_all_seeds": all(met), "f1_group_ci_excludes_zero_all_seeds": all(ci_pos)}
-        lines += ["", f"가설 H-J 판정: RQ4 기준 충족 seed {sum(met)}/{len(met)}, 종단 그룹 F1 차이 95% CI가 0을 넘는 seed {sum(ci_pos)}/{len(ci_pos)}"
-                  + (" -> 지지" if all(met) else " -> 미충족(기준 미달 seed 있음)")]
+        lines += ["", f"가설 J 판정: RQ4 기준 충족 seed {sum(met)}/{len(met)}, 종단 그룹 F1 차이 95% CI가 0을 넘는 seed {sum(ci_pos)}/{len(ci_pos)}"
+                  + (" → 지지" if all(met) else " → 미충족(기준 미달 seed 있음)")]
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.with_suffix(".md").write_text("\n".join(lines) + "\n", encoding="utf-8")

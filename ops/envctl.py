@@ -4,9 +4,9 @@
 CUDA 설정은 모두 프로세스 범위라 종료 시 사라진다. 모든 변경은 journal에 남기고, 원복은 journal
 역순으로 되돌린 뒤 사전 스냅샷과 비교해 검증한다. 삭제는 프로젝트 하위 경로로만 제한한다.
 
-    setup     사전 스냅샷 -> 예약 작업 등록 (등록 직전에 사용자 확인을 받는다)
-    teardown  감독자·모니터 정지 -> 예약 작업 해제 -> done run의 중간 체크포인트 삭제
-              -> 이벤트 로그 보관 -> ops/runtime 삭제 -> 사후 스냅샷 비교 -> reports/ops/teardown_report.md
+    setup     사전 스냅샷 → 예약 작업 등록
+    teardown  감독자·모니터 정지 → 예약 작업 해제 → done run의 중간 체크포인트 삭제
+              → 이벤트 로그 보관 → ops/runtime 삭제 → 사후 스냅샷 비교 → reports/ops/teardown_report.md
     verify    잔여 변경(예약 작업, 런타임 파일, 중간 체크포인트) 확인
 
 사용법:
@@ -292,7 +292,7 @@ def teardown(auto: bool, force: bool) -> int:
         shutil.copy2(EVENTS_FILE, REPORT_DIR / f"events_{stamp}.jsonl")
     write_json_atomic(REPORT_DIR / f"queue_state_{stamp}.json", state)
     m = idle_metrics(events)
-    lines.append(f"- 이벤트 {len(events)}건 -> reports/ops/events_{stamp}.jsonl")
+    lines.append(f"- 이벤트 {len(events)}건 → reports/ops/events_{stamp}.jsonl")
     lines.append(f"- 유휴 {m['idle_minutes']}분, 시작 {m['run_starts']}회, 재시도 {m['retries']}회, "
                  f"실패 {m['failures']}회, 하트비트 정지 {m['heartbeat_timeouts']}회")
     lines.append(f"- journal: {[j['action'] for j in jr]}")
@@ -321,7 +321,7 @@ def compare_with(pre: dict | None, lines: list) -> list:
     post = snapshot()
     added = sorted(set(post["tasks"]) - set(pre["tasks"]))
     missing = sorted(set(pre["tasks"]) - set(post["tasks"]))
-    # 우리가 바꾸는 것은 \LOCO-Train\ 폴더뿐이다. 그 밖의 변화(예: Windows SoftLanding 알림 작업의 자체 갱신)는
+    # 이 스크립트가 바꾸는 것은 \LOCO-Train\ 폴더뿐이다. 그 밖의 변화(예: Windows SoftLanding 알림 작업의 자체 갱신)는
     # 원복 대상이 아니므로 참고로만 적는다
     ours = [t for t in added + missing if t.startswith(TASK_FOLDER)]
     other = [t for t in added + missing if not t.startswith(TASK_FOLDER)]

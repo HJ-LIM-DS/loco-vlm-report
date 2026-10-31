@@ -33,7 +33,7 @@ GPU_EVERY_S = 5.0
 WARN_S, ALERT_S = 5 * 60, 15 * 60
 STATUS_STYLE = {"done": "green", "running": "bold cyan", "retrying": "yellow", "failed": "bold red",
                 "blocked": "magenta", "pending": "white"}
-# 학습 스크립트가 진행 파일에 남기는 단계 이름 -> 화면 표시
+# 학습 스크립트가 진행 파일에 남기는 단계 이름 → 화면 표시
 PHASE_KO = {
     "train": "학습", "eval_generate": "inner-val 생성 평가", "predict_heldout": "held-out 생성 평가",
     "save_final": "최종 저장", "export": "탐지 결과 내보내기", "generate": "생성(프롬프트 기준선)",

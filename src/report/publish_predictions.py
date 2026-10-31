@@ -4,15 +4,15 @@
 - runs/<run>/final/heldout_predictions.jsonl, summary.json  -> reports/predictions/runs/<run>/
 - outputs/baselines/**  (B0·B1·B3, P2-b B1)                 -> reports/predictions/baselines/
 - outputs/detector/salad/<cat>/scores.csv, meta.json        -> reports/predictions/detector/salad/<cat>/
-- data/sft/<dir>/meta.json (학습 표본 수)                    -> reports/predictions/sft_meta/<dir>/
+- data/sft/<dir>/meta.json (학습 표본 수)                    → reports/predictions/sft_meta/<dir>/
 - data/sft/<dir>/heldout.jsonl 중 B1 힌트가 있는 기록(id·라벨·정답 리포트·힌트만, P3 복사 진단용)
                                                             -> reports/predictions/sft_hints/<dir>/heldout_hints.jsonl
-- data/index.parquet의 라벨 열(qa_*, caption_path 제외)      -> reports/predictions/index_slim.parquet
+- data/index.parquet의 라벨 열(qa_*, caption_path 제외)      → reports/predictions/index_slim.parquet
 MANIFEST.json에 파일별 sha256과 크기, 내보낸 커밋을 적는다. 텍스트 파일의 sha256은 CRLF를 LF로 정규화한 바이트의 값이다
 (git text=auto로 Windows 체크아웃은 CRLF, Linux 체크아웃은 LF가 되므로, 어느 쪽에서 verify해도 같은 값이 나오게).
 
-    python -m src.report.publish_predictions export    # 로컬 결과 -> reports/predictions/
-    python -m src.report.publish_predictions restore   # reports/predictions/ -> runs/, outputs/, data/ (있는 파일은 건드리지 않음)
+    python -m src.report.publish_predictions export    # 로컬 결과 → reports/predictions/
+    python -m src.report.publish_predictions restore   # reports/predictions/ → runs/, outputs/, data/ (있는 파일은 건드리지 않음)
     python -m src.report.publish_predictions verify    # MANIFEST의 sha256 대조
 
 복원 뒤 `python -m src.report.m4_tables`, `python -m src.eval.cascade`, `python -m src.report.p2_report`,
@@ -103,7 +103,7 @@ def slim_hints(src: Path, dst: Path) -> int:
 
 
 def target_of(root: Path, rel: str) -> Path:
-    """공개 상대 경로 -> 로컬 원래 자리."""
+    """공개 상대 경로 → 로컬 원래 자리."""
     head, _, rest = rel.partition("/")
     if head == "runs":
         run, _, name = rest.partition("/")
@@ -203,7 +203,7 @@ def main():
     a = ap.parse_args()
     if a.action == "export":
         m = export()
-        print(f"내보냄: {len(m['files'])}개, {m['total_bytes'] / 1e6:.1f}MB -> {DEST}")
+        print(f"내보냄: {len(m['files'])}개, {m['total_bytes'] / 1e6:.1f}MB → {DEST}")
     elif a.action == "verify":
         bad = verify()
         print("MANIFEST 일치" if not bad else "불일치: " + ", ".join(bad))

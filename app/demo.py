@@ -1,4 +1,4 @@
-"""Gradio 데모: held-out 갤러리 + 캐시 (계획 v5 Phase 4).
+"""Gradio 데모: held-out 갤러리 + 캐시.
 
 기본(캐시 모드)은 GPU 없이 동작한다. 각 이미지는 그 이미지를 학습하지 않은 fold 모델(Ours 4B seed 0)의
 저장된 예측과 SALAD 캐스케이드 단계(tau_low 학습 측 재현율 0.95)를 보여 주고, 비-VLM 기준선 B1을 같은 캐스케이드에
@@ -115,7 +115,7 @@ def build(live: LiveModel | None) -> gr.Blocks:
 
     def run_live(iid: str):
         if live is None or not iid:
-            return "실시간 생성은 --live로 실행했을 때만 쓸 수 있다."
+            return "실시간 생성 불가: --live로 실행했을 때만 가능"
         from src.vlm.guard import guard
         from src.vlm.infer import generate
 
@@ -144,7 +144,7 @@ def build(live: LiveModel | None) -> gr.Blocks:
                 final = gr.Textbox(label="Ours: 캐스케이드 + 4B QLoRA VLM + Guard", lines=3)
                 raw = gr.Textbox(label="VLM 원출력", lines=2)
             with gr.Column():
-                b1_box = gr.Textbox(label="B1 비-VLM: DINOv2 + SALAD 점수 -> 로지스틱, 같은 캐스케이드", lines=3)
+                b1_box = gr.Textbox(label="B1 비-VLM: DINOv2 + SALAD 점수 → 로지스틱, 같은 캐스케이드", lines=3)
                 b1_raw = gr.Textbox(label="B1 원출력", lines=2)
             with gr.Column():
                 gt = gr.Textbox(label="정답", lines=3)

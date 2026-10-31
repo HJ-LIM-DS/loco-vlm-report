@@ -1,4 +1,4 @@
-"""M2 결과 집계: 주력·경량판·ablation·기준선을 같은 채점기로 평가하고 쌍대 통계를 붙인다.
+"""본 실험 결과 집계: 주력, 경량판, 입력 제거 실험(ablation), 기준선을 같은 채점기로 평가하고 쌍대(paired) 통계를 붙인다.
 
 - 두 held-out fold 예측을 합쳐 채점한다 (ablation은 fold 0 모델이라 fold 1 이미지만).
 - 주 비교: Ours(4B seed 0) vs B0/B1/B3, McNemar + paired bootstrap(그룹 정확도, 이상 이미지).
@@ -63,7 +63,7 @@ def pct(v):
 
 
 def main():
-    res, lines = {}, ["# M2 결과 요약 (두 held-out fold 합산, 원출력 / Guard 후)", ""]
+    res, lines = {}, ["# 본 실험 결과 요약 (두 held-out fold 합산, 원출력 / Guard 후)", ""]
     avail = {k: v for k, v in SYSTEMS.items() if all(Path(p).exists() for p in v)}
     lines += ["| 시스템 | " + " | ".join(c for _, c in COLS) + " |", "|---" * (len(COLS) + 1) + "|"]
     for name, paths in avail.items():
@@ -95,7 +95,7 @@ def main():
     if "2B 기본" in abl and len(abl) > 1:
         idx = pd.read_parquet(ROOT / "data" / "index.parquet").set_index("image_id")
         base = correct_vector([abl["2B 기본"]])
-        lines += ["", "## 입력 ablation (RQ2, 2B, fold 0 모델 -> fold 1 이미지)", "",
+        lines += ["", "## 입력 ablation (RQ2, 2B, fold 0 모델 → fold 1 이미지)", "",
                   "| 제거 입력 | 유형 | 차이(%p, 기본 - 제거) | 95% CI | McNemar p | Holm 보정 p |", "|---|---|---|---|---|---|"]
         rows, ps = [], {}
         for name, path in abl.items():
@@ -122,7 +122,7 @@ def main():
         if b.exists() and l.exists():
             mm[f] = (json.loads(b.read_text(encoding="utf-8")), json.loads(l.read_text(encoding="utf-8")))
     if mm:
-        lines += ["", "## MMAD 객관식 정확도 (학습 전 -> 학습 후, held-out 이미지)", "", "| fold | 문항 수 | 기본 | LoRA |",
+        lines += ["", "## MMAD 객관식 정확도 (학습 전 → 학습 후, held-out 이미지)", "", "| fold | 문항 수 | 기본 | LoRA |",
                   "|---|---|---|---|"]
         for f, (b, l) in mm.items():
             lines.append(f"| {f} | {b['n_questions']} | {pct(b['accuracy'])} | {pct(l['accuracy'])} |")

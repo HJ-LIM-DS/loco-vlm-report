@@ -1,6 +1,6 @@
 """PDF·README 표1: 본 결과 (B0~B3, Ours 2B/4B, 있으면 P2 8B). 모든 시스템을 같은 채점기로 평가한다.
 
-- 설명 지표(oracle 게이팅, 이상 이미지 993장 / 정상 575장): 그룹, macro-F1, 유형, 세부, 위치 적중, 정상 거부, 형식 (원출력)
+- 설명 지표(oracle 게이팅 = 탐지기 없이 정답 이상 이미지를 모두 넣은 조건, 이상 993장 / 정상 575장): 그룹, macro-F1, 유형, 세부, 위치 적중, 정상 거부, 형식 (원출력)
 - 종단 그룹 F1: 각 시스템의 예측을 같은 SALAD 캐스케이드(tau_low 학습 측 재현율 0.95)에 넣었을 때
   최종 출력 기준 (test 비율과 π=1%). B2는 탐지기 없이 VLM 단독.
 - 비용: 학습 시간(fold당 중앙값), 최대 VRAM(예약), 이상 이미지 1장 생성 지연. 탐지기 지연은 별도 줄.
@@ -40,7 +40,7 @@ def runs(pattern: str, seeds=(None,)) -> list:
 # (표시 이름, 방식, seed별 예측 경로, 캐스케이드 사용 여부, 비용을 읽을 run 이름 형식)
 SYSTEMS = [
     ("B0 최빈값", "카테고리별 최빈 그룹·위치", [[BASE / f"b0_f{f}_heldout.jsonl" for f in (0, 1)]], True, None),
-    ("B1 비-VLM", "DINOv2 전역+crop + SALAD 3항 -> 로지스틱", [[BASE / f"b1_f{f}_heldout.jsonl" for f in (0, 1)]], True, None),
+    ("B1 비-VLM", "DINOv2 전역+crop + SALAD 3항 → 로지스틱", [[BASE / f"b1_f{f}_heldout.jsonl" for f in (0, 1)]], True, None),
     ("B2 VLM 단독", "4B QLoRA, 탐지기·crop 없음", runs("m3_b2_4b_f{f}"), False, "m3_b2_4b_f{f}"),
     ("B3 zero-shot (엄격)", "4B 무학습", [[BASE / f"b3_zero_f{f}" / "strict.jsonl" for f in (0, 1)]], True, None),
     ("B3 zero-shot (관대)", "4B 무학습, 그룹명만 찾아 교정", [[BASE / f"b3_zero_f{f}" / "lenient.jsonl" for f in (0, 1)]], True, None),
@@ -114,8 +114,11 @@ def main():
                      + (f"{c['sec_per_image']:.1f}" if c.get("sec_per_image") else "-") + " |")
     res["detector"] = {"name": "SALAD", "latency_ms_median": det.get("latency_ms_median")}
     lines += ["", f"- 탐지기 SALAD(공식 가중치 재현, 평균 image AUROC 96.11): 이미지당 지연 중앙값 {det.get('latency_ms_median')}ms. "
-                  "캐스케이드는 학습 측 재현율 0.95 기준 tau_low와 정상 FPR 1% 기준 tau_high를 fold별로 쓴다.",
-              "- 종단 그룹 F1: 정밀도 = 정답 그룹 출력 / 전체 출력, 재현율 = 정답 그룹 출력 / 이상 이미지, π 보정 정밀도 = "
+                  "캐스케이드는 학습 측 재현율 0.95 기준 τ_low와 정상 FPR 1% 기준 τ_high를 fold별로 쓴다.",
+              "- 열 정의(이상 이미지 기준 %, 원출력): 그룹 = 결함 그룹 정답률, macro-F1 = 10장 이상 그룹의 macro-F1, 유형 = 논리/구조 정답률, "
+              "세부 = 세부 결함 집합 일치율, 위치 적중 = 예측한 3x3 칸에 정답 마스크가 10% 이상 들어간 비율(point 결함만), "
+              "정상 거부 = 정상 이미지에 '정상'이라 답한 비율, 형식 = 파서 통과율. 설명 지표는 탐지기 없이 정답 이상 이미지를 모두 넣은 조건(oracle 게이팅)이다.",
+              "- 종단 그룹 F1(탐지기부터 리포트까지 전체 파이프라인의 정답 그룹 F1): 정밀도 = 정답 그룹 출력 / 전체 출력, 재현율 = 정답 그룹 출력 / 이상 이미지, π 보정 정밀도 = "
               "π·R / (π·TPR + (1-π)·FPR). 같은 캐스케이드에 각 시스템의 예측을 넣어 계산한다(B2만 탐지기 없음).",
               "- RTX 3060 12GB. 생성 지연은 held-out 생성 시 배치 처리 기준(4B·8B 배치 2, 2B 배치 4)."]
     probe = ROOT / "reports" / "ops" / "gen_probe_desktop.json"

@@ -5,7 +5,7 @@ action_kb 기준 결함 그룹·유형, loc_mode 규칙에 따른 위치 라벨,
 MMAD QA 정답(annotation: false 문항 제외)을 한 행으로 정리한다.
 
 위치 라벨 (세부 결함 loc_mode, 여럿이면 point > global > instances)
-- point: point 세부 결함들의 마스크 합집합을 긴 변 2% 반경으로 closing한 뒤 면적 최대 3x3 칸
+- point: point 세부 결함들의 마스크 합집합을 긴 변 2% 반경으로 닫힘 연산(closing)을 적용한 뒤 면적 최대 3x3 칸
 - global: "전체"
 - instances: 없음 (같은 종류 부품 전체가 칠해져 위치를 특정할 수 없음)
 
@@ -160,7 +160,7 @@ def build_index(data_root: Path, kb: dict) -> pd.DataFrame:
 
 
 def check_index(df: pd.DataFrame):
-    """계획 v5 Verification 1: 이미지 수, 이상 이미지의 그룹·유형·loc_mode·리포트 존재."""
+    """인덱스 검증: 이미지 수, 이상 이미지의 그룹·유형·loc_mode·리포트 존재."""
     assert len(df) == EXPECTED_TOTAL, f"전체 {len(df)} != {EXPECTED_TOTAL}"
     test = df[df["split"] == "test"]
     n_good = int((test["label"] == "good").sum())

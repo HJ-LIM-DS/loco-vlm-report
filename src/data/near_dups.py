@@ -1,11 +1,11 @@
 """DINOv2 특징으로 test 이미지의 근접 중복 쌍을 찾는다.
 
-계획 v5의 "전역 특징(CLS) 코사인 0.98 이상"은 이 데이터에서 쓸 수 없다. 카메라와 배치가
+처음 계획한 "전역 특징(CLS) 코사인 0.98 이상" 기준은 이 데이터에서 쓸 수 없다. 카메라와 배치가
 고정된 장면이라 서로 다른 이미지도 CLS 유사도가 매우 높다(pushpins는 test 쌍의 중앙값이
 0.98을 넘어 카테고리 전체가 한 성분으로 묶임). 그래서 다음 기준을 쓴다.
 
 - 지표: 같은 위치 패치 토큰의 평균 코사인 (배치가 다르면 부품이 놓인 패치에서 값이 떨어짐)
-- 임계값: 카테고리마다 각 이미지의 최근접 유사도 분포에서 중앙값 + k * 1.4826 * MAD (k=6)
+- 임계값: 카테고리마다 각 이미지의 최근접 유사도 분포에서 중앙값 + k * 1.4826 * MAD(중앙값 절대편차) (k=6)
   (카테고리마다 기준선이 다름: juice_bottle 최근접 중앙값 약 0.90, pushpins 약 0.73)
 
 같은 카테고리의 test 이미지끼리만 비교하고, splits.py가 결과로 근접 중복을 같은 fold에 모은다.
@@ -65,7 +65,7 @@ def encode(paths: list, keep_patches: np.ndarray, model, device, batch: int = 16
 
 @torch.no_grad()
 def aligned_patch_similarity(p: torch.Tensor) -> np.ndarray:
-    """N x L x D 패치 토큰 -> N x N 같은 위치 패치 평균 코사인 (대각선은 -1)."""
+    """N x L x D 패치 토큰 → N x N 같은 위치 패치 평균 코사인 (대각선은 -1)."""
     n = len(p)
     sim = torch.empty(n, n, device=p.device)
     for i in range(n):

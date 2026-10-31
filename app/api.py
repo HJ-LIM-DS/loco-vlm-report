@@ -12,7 +12,7 @@ JSON으로 돌려주고 `/`의 화면이 이를 나란히 보여 준다. --live�
 주요 엔드포인트
     GET  /api/meta                         카테고리·라벨 목록, 표1 요약 수치, 라이브 가능 여부
     GET  /api/images?category=&label=      이미지 목록(id, 라벨, 단계, Ours/B1 판정)
-    GET  /api/predict/{image_id}           한 이미지의 탐지기 점수·단계·Ours·B1·정답·입력 이미지 URL
+    GET  /api/predict/{image_id}           한 이미지의 탐지기 점수, 단계, Ours와 B1 출력, 정답, 입력 이미지 URL
     GET  /api/image/{image_id}?kind=overlay|inspect|crop|ref   PNG
     POST /api/generate/{image_id}          --live일 때 VLM 실시간 생성(원출력, Guard 후, 소요 시간)
 """
@@ -131,7 +131,7 @@ class State:
 
 def create_app(state: State) -> FastAPI:
     app = FastAPI(title="LOCO 이상 리포트 시연 API", version="1.0",
-                  description="SALAD 탐지기 + QLoRA Qwen3-VL 2줄 이상 리포트. held-out 이미지의 저장된 예측을 돌려준다.")
+                  description="SALAD 탐지기 + QLoRA Qwen3-VL 2줄 이상 리포트. held-out 이미지의 저장된 예측 조회.")
 
     @app.get("/")
     def page():
@@ -182,7 +182,7 @@ def create_app(state: State) -> FastAPI:
     @app.post("/api/generate/{image_id:path}")
     def generate_live(image_id: str):
         if state.live is None:
-            raise HTTPException(503, "실시간 생성은 --live로 서버를 띄웠을 때만 쓸 수 있다.")
+            raise HTTPException(503, "실시간 생성 불가: 서버를 --live로 띄워야 함")
         from src.vlm.guard import guard
         from src.vlm.infer import generate
 

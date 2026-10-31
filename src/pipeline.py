@@ -1,8 +1,8 @@
-"""종단 파이프라인: 탐지기 1차 판정 -> (이상 의심일 때만) VLM 2줄 리포트 -> Guard.
+"""전체 파이프라인: 탐지기가 1차 판정하고, 이상 의심일 때만 VLM이 2줄 리포트를 내며, Guard가 교정한다.
 
-    score <  tau_low             -> 출력 없음
-    tau_low <= score < tau_high  -> VLM 판정 ("정상"이면 출력 없음 = 오탐 거부)
-    score >= tau_high            -> VLM 설명 (거부 불가: "정상"이면 미분류 템플릿으로 대체)
+    score <  tau_low             → 출력 없음
+    tau_low <= score < tau_high  → VLM 판정 ("정상"이면 출력 없음 = 오탐 거부)
+    score >= tau_high            → VLM 설명 (거부 불가: "정상"이면 미분류 템플릿으로 대체)
 
 배치 모드는 build_sft가 만든 held-out 레코드(이미지 3장 + 프롬프트)를 입력으로 쓴다.
 임계값은 학습 fold의 학습 측 test 이미지로만 정한다 (src.detector.calibrate).

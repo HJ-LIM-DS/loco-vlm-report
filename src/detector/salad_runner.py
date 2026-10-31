@@ -84,7 +84,7 @@ def run(args):
     train_loader = DataLoader(train_set, batch_size=1, shuffle=True, num_workers=0, generator=g)
     validation_loader = DataLoader(validation_set, batch_size=1)
 
-    # SALAD 가중치는 모듈 전체를 pickle로 저장한 공식 파일이다 (공식 저장소 링크, 사용자 승인 후 내려받음)
+    # SALAD 가중치는 모듈 전체를 pickle로 저장한 공식 파일이다 (공식 저장소에서 내려받은 파일)
     nets = {n: torch.load(wdir / f"{n}_final.pth", weights_only=False).cuda().eval()
             for n in ("teacher", "autoencoder", "student", "comp_autoencoder", "comp_unet")}
     teacher, autoencoder, student = nets["teacher"], nets["autoencoder"], nets["student"]

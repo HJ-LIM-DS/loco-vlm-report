@@ -26,7 +26,7 @@ FONT_CANDIDATES = ["Malgun Gothic", "Noto Sans CJK KR", "NanumGothic", "DejaVu S
 
 
 def pick_font() -> str:
-    """설치된 첫 후보 폰트. 맑은 고딕이 없는 환경(Linux CI)에서 경고 없이 대체 폰트로 내려가기 위한 것."""
+    """설치된 첫 후보 폰트. 맑은 고딕이 없는 환경(Linux CI)에서는 경고 없이 다음 후보로 떨어진다."""
     for p in FONT_PATHS:
         if p.exists():
             font_manager.fontManager.addfont(str(p))

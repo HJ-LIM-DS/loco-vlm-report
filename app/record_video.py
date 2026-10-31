@@ -2,7 +2,7 @@
 
 FastAPI 시연 서버(app/api.py, 캐시 모드)를 이 프로세스 안에서 띄우고, Edge 헤드리스를 CDP로 조종해 사례 페이지를
 차례로 찍은 뒤 OpenCV로 MP4를 만든다. 소리 없음. 위쪽 띠에 사례 설명을 쓰고, 앞뒤에 제목 카드와 결과 요약 카드를 둔다.
-사례는 GIF(app/record_gif.py)와 같은 규칙(그림 4의 성공 3·실패 3 + 정상 1)이라 결과를 보고 고르지 않는다.
+사례는 GIF(app/record_gif.py)와 같은 목록(그림 4의 성공 3, 실패 3에 정상 1)이다.
 
     python -m app.record_video                 # reports/figures/demo.mp4 (약 1분)
     python -m app.record_video --hold 10       # 사례당 표시 시간(초)
@@ -114,15 +114,15 @@ def summary_card(s: dict) -> Image.Image:
     lines = [
         f"탐지기 SALAD: image AUROC {pct(s.get('detector_auroc'))}, {s.get('detector_latency_ms', 0):.0f}ms/장 (공식 가중치 재현)",
         f"캐스케이드(재현율 목표 0.95): 재현율 {pct(c.get('recall'))} / FPR {pct(c.get('fpr'))}, "
-        f"탐지기 단독 {pct(c.get('detector_recall'))} / {pct(c.get('detector_fpr'))} -> 오경보 {100 * (c.get('false_alarm_reduction') or 0):.0f}% 감소",
+        f"탐지기 단독 {pct(c.get('detector_recall'))} / {pct(c.get('detector_fpr'))} → 오경보 {100 * (c.get('false_alarm_reduction') or 0):.0f}% 감소",
         f"VLM 호출률 {pct(c.get('vlm_call_rate_pi1'))} (이상 비율 1% 가정), 생성 {s.get('ours_sec_per_image') or 0:.1f}초/장 (RTX 3060 12GB)",
         f"결함 그룹 정확도: Ours 4B QLoRA {pct(s.get('ours_group'))}  <  B1 비-VLM 기준선 {pct(s.get('b1_group'))}"
         + (f"  <  P3 4B + B1 힌트 {pct(s.get('p3_group'))}" if s.get("p3_group") is not None else ""),
         f"종단 그룹 F1(탐지+진단): Ours {pct(s.get('ours_e2e'))}, B1 {pct(s.get('b1_e2e'))}"
         + (f", P3 {pct(s.get('p3_e2e'))}" if s.get("p3_e2e") is not None else ""),
         "",
-        "결론: 비-VLM 분류기가 더 정확하다(가설 기각, 결과 전 등록). 용량(8B)·라벨 수·입력 표현 실험으로 원인을 분해했고, "
-        "실용 구성은 '판정은 단순 분류기, 설명·검증은 VLM'인 계층이다. 예측 원본·어댑터를 공개해 GPU 없이 표를 재계산할 수 있다.",
+        "결론: 비-VLM 분류기가 더 정확함(가설 기각). 용량(8B), 라벨 수, 입력 표현 실험으로 원인 분해. "
+        "실용 구성은 '판정은 단순 분류기, 설명과 검증은 VLM'인 계층. 예측 원본과 어댑터 공개로 GPU 없이 표 재계산 가능.",
     ]
     return text_card("결과 요약 (두 held-out fold 합산, 이상 993 / 정상 575)", lines,
                      "수치 출처: reports/tables/table1_main.md, m3_cascade.md. 자세한 내용은 README와 포트폴리오 PDF.")
@@ -156,13 +156,13 @@ def main():
         cdp.call("Emulation.setDeviceMetricsOverride", width=W, height=H, deviceScaleFactor=1, mobile=False)
         clips.append((text_card(
             "MVTec LOCO AD: 탐지기 + LoRA 적응 VLM 2줄 이상 리포트",
-            ["1. SALAD(비지도 탐지기)가 이미지의 이상 점수를 매긴다.",
-             "2. 점수에 따라 통과(무출력) / 판정 구간(VLM이 정상·이상 판정) / 설명 구간(VLM 설명)으로 나뉜다.",
-             "3. QLoRA로 적응시킨 Qwen3-VL-4B가 '이상: 결함 그룹 - 세부 (위치) / 조치: ...' 2줄만 출력하고 Guard가 KB와 대조한다.",
+            ["1. SALAD(비지도 탐지기)가 이미지의 이상 점수를 산출",
+             "2. 점수에 따라 통과(무출력) / 판정 구간(VLM이 정상·이상 판정) / 설명 구간(VLM 설명)으로 분기",
+             "3. QLoRA로 적응시킨 Qwen3-VL-4B가 '이상: 결함 그룹 - 세부 (위치) / 조치: ...' 2줄만 출력, Guard가 KB와 대조",
              "",
-             "화면: held-out 이미지만, 각 이미지는 학습에 쓰지 않은 fold 모델의 예측. Ours(VLM)와 B1(비-VLM 기준선)을 같은 "
-             "캐스케이드에 넣은 최종 출력을 정답과 나란히 둔다. 사례 7개는 결과를 보고 고르지 않고 규칙으로 정했다(성공 3, 정상 1, 실패 3)."],
-            "python -m app.api 로 같은 화면을 직접 띄울 수 있다(GPU 불필요). --live면 선택한 이미지를 실시간 생성한다."), 6.0))
+             "화면: held-out 이미지만. 각 이미지는 학습에 쓰지 않은 fold 모델의 예측. Ours(VLM)와 B1(비-VLM 기준선)을 같은 "
+             "캐스케이드에 넣은 최종 출력을 정답과 나란히 표시. 사례 7개는 규칙으로 정한 목록(성공 3, 정상 1, 실패 3)."],
+            "같은 화면: python -m app.api (GPU 불필요). --live면 선택한 이미지를 실시간 생성."), 6.0))
         for k, (iid, label) in enumerate(todo, 1):
             p = state.predict(iid)
             b1v = p["b1"]["verdict"] if p["b1"] else "-"

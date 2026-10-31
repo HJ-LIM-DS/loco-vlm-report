@@ -1,4 +1,4 @@
-"""학습 운영 장치 통합 시험 (가짜 학습, GPU 없음).
+"""학습 운영 스크립트 통합 시험 (가짜 학습, GPU 없음).
 
 실제 대기열·runs·런타임과 분리된 임시 폴더에서 감독자를 띄워 고장 주입 시험 F1·F3·F4·F5의
 판정 논리와 NaN 즉시 실패, 스모크 관문을 확인한다. 실제 2B 모델 고장 주입 시험은 M1 절차서를 따른다.
@@ -15,8 +15,8 @@ import psutil
 import pytest
 import yaml
 
-# 감독자·환경 제어는 winreg·_winapi·PowerShell·작업 스케줄러를 쓰는 Windows 전용 장치다(Linux에서는 건너뜀)
-pytestmark = pytest.mark.skipif(sys.platform != "win32", reason="학습 운영 장치는 Windows 전용")
+# 감독자·환경 제어는 winreg·_winapi·PowerShell·작업 스케줄러를 쓰는 Windows 전용이다(Linux에서는 건너뜀)
+pytestmark = pytest.mark.skipif(sys.platform != "win32", reason="학습 운영 스크립트는 Windows 전용")
 
 ROOT = Path(__file__).resolve().parents[1]
 FAST = {"poll_s": 0.2, "heartbeat_timeout_min": 0.05, "startup_grace_min": 0.5, "min_free_vram_gb": 0,
@@ -88,7 +88,7 @@ def test_normal_run_done(sb):
 
 
 def test_f1_kill_resumes_with_same_loss_curve(sb):
-    """F1: 학습 프로세스 강제 종료 -> 최신 체크포인트에서 재개, 손실 곡선이 끊김 없는 실행과 일치."""
+    """F1: 학습 프로세스 강제 종료 → 최신 체크포인트에서 재개, 손실 곡선이 끊김 없는 실행과 일치."""
     sb.write_queue([{"name": "ref", "cmd": dummy(steps=40, step_s=0.05)},
                     {"name": "f1", "cmd": dummy(steps=40, step_s=0.05)}])
     p = sb.supervisor(wait=False)
@@ -105,7 +105,7 @@ def test_f1_kill_resumes_with_same_loss_curve(sb):
 
 
 def test_f3_same_error_twice_fails_and_moves_on(sb):
-    """F3: step k 예외 주입 -> 같은 서명 2회 실패 후 failed, 다음 run 시작."""
+    """F3: step k 예외 주입 → 같은 서명 2회 실패 후 failed, 다음 run 시작."""
     sb.write_queue([{"name": "bad", "cmd": dummy(), "env": {"LOCO_FAULT_AT_STEP": 5}},
                     {"name": "next", "cmd": dummy()}])
     sb.supervisor()
@@ -116,7 +116,7 @@ def test_f3_same_error_twice_fails_and_moves_on(sb):
 
 
 def test_f4_heartbeat_stall_killed_and_resumed(sb):
-    """F4: 하트비트 중단(시험 임계값 3초) -> 강제 종료 후 재개."""
+    """F4: 하트비트 중단(시험 임계값 3초) → 강제 종료 후 재개."""
     sb.write_queue([{"name": "hang", "cmd": dummy(steps=30),
                      "env": {"LOCO_FAULT_HANG_AT_STEP": 15, "LOCO_FAULT_ATTEMPT": 1}}])
     sb.supervisor()
@@ -127,7 +127,7 @@ def test_f4_heartbeat_stall_killed_and_resumed(sb):
 
 
 def test_f5_corrupt_checkpoint_falls_back(sb):
-    """F5: 마지막 체크포인트 손상 -> 이전 체크포인트에서 재개."""
+    """F5: 마지막 체크포인트 손상 → 이전 체크포인트에서 재개."""
     sb.write_queue([{"name": "c", "cmd": dummy(steps=40, step_s=0.2)}])
     p = sb.supervisor(wait=False)
     marker = sb.runs / "c" / "checkpoints" / "checkpoint-30" / "COMPLETE"
@@ -177,7 +177,7 @@ def test_smoke_as_shares_record(sb):
 @pytest.mark.parametrize("module", ["src.vlm.build_sft", "src.vlm.train_lora"])
 def test_queue_commands_parse(module):
     """실제 대기열의 명령이 대상 스크립트 파서를 통과하는지 확인한다.
-    M3에서 YAML 흐름 시퀀스 안의 쉼표가 항목 구분자로 해석돼 --exclude-groups 값이 쪼개진 채
+    분석 단계 대기열에서 YAML 흐름 시퀀스 안의 쉼표가 항목 구분자로 해석돼 --exclude-groups 값이 쪼개진 채
     학습 데이터 생성이 실패한 일이 있었다 (따옴표 누락)."""
     import importlib
     parser = importlib.import_module(module).build_parser()

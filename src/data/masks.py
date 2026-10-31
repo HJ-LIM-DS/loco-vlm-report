@@ -9,7 +9,7 @@ from PIL import Image
 CATEGORIES = ["breakfast_box", "juice_bottle", "pushpins", "screw_bag", "splicing_connectors"]
 # 마스크 처리 속도를 위한 축소 배율
 MASK_DOWNSCALE = 4
-# point 위치 라벨의 closing 반경: 이미지 긴 변 대비 비율 (계획 v5)
+# point 위치 라벨의 닫힘 연산(closing) 반경: 이미지 긴 변 대비 비율
 CLOSE_RADIUS_RATIO = 0.02
 
 
@@ -31,7 +31,7 @@ def load_defect_masks(mask_dir: Path) -> tuple[dict, int]:
 
 
 def close_mask(mask: np.ndarray, long_side_full: int) -> np.ndarray:
-    """긴 변의 2% 반경(원본 해상도 기준)으로 closing한다."""
+    """긴 변의 2% 반경(원본 해상도 기준)으로 닫힘 연산(closing)을 적용한다."""
     r = max(1, round(CLOSE_RADIUS_RATIO * long_side_full / MASK_DOWNSCALE))
     k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))
     return cv2.morphologyEx(mask.astype(np.uint8), cv2.MORPH_CLOSE, k) > 0
