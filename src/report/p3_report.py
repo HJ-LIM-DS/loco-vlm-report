@@ -211,7 +211,7 @@ def confirm_section(res: dict) -> list:
 
 def main():
     res = {}
-    lines = ["# 추가 실험 2 결과 요약: 입력 표현 (가설·판정 기준은 결과 전 기록)", ""]
+    lines = ["# 추가 실험 2 결과 요약: 입력 표현 (가설·판정 기준은 docs/preregistration.md 6절)", ""]
     lines += screening_section(res)
     lines += confirm_section(res)
     OUT.mkdir(parents=True, exist_ok=True)

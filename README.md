@@ -13,7 +13,7 @@
 > 상태(2026-10-31): 본 실험, 분석, 추가 실험 둘(모델 크기와 라벨 수, 입력 표현), 산출물(표, 그림, 데모, PDF)까지 끝났다.
 > 학습 환경은 대기열 종료 후 자동 원복했다(잔여 변경 0건). 아래 수치는 모두 `reports/tables/`에서 자동 생성된 값이다.
 
-바로 보기: [포트폴리오 PDF(4쪽)](reports/portfolio.pdf) · [표1 전체](reports/tables/table1_main.md) · [시연 영상 MP4](reports/figures/demo.mp4) · [시연 시나리오](reports/demo_script.md) · [어댑터 카드](reports/adapters/) · [예측 원본](reports/predictions/) · [GPU 없이 표 다시 계산하기](#gpu데이터셋-없이-표-다시-계산하기)
+바로 보기: [포트폴리오 PDF(4쪽)](reports/portfolio.pdf) · [표1 전체](reports/tables/table1_main.md) · [시연 영상 MP4](reports/figures/demo.mp4) · [시연 시나리오](reports/demo_script.md) · [어댑터 카드](reports/adapters/) · [예측 원본](reports/predictions/) · [사전 등록 문서](docs/preregistration.md) · [GPU 없이 표 다시 계산하기](#gpu데이터셋-없이-표-다시-계산하기)
 
 ![데모: held-out 성공 3건, 정상 1건, 실패 3건](reports/figures/demo.gif)
 
@@ -53,7 +53,7 @@ P3 행은 B1의 확률을 입력으로 받는 결합 시스템이라 B1과 독�
 ### 그러나 비-VLM 진단기 B1이 더 낫다 (RQ1 가설 기각)
 
 같은 SALAD 점수와 DINOv2 특징으로 학습한 로지스틱 회귀(B1)가 그룹 정확도에서 +10.8%p [7.3, 14.2] 앞선다.
-같은 캐스케이드에 넣어도 종단 그룹 F1은 B1 68.7, Ours 55.6이다. 결과를 보기 전에 정한 원칙대로 이 결과를 그대로 보고한다.
+같은 캐스케이드에 넣어도 종단 그룹 F1은 B1 68.7, Ours 55.6이다. 결과를 보기 전에 정한 원칙([`docs/preregistration.md`](docs/preregistration.md))대로 이 결과를 그대로 보고한다.
 
 ### 캐스케이드는 VLM 단독보다 낫다 (성공 기준 충족)
 
@@ -61,7 +61,7 @@ P3 행은 B1의 확률을 입력으로 받는 결합 시스템이라 B1과 독�
 탐지기 단독과 비교하면 오경보가 65% 줄었다. 대신 재현율을 4.0%p 잃어 RQ4 가설(손실 1%p 이하)은 충족하지 못했고,
 이상 비율 1%를 가정하면 VLM 호출률이 22.6%로 목표 10%를 넘는다(탐지기 FPR 21.9%가 원인).
 
-후속 실험(`reports/tables/m3_cascade_b1judge.md`): 판정 구간의 거부를 VLM 대신 B1의 정상 판정에 맡기면 오경보 감소 78%,
+후속 실험(가설은 `docs/preregistration.md` 5절, 결과는 `reports/tables/m3_cascade_b1judge.md`): 판정 구간의 거부를 VLM 대신 B1의 정상 판정에 맡기면 오경보 감소 78%,
 VLM 호출률 5.7%로 목표를 넘기지만 재현율 손실이 5.3%p로 더 커져 RQ4 기준에는 여전히 못 미친다(seed 3개 모두).
 종단 정답 그룹 F1은 test 비율에서 -0.7%p [-1.5, +0.0], 이상 비율 1%에서 +4.3%p [+0.9, +8.7]로 운영점에 따라 갈린다.
 
@@ -95,7 +95,7 @@ B1 상위 2그룹의 확률을 넣는 변형은 2B에서 격차 22.2%p를 없앴
 B1보다 3.1%p [+0.8, +5.4] 높다(70.1 vs 67.0, 사후 비교). 그러나 출력이 힌트 1위와 같은 비율이 2B 87%, 4B 77%이고 틀린 힌트를
 바로잡는 비율은 9%와 25%다. 이 이득은 VLM 단독 진단의 개선이 아니라, 판정은 B1이 하고 검증과 설명은 VLM이 하는 계층 구성의 결과다.
 
-## 연구 질문과 판정 (결과를 보기 전에 적어 둔 가설, `reports/tables/m3_summary.md`)
+## 연구 질문과 판정 (가설과 판정 기준은 [`docs/preregistration.md`](docs/preregistration.md), 결과는 `reports/tables/m3_summary.md`)
 
 | RQ | 가설 (결과 전 기록) | 결과 | 판정 |
 |---|---|---|---|
@@ -241,7 +241,7 @@ python -m src.baselines.crop_classifier --sft data/sft/m2_salad_f0 --out outputs
 python -m src.eval.cascade_judge      # 후속 실험: 판정 구간 심판을 B1로 바꾼 캐스케이드 (reports/tables/m3_cascade_b1judge.md)
 ```
 
-### 추가 실험 1. 모델 크기와 라벨 수 (결과 전 가설 등록, `reports/tables/p2_summary.md`)
+### 추가 실험 1. 모델 크기와 라벨 수 (가설은 `docs/preregistration.md` 4절, 결과는 `reports/tables/p2_summary.md`)
 
 - 모델 크기: Qwen3-VL-8B QLoRA, 4B 주력과 같은 설정(m2_salad 데이터, r=16, epoch 3, seed 0), 2 fold.
   가설 "8B > 4B seed 0"은 방향 일치·유의하지 않음(+0.2%p, p=0.95). 8B 56.4%는 4B seed 범위 55.4~56.2의 바로 위라
@@ -261,7 +261,7 @@ python -m src.eval.cascade_judge      # 후속 실험: 판정 구간 심판을 B
 
 ![라벨 수 곡선](reports/figures/label_curve.png)
 
-### 추가 실험 2. 입력 표현 (결과 전 가설 등록, `reports/tables/p3_summary.md`)
+### 추가 실험 2. 입력 표현 (가설은 `docs/preregistration.md` 6절, 결과는 `reports/tables/p3_summary.md`)
 
 추가 실험 1에서 용량과 라벨 수가 배제된 뒤 남은 격차 후보는 장면 전체 구성 결함의 입력 표현이었다(VLM은 B1이 쓰는 SALAD 구성 점수를
 보지 못한다). 두 변형을 입력 ablation과 같은 2단계 틀로 검증했다. 먼저 2B를 fold 0으로 학습해 fold 1 이미지에서 선별하고(기준 `m2_2b_f0_s0`,

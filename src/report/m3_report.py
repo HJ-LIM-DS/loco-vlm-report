@@ -4,7 +4,7 @@
 - ablation 효과는 "적용 - 미적용"으로 통일한다. 입력 제거 ablation은 기본 - 제거(그 입력의 기여),
   비전 인코더 LoRA는 추가 - 기본. 양수면 그 입력·기법이 정확도를 올린다.
 - 2B 선별은 fold 0 모델로 fold 1 이미지를 채점하고, Holm 보정은 7종 x 논리/구조 14개 검정을 한 묶음으로 한다.
-- 가설 열은 결과를 보기 전(2026-10-24)에 적어 둔 내용만 옮긴다. 가설이 없으면 "-".
+- 가설 열은 결과를 보기 전(2026-10-24)에 적어 둔 내용(docs/preregistration.md)만 옮긴다. 가설이 없으면 "-".
 - 선행 단계 산출물(src.eval.cascade, src.eval.failure)을 읽고, 있는 결과만 집계하므로 대기열 중간에도 다시 실행할 수 있다.
 
     python -m src.eval.cascade && python -m src.eval.failure && python -m src.report.m3_report --with-figures

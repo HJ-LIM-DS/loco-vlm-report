@@ -201,7 +201,7 @@ def fig_label_curve(res: dict):
 
 def main():
     res = {}
-    lines = ["# 추가 실험 1 결과 요약: 모델 크기와 라벨 수 (가설·판정 기준은 결과 전 기록)", ""]
+    lines = ["# 추가 실험 1 결과 요약: 모델 크기와 라벨 수 (가설·판정 기준은 docs/preregistration.md 4절)", ""]
     lines += size_section(res)
     lines += curve_section(res)
     if res.get("curve"):

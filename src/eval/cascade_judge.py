@@ -85,7 +85,7 @@ def main():
               f"오경보 감소 {r['vlm']['summary']['false_alarm_reduction']:.0%} → {r['j1']['summary']['false_alarm_reduction']:.0%}")
 
     lines = [f"# 캐스케이드 심판 교체 실험 (판정 구간 거부를 B1에 맡김, τ_low 재현율 목표 {RECALL}, 두 held-out fold 합산)", "",
-             "결과를 보기 전에 적어 둔 규칙: J1 = B1 argmax가 정상이면 거부(매개변수 없음), J2 = p(good) 임계값(학습 측 out-of-fold 확률에서 "
+             "결과를 보기 전에 적어 둔 규칙(docs/preregistration.md 5절): J1 = B1 argmax가 정상이면 거부(매개변수 없음), J2 = p(good) 임계값(학습 측 out-of-fold 확률에서 "
              "판정 구간 이상 97% 통과, 탐색). 가설 J: J1은 재현율 손실 1%p 이하·오경보 감소 50% 이상(RQ4 기준)을 충족하고 "
              "종단 정답 그룹 F1이 VLM 심판 이상이다.", "",
              f"- J2 임계값 p(good) >= t: fold 0 t={thr[0]['threshold']:.3f} (OOF 판정 구간 이상 {thr[0]['n_judge_anomaly']}장), "
