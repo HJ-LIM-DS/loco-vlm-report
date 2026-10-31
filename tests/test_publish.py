@@ -131,3 +131,17 @@ def test_target_of_rejects_unknown(tmp_path):
     assert pp.target_of(tmp_path, "runs/x/summary.json") == tmp_path / "runs" / "x" / "final" / "summary.json"
     m = json.loads('{"path": "index_slim.parquet"}')
     assert pp.target_of(tmp_path, m["path"]) == tmp_path / "data" / "index.parquet"
+
+
+def test_sha256_ignores_line_endings(tmp_path):
+    """git text=auto 때문에 Windows 체크아웃은 CRLF, Linux 체크아웃은 LF다. 텍스트 파일의 MANIFEST 해시는 줄바꿈에 무관해야
+    양쪽에서 verify가 같은 결과를 낸다(첫 GitHub Actions에서 Linux 쪽 125개 중 124개 불일치로 드러난 문제)."""
+    lf, crlf = tmp_path / "a.jsonl", tmp_path / "b.jsonl"
+    lf.write_bytes(b'{"id": 1}\n{"id": 2}\n')
+    crlf.write_bytes(b'{"id": 1}\r\n{"id": 2}\r\n')
+    assert pp.sha256(lf) == pp.sha256(crlf)
+    # 이진 파일(parquet)은 바이트 그대로 해시한다
+    blf, bcrlf = tmp_path / "a.parquet", tmp_path / "b.parquet"
+    blf.write_bytes(b"x\ny")
+    bcrlf.write_bytes(b"x\r\ny")
+    assert pp.sha256(blf) != pp.sha256(bcrlf)

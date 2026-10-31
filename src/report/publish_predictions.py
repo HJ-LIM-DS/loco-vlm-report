@@ -8,7 +8,8 @@
 - data/sft/<dir>/heldout.jsonl 중 B1 힌트가 있는 기록(id·라벨·정답 리포트·힌트만, P3 복사 진단용)
                                                             -> reports/predictions/sft_hints/<dir>/heldout_hints.jsonl
 - data/index.parquet의 라벨 열(qa_*, caption_path 제외)      -> reports/predictions/index_slim.parquet
-MANIFEST.json에 파일별 sha256과 크기, 내보낸 커밋을 적는다.
+MANIFEST.json에 파일별 sha256과 크기, 내보낸 커밋을 적는다. 텍스트 파일의 sha256은 CRLF를 LF로 정규화한 바이트의 값이다
+(git text=auto로 Windows 체크아웃은 CRLF, Linux 체크아웃은 LF가 되므로, 어느 쪽에서 verify해도 같은 값이 나오게).
 
     python -m src.report.publish_predictions export    # 로컬 결과 -> reports/predictions/
     python -m src.report.publish_predictions restore   # reports/predictions/ -> runs/, outputs/, data/ (있는 파일은 건드리지 않음)
@@ -37,11 +38,18 @@ HINT_KEYS = ("id", "label", "gt_report", "hints")  # P3 힌트 기록에서 공�
 HINT_FILE = "heldout_hints.jsonl"
 
 
+TEXT_SUFFIXES = (".json", ".jsonl", ".csv", ".md", ".txt")  # 줄바꿈을 정규화해 해시하는 파일
+
+
 def sha256(path: Path) -> str:
+    """파일 sha256. 텍스트 파일은 CRLF를 LF로 바꾼 바이트로 계산해 체크아웃 플랫폼(Windows CRLF / Linux LF)에 무관하게 한다."""
     h = hashlib.sha256()
     with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
+        if path.suffix in TEXT_SUFFIXES:
+            h.update(f.read().replace(b"\r\n", b"\n"))
+        else:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
     return h.hexdigest()
 
 
