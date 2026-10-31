@@ -19,8 +19,9 @@ data/*
 # 재생성 가능한 확인용 시트 (데이터셋 이미지 포함)
 reports/phase0/mask_sheets/
 
-# 지원 공고 원문 (개인 자료)
+# 지원 공고 원문·참고 문서 (개인 자료, 공개 저장소에 넣지 않음)
 task.txt
+references/
 
 # 로컬 환경
 .claude/settings.local.json

@@ -166,10 +166,18 @@ def test_sft_targets_parse():
     """만들어진 SFT 데이터의 모든 정답이 출력 명세를 따른다 (위치 NaN 같은 잘못된 목표 방지)."""
     import json
 
+    from src.report.publish_predictions import HINT_FILE
+
+    checked = 0
     for f in SFT_DIR.glob("*/*.jsonl"):
+        if f.name == HINT_FILE:  # 공개 사본에서 복원한 슬림 힌트 기록(id·라벨·정답·힌트만)에는 target이 없다
+            continue
         for ln in f.read_text(encoding="utf-8").splitlines():
             t = json.loads(ln)["target"]
             assert t == NORMAL or parse_report(t) is not None, f"{f}: {t!r}"
+            checked += 1
+    if not checked:
+        pytest.skip("SFT 기록 없음 (공개 사본만 복원한 환경)")
 
 
 CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "vlm_cache"

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-  (한글 주석을 pip이 Windows 로캘 cp949/cp1252로 읽다 실패하지 않게)
 # GPU 없는 환경(CI, 표 재계산)용 최소 의존성. 학습·추론 패키지(transformers, peft, bitsandbytes, gradio)는 뺐다.
 --index-url https://download.pytorch.org/whl/cpu
 --extra-index-url https://pypi.org/simple

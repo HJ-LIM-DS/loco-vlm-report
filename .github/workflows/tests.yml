@@ -1,4 +1,4 @@
-# push·PR마다: (1) 테스트 전체를 Windows에서 GPU 없이 실행, (2) 공개한 예측 원본으로 표1·캐스케이드·P2 표를
+# push·PR마다: (1) 테스트 전체를 Windows에서 GPU 없이 실행, (2) 공개한 예측 원본으로 표1·캐스케이드·P2·P3 표를
 # Linux에서 다시 계산해 저장소의 표와 같은지 확인한다.
 name: tests
 
@@ -6,9 +6,22 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUTF8: "1"           # Windows 러너는 파이프 출력이 cp1252라 한글 print가 깨진다
+  PYTHONIOENCODING: utf-8
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
 jobs:
   pytest:
     runs-on: windows-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -22,6 +35,7 @@ jobs:
 
   tables:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

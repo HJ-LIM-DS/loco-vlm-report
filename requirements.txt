@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-  (한글 주석을 pip이 Windows 로캘 cp949/cp1252로 읽다 실패하지 않게)
 # 실험 환경 그대로 고정 (Windows 11, Python 3.11.9, RTX 3060 12GB, CUDA 12.4). 2026-10-30 기준 설치 버전.
 # torch·torchvision은 CUDA 빌드를 먼저 설치한다:
 #   pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124

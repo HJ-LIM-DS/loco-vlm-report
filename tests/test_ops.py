@@ -15,6 +15,9 @@ import psutil
 import pytest
 import yaml
 
+# 감독자·환경 제어는 winreg·_winapi·PowerShell·작업 스케줄러를 쓰는 Windows 전용 장치다(Linux에서는 건너뜀)
+pytestmark = pytest.mark.skipif(sys.platform != "win32", reason="학습 운영 장치는 Windows 전용")
+
 ROOT = Path(__file__).resolve().parents[1]
 FAST = {"poll_s": 0.2, "heartbeat_timeout_min": 0.05, "startup_grace_min": 0.5, "min_free_vram_gb": 0,
         "min_free_disk_gb": 0, "max_same_error": 2, "max_attempts": 6, "open_monitor": False}

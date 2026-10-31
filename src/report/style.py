@@ -22,12 +22,21 @@ NORMAL_COLOR, ANOMALY_COLOR = SERIES[0], SERIES[1]
 FIG_DIR = Path(__file__).resolve().parents[2] / "reports" / "figures"
 
 
-def setup() -> None:
+FONT_CANDIDATES = ["Malgun Gothic", "Noto Sans CJK KR", "NanumGothic", "DejaVu Sans"]
+
+
+def pick_font() -> str:
+    """설치된 첫 후보 폰트. 맑은 고딕이 없는 환경(Linux CI)에서 경고 없이 대체 폰트로 내려가기 위한 것."""
     for p in FONT_PATHS:
         if p.exists():
             font_manager.fontManager.addfont(str(p))
+    names = {f.name for f in font_manager.fontManager.ttflist}
+    return next((n for n in FONT_CANDIDATES if n in names), FONT_CANDIDATES[-1])
+
+
+def setup() -> None:
     plt.rcParams.update({
-        "font.family": "Malgun Gothic",
+        "font.family": pick_font(),
         "axes.unicode_minus": False,  # 한글 폰트에서 음수 기호 깨짐 방지
         "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,
         "text.color": TEXT, "axes.labelcolor": TEXT_2, "xtick.color": TEXT_2, "ytick.color": TEXT_2,

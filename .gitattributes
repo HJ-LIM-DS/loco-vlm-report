@@ -1,0 +1,13 @@
+# 줄바꿈: 저장소(인덱스)에는 LF로 두고 체크아웃은 플랫폼 설정을 따른다.
+# CI(Linux)가 다시 만든 표와 저장소의 표를 diff할 때 줄바꿈 차이로 어긋나지 않게 하기 위한 것.
+* text=auto
+
+# 이진 파일
+*.png binary
+*.gif binary
+*.mp4 binary
+*.pdf binary
+*.parquet binary
+
+# 공개 사본(예측 원본)은 생성물로 표시해 언어 통계와 PR diff에서 접는다
+reports/predictions/** linguist-generated
